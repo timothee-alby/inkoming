@@ -88,20 +88,6 @@ CREATE TABLE api.players (
 ALTER TABLE api.players OWNER TO master;
 
 --
--- Name: players_test; Type: TABLE; Schema: api; Owner: master
---
-
-CREATE TABLE api.players_test (
-    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    room_id uuid NOT NULL,
-    user_id uuid NOT NULL,
-    created_at timestamp without time zone DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE api.players_test OWNER TO master;
-
---
 -- Name: rooms; Type: TABLE; Schema: api; Owner: master
 --
 
@@ -198,14 +184,6 @@ ALTER TABLE ONLY api.players
 
 ALTER TABLE ONLY api.players
     ADD CONSTRAINT players_room_id_user_id_key UNIQUE (room_id, user_id);
-
-
---
--- Name: players_test players_test_room_id_user_id_key; Type: CONSTRAINT; Schema: api; Owner: master
---
-
-ALTER TABLE ONLY api.players_test
-    ADD CONSTRAINT players_test_room_id_user_id_key UNIQUE (room_id, user_id);
 
 
 --
