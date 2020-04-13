@@ -122,6 +122,16 @@ describe('Unroll', async function() {
       })
       expect(response.status).to.equal(400)
     })
+
+    it('cannot add turns out of order', async function() {
+      const response = await fetch.post('/turns', user1Id, {
+        player_id: player1Id,
+        card: 'red'
+      })
+      expect(response.status).to.equal(403)
+      const json = await response.json()
+      expect(json.message).to.match(/turns_in_turn_policy/)
+    })
   })
 
   describe('Room state', async function() {

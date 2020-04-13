@@ -137,14 +137,25 @@ ALTER TABLE api.turns OWNER TO master;
 
 CREATE VIEW api.room_states AS
  SELECT rooms.id AS room_id,
-    count(turns.id) AS total_turns,
+    ARRAY( SELECT sub_players.id
+           FROM api.players sub_players
+          WHERE (sub_players.room_id = rooms.id)
+          ORDER BY sub_players.created_at, sub_players.id) AS player_ids,
+    count(ordered_turns.id) AS total_turns,
     count(DISTINCT players.id) AS total_players,
-    count(turns.card) AS total_cards,
-    count(turns.bet) AS total_bets,
-    max(turns.bet) AS last_bet
+    count(ordered_turns.card) AS total_cards,
+    count(ordered_turns.bet) AS total_bets,
+    max(ordered_turns.bet) AS last_bet,
+    (array_agg(ordered_turns.player_id))[1] AS last_player_id
    FROM ((api.rooms
      LEFT JOIN api.players ON ((players.room_id = rooms.id)))
-     LEFT JOIN api.turns ON ((turns.player_id = players.id)))
+     LEFT JOIN ( SELECT turns.id,
+            turns.player_id,
+            turns.created_at,
+            turns.card,
+            turns.bet
+           FROM api.turns
+          ORDER BY turns.created_at DESC) ordered_turns ON ((ordered_turns.player_id = players.id)))
   GROUP BY rooms.id;
 
 
@@ -159,7 +170,15 @@ CREATE VIEW api.room_options AS
     (room_states.total_cards >= room_states.total_players) AS can_bet,
     (room_states.total_bets = 0) AS can_card,
     (COALESCE(room_states.last_bet, 0) + 1) AS min_bet,
-    room_states.total_cards AS max_bet
+    room_states.total_cards AS max_bet,
+        CASE
+            WHEN (room_states.last_player_id IS NOT NULL) THEN
+            CASE
+                WHEN (array_position(room_states.player_ids, room_states.last_player_id) = room_states.total_players) THEN room_states.player_ids[1]
+                ELSE room_states.player_ids[(array_position(room_states.player_ids, room_states.last_player_id) + 1)]
+            END
+            ELSE room_states.player_ids[1]
+        END AS next_player_id
    FROM api.room_states;
 
 
@@ -261,6 +280,15 @@ CREATE POLICY turns_can_bet_policy ON api.turns USING (((bet IS NULL) OR ( SELEC
 --
 
 CREATE POLICY turns_can_card_policy ON api.turns AS RESTRICTIVE USING (((card IS NULL) OR ( SELECT room_options.can_card
+   FROM api.room_options
+  WHERE (room_options.room_id = room_options.room_id))));
+
+
+--
+-- Name: turns turns_in_turn_policy; Type: POLICY; Schema: api; Owner: master
+--
+
+CREATE POLICY turns_in_turn_policy ON api.turns AS RESTRICTIVE USING ((player_id = ( SELECT room_options.next_player_id
    FROM api.room_options
   WHERE (room_options.room_id = room_options.room_id))));
 
