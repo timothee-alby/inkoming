@@ -51,6 +51,24 @@ CREATE TYPE public.card AS ENUM (
 
 ALTER TYPE public.card OWNER TO master;
 
+--
+-- Name: api_turns_room_id_set(); Type: FUNCTION; Schema: public; Owner: master
+--
+
+CREATE FUNCTION public.api_turns_room_id_set() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+SELECT INTO NEW.room_id players.room_id
+FROM api.players
+WHERE players.id = NEW.player_id;
+RETURN NEW;
+END
+$$;
+
+
+ALTER FUNCTION public.api_turns_room_id_set() OWNER TO master;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -102,6 +120,7 @@ ALTER TABLE api.rooms OWNER TO master;
 
 CREATE TABLE api.turns (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    room_id uuid NOT NULL,
     player_id uuid NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     card public.card,
@@ -187,6 +206,13 @@ ALTER TABLE ONLY api.turns
 
 
 --
+-- Name: turns b_default; Type: TRIGGER; Schema: api; Owner: master
+--
+
+CREATE TRIGGER b_default BEFORE INSERT ON api.turns FOR EACH ROW EXECUTE FUNCTION public.api_turns_room_id_set();
+
+
+--
 -- Name: players players_room_id_fkey; Type: FK CONSTRAINT; Schema: api; Owner: master
 --
 
@@ -227,9 +253,7 @@ ALTER TABLE api.turns ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY turns_can_bet_policy ON api.turns USING (((bet IS NULL) OR ( SELECT room_options.can_bet
    FROM api.room_options
-  WHERE (room_options.room_id = ( SELECT players.room_id
-           FROM api.players
-          WHERE (players.id = turns.player_id))))));
+  WHERE (room_options.room_id = room_options.room_id))));
 
 
 --
@@ -238,9 +262,7 @@ CREATE POLICY turns_can_bet_policy ON api.turns USING (((bet IS NULL) OR ( SELEC
 
 CREATE POLICY turns_can_card_policy ON api.turns AS RESTRICTIVE USING (((card IS NULL) OR ( SELECT room_options.can_card
    FROM api.room_options
-  WHERE (room_options.room_id = ( SELECT players.room_id
-           FROM api.players
-          WHERE (players.id = turns.player_id))))));
+  WHERE (room_options.room_id = room_options.room_id))));
 
 
 --
@@ -249,9 +271,7 @@ CREATE POLICY turns_can_card_policy ON api.turns AS RESTRICTIVE USING (((card IS
 
 CREATE POLICY turns_max_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS NULL) OR (bet <= ( SELECT room_options.max_bet
    FROM api.room_options
-  WHERE (room_options.room_id = ( SELECT players.room_id
-           FROM api.players
-          WHERE (players.id = turns.player_id)))))));
+  WHERE (room_options.room_id = room_options.room_id)))));
 
 
 --
@@ -260,9 +280,7 @@ CREATE POLICY turns_max_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS N
 
 CREATE POLICY turns_min_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS NULL) OR (bet >= ( SELECT room_options.min_bet
    FROM api.room_options
-  WHERE (room_options.room_id = ( SELECT players.room_id
-           FROM api.players
-          WHERE (players.id = turns.player_id)))))));
+  WHERE (room_options.room_id = room_options.room_id)))));
 
 
 --
