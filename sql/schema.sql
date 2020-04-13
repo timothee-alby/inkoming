@@ -113,6 +113,40 @@ CREATE TABLE api.turns (
 ALTER TABLE api.turns OWNER TO master;
 
 --
+-- Name: room_states; Type: VIEW; Schema: api; Owner: master
+--
+
+CREATE VIEW api.room_states AS
+ SELECT rooms.id AS room_id,
+    count(turns.id) AS total_turns,
+    count(DISTINCT players.id) AS total_players,
+    count(turns.card) AS total_cards,
+    count(turns.bet) AS total_bets,
+    max(turns.bet) AS last_bet
+   FROM ((api.rooms
+     LEFT JOIN api.players ON ((players.room_id = rooms.id)))
+     LEFT JOIN api.turns ON ((turns.player_id = players.id)))
+  GROUP BY rooms.id;
+
+
+ALTER TABLE api.room_states OWNER TO master;
+
+--
+-- Name: room_options; Type: VIEW; Schema: api; Owner: master
+--
+
+CREATE VIEW api.room_options AS
+ SELECT room_states.room_id,
+    (room_states.total_cards >= room_states.total_players) AS can_bet,
+    (room_states.total_bets = 0) AS can_card,
+    (COALESCE(room_states.last_bet, 0) + 1) AS min_bet,
+    room_states.total_cards AS max_bet
+   FROM api.room_states;
+
+
+ALTER TABLE api.room_options OWNER TO master;
+
+--
 -- Name: players players_pkey; Type: CONSTRAINT; Schema: api; Owner: master
 --
 
@@ -188,10 +222,54 @@ CREATE POLICY players_user_id_policy ON api.players USING (((user_id)::text = cu
 ALTER TABLE api.turns ENABLE ROW LEVEL SECURITY;
 
 --
+-- Name: turns turns_can_bet_policy; Type: POLICY; Schema: api; Owner: master
+--
+
+CREATE POLICY turns_can_bet_policy ON api.turns USING (((bet IS NULL) OR ( SELECT room_options.can_bet
+   FROM api.room_options
+  WHERE (room_options.room_id = ( SELECT players.room_id
+           FROM api.players
+          WHERE (players.id = turns.player_id))))));
+
+
+--
+-- Name: turns turns_can_card_policy; Type: POLICY; Schema: api; Owner: master
+--
+
+CREATE POLICY turns_can_card_policy ON api.turns AS RESTRICTIVE USING (((card IS NULL) OR ( SELECT room_options.can_card
+   FROM api.room_options
+  WHERE (room_options.room_id = ( SELECT players.room_id
+           FROM api.players
+          WHERE (players.id = turns.player_id))))));
+
+
+--
+-- Name: turns turns_max_bet_policy; Type: POLICY; Schema: api; Owner: master
+--
+
+CREATE POLICY turns_max_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS NULL) OR (bet <= ( SELECT room_options.max_bet
+   FROM api.room_options
+  WHERE (room_options.room_id = ( SELECT players.room_id
+           FROM api.players
+          WHERE (players.id = turns.player_id)))))));
+
+
+--
+-- Name: turns turns_min_bet_policy; Type: POLICY; Schema: api; Owner: master
+--
+
+CREATE POLICY turns_min_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS NULL) OR (bet >= ( SELECT room_options.min_bet
+   FROM api.room_options
+  WHERE (room_options.room_id = ( SELECT players.room_id
+           FROM api.players
+          WHERE (players.id = turns.player_id)))))));
+
+
+--
 -- Name: turns turns_player_id_policy; Type: POLICY; Schema: api; Owner: master
 --
 
-CREATE POLICY turns_player_id_policy ON api.turns USING ((player_id IN ( SELECT players.id
+CREATE POLICY turns_player_id_policy ON api.turns AS RESTRICTIVE USING ((player_id IN ( SELECT players.id
    FROM api.players
   WHERE ((players.user_id)::text = current_setting('request.jwt.claim.user_id'::text, true)))));
 
@@ -222,6 +300,20 @@ GRANT SELECT,INSERT ON TABLE api.rooms TO web_anon;
 --
 
 GRANT SELECT,INSERT ON TABLE api.turns TO web_anon;
+
+
+--
+-- Name: TABLE room_states; Type: ACL; Schema: api; Owner: master
+--
+
+GRANT SELECT ON TABLE api.room_states TO web_anon;
+
+
+--
+-- Name: TABLE room_options; Type: ACL; Schema: api; Owner: master
+--
+
+GRANT SELECT ON TABLE api.room_options TO web_anon;
 
 
 --

@@ -123,4 +123,66 @@ describe('Unroll', async function() {
       expect(response.status).to.equal(400)
     })
   })
+
+  describe('Room state', async function() {
+    describe('Card mode', async function() {
+      it('cannot add bet until all players have played', async function() {
+        const response = await fetch.post('/turns', user2Id, {
+          player_id: player2Id,
+          bet: 1
+        })
+        expect(response.status).to.equal(403)
+      })
+    })
+
+    describe('Bet mode', async function() {
+      before(async function() {
+        const response = await fetch.post('/turns', user2Id, {
+          player_id: player2Id,
+          card: 'red'
+        })
+        expect(response.status).to.equal(201)
+      })
+
+      it('cannot bet 0', async function() {
+        const response = await fetch.post('/turns', user1Id, {
+          player_id: player1Id,
+          bet: 0
+        })
+        expect(response.status).to.equal(403)
+      })
+
+      it('can bet once all players have played', async function() {
+        const response = await fetch.post('/turns', user1Id, {
+          player_id: player1Id,
+          bet: 1
+        })
+        expect(response.status).to.equal(201)
+      })
+
+      it('cannot card once a players has bet', async function() {
+        const response = await fetch.post('/turns', user2Id, {
+          player_id: player2Id,
+          card: 'red'
+        })
+        expect(response.status).to.equal(403)
+      })
+
+      it('cannot bet lower or equal to max bet', async function() {
+        const response = await fetch.post('/turns', user2Id, {
+          player_id: player2Id,
+          bet: 1
+        })
+        expect(response.status).to.equal(403)
+      })
+
+      it('cannot bet higher than max bet', async function() {
+        const response = await fetch.post('/turns', user1Id, {
+          player_id: player1Id,
+          bet: 3
+        })
+        expect(response.status).to.equal(403)
+      })
+    })
+  })
 })
