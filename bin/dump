@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker-compose run --rm db pg_dump -s postgres://master:changeme@db:5432/fleure_du_noir > sql/schema.sql
+docker-compose run --rm --env PGPASSWORD=changeme db  pg_dumpall -r -U master -h db -p 5432 -l fleure_du_noir > sql/roles.sql

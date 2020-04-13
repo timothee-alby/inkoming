@@ -1,0 +1,7 @@
+#!/bin/bash
+
+docker-compose run --rm db psql postgres://master:changeme@db:5432/postgres < sql/dropall.sql
+docker-compose run --rm db psql postgres://master:changeme@db:5432/postgres < sql/createdb.sql
+
+docker-compose run --rm db psql postgres://master:changeme@db:5432/fleure_du_noir < sql/roles.sql
+docker-compose run --rm db psql postgres://master:changeme@db:5432/fleure_du_noir < sql/schema.sql
