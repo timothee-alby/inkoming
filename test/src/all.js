@@ -109,7 +109,7 @@ describe('Unroll', async function() {
     })
 
     it('cannot add turns with invalid cards', async function() {
-      const response = await fetch.post('/turns', user1Id, {
+      const response = await fetch.post('/turns', user2Id, {
         player_id: player2Id,
         card: 'blue'
       })
@@ -117,8 +117,8 @@ describe('Unroll', async function() {
     })
 
     it('cannot add turns without card or bet', async function() {
-      const response = await fetch.post('/turns', user1Id, {
-        player_id: player1Id
+      const response = await fetch.post('/turns', user2Id, {
+        player_id: player2Id
       })
       expect(response.status).to.equal(400)
     })
