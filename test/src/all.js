@@ -6,6 +6,8 @@ describe('Unroll', async function() {
   const user1Id = '10000000-0000-0000-0000-000000000000'
   const user2Id = '20000000-0000-0000-0000-000000000000'
   let roomId
+  let player1Id
+  let player2Id
 
   describe('Rooms', async function() {
     it('empty on start', async function() {
@@ -77,8 +79,48 @@ describe('Unroll', async function() {
     })
 
     it('can only list themselves', async function() {
-      const json = await fetch.get('/players', user1Id)
+      let json = await fetch.get('/players', user1Id)
       expect(json).to.be.ofSize(1)
+      let player = json[0]
+      player1Id = player.id
+
+      json = await fetch.get('/players', user2Id)
+      expect(json).to.be.ofSize(1)
+      player = json[0]
+      player2Id = player.id
+    })
+  })
+
+  describe('Turns', async function() {
+    it('can add turns', async function() {
+      const response = await fetch.post('/turns', user1Id, {
+        player_id: player1Id,
+        card: 'red'
+      })
+      expect(response.status).to.equal(201)
+    })
+
+    it('cannot add turns for other players', async function() {
+      const response = await fetch.post('/turns', user1Id, {
+        player_id: player2Id,
+        card: 'red'
+      })
+      expect(response.status).to.equal(403)
+    })
+
+    it('cannot add turns with invalid cards', async function() {
+      const response = await fetch.post('/turns', user1Id, {
+        player_id: player2Id,
+        card: 'blue'
+      })
+      expect(response.status).to.equal(400)
+    })
+
+    it('cannot add turns without card or bet', async function() {
+      const response = await fetch.post('/turns', user1Id, {
+        player_id: player1Id
+      })
+      expect(response.status).to.equal(400)
     })
   })
 })
