@@ -101,15 +101,14 @@ describe('Unroll', async function() {
     it('can add turns', async function() {
       const response = await fetch.post('/turns', user1Id, {
         player_id: player1Id,
-        card: 'red'
+        card: 'black'
       })
       expect(response.status).to.equal(201)
     })
 
     it('cannot add turns for other players', async function() {
       const response = await fetch.post('/turns', user1Id, {
-        player_id: player2Id,
-        card: 'red'
+        player_id: player2Id
       })
       expect(response.status).to.equal(403)
       const json = await response.json()
@@ -156,6 +155,49 @@ describe('Unroll', async function() {
         expect(response.status).to.equal(403)
         const json = await response.json()
         expect(json.message).to.match(/turns_can_bet_policy/)
+      })
+
+      it('can play red', async function() {
+        const response = await fetch.post('/turns', user2Id, {
+          player_id: player2Id,
+          card: 'red'
+        })
+        expect(response.status).to.equal(201)
+      })
+
+      it('removes played cards from player', async function() {
+        let json = await fetch.get('/players', user1Id)
+        expect(json).to.be.ofSize(1)
+        let player = json[0]
+        expect(player.cards).to.be.equalTo(['red', 'red', 'red'])
+
+        json = await fetch.get('/players', user2Id)
+        expect(json).to.be.ofSize(1)
+        player = json[0]
+        expect(player.cards).to.be.equalTo(['black', 'red', 'red'])
+      })
+
+      it('cannot play black twice', async function() {
+        const response = await fetch.post('/turns', user1Id, {
+          player_id: player1Id,
+          card: 'black'
+        })
+        expect(response.status).to.equal(403)
+        const json = await response.json()
+        expect(json.message).to.match(/turns_can_card_card/)
+      })
+
+      it('can play red twice', async function() {
+        const response = await fetch.post('/turns', user1Id, {
+          player_id: player1Id,
+          card: 'red'
+        })
+        expect(response.status).to.equal(201)
+
+        const json = await fetch.get('/players', user1Id)
+        expect(json).to.be.ofSize(1)
+        const player = json[0]
+        expect(player.cards).to.be.equalTo(['red', 'red'])
       })
     })
 
@@ -209,7 +251,7 @@ describe('Unroll', async function() {
       it('cannot bet higher than max bet', async function() {
         const response = await fetch.post('/turns', user2Id, {
           player_id: player2Id,
-          bet: 3
+          bet: 9
         })
         expect(response.status).to.equal(403)
         const json = await response.json()

@@ -52,6 +52,41 @@ CREATE TYPE public.card AS ENUM (
 ALTER TYPE public.card OWNER TO master;
 
 --
+-- Name: api_turns_remove_carded_card(); Type: FUNCTION; Schema: public; Owner: master
+--
+
+CREATE FUNCTION public.api_turns_remove_carded_card() RETURNS trigger
+    LANGUAGE plpgsql SECURITY DEFINER
+    AS $$
+BEGIN
+UPDATE api.players
+SET cards = (
+CASE WHEN (NEW.card = 'black'::CARD)
+  THEN string_to_array(
+    overlay(
+      array_to_string(cards, '|') placing '' FROM 1 FOR 6
+    ),
+    '|'
+  )
+  ELSE string_to_array(
+    overlay(
+      array_to_string(cards, '|') placing '' FROM (
+        char_length(array_to_string(cards, '|')) - 4
+      ) FOR 4
+    ),
+    '|'
+  )
+END
+)::CARD[]
+WHERE id = NEW.player_id;
+RETURN NULL;
+END
+$$;
+
+
+ALTER FUNCTION public.api_turns_remove_carded_card() OWNER TO master;
+
+--
 -- Name: api_turns_room_id_set(); Type: FUNCTION; Schema: public; Owner: master
 --
 
@@ -81,7 +116,8 @@ CREATE TABLE api.players (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
     room_id uuid NOT NULL,
     user_id uuid NOT NULL,
-    created_at timestamp without time zone DEFAULT now() NOT NULL
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    cards public.card[] DEFAULT ARRAY['black'::public.card, 'red'::public.card, 'red'::public.card, 'red'::public.card] NOT NULL
 );
 
 
@@ -203,6 +239,13 @@ ALTER TABLE ONLY api.turns
 
 
 --
+-- Name: turns api_turns_after_insert_remove_carded_card; Type: TRIGGER; Schema: api; Owner: master
+--
+
+CREATE TRIGGER api_turns_after_insert_remove_carded_card AFTER INSERT ON api.turns FOR EACH ROW EXECUTE FUNCTION public.api_turns_remove_carded_card();
+
+
+--
 -- Name: turns b_default; Type: TRIGGER; Schema: api; Owner: master
 --
 
@@ -258,6 +301,15 @@ ALTER TABLE api.turns ENABLE ROW LEVEL SECURITY;
 CREATE POLICY turns_can_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS NULL) OR ( SELECT room_options.can_bet
    FROM api.room_options
   WHERE (room_options.room_id = room_options.room_id))));
+
+
+--
+-- Name: turns turns_can_card_card; Type: POLICY; Schema: api; Owner: master
+--
+
+CREATE POLICY turns_can_card_card_policy ON api.turns AS RESTRICTIVE USING (((card IS NULL) OR ( SELECT (turns.card = ANY (players.cards))
+   FROM api.players
+  WHERE (players.id = turns.player_id))));
 
 
 --
