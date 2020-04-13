@@ -254,10 +254,17 @@ ALTER TABLE ONLY api.turns
 ALTER TABLE api.players ENABLE ROW LEVEL SECURITY;
 
 --
+-- Name: players players_room_id_policy; Type: POLICY; Schema: api; Owner: master
+--
+
+CREATE POLICY players_room_id_policy ON api.players USING ((room_id IS NOT NULL));
+
+
+--
 -- Name: players players_user_id_policy; Type: POLICY; Schema: api; Owner: master
 --
 
-CREATE POLICY players_user_id_policy ON api.players USING (((user_id)::text = current_setting('request.jwt.claim.user_id'::text, true)));
+CREATE POLICY players_user_id_policy ON api.players AS RESTRICTIVE USING (((user_id)::text = current_setting('request.jwt.claim.user_id'::text, true)));
 
 
 --
@@ -270,7 +277,7 @@ ALTER TABLE api.turns ENABLE ROW LEVEL SECURITY;
 -- Name: turns turns_can_bet_policy; Type: POLICY; Schema: api; Owner: master
 --
 
-CREATE POLICY turns_can_bet_policy ON api.turns USING (((bet IS NULL) OR ( SELECT room_options.can_bet
+CREATE POLICY turns_can_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS NULL) OR ( SELECT room_options.can_bet
    FROM api.room_options
   WHERE (room_options.room_id = room_options.room_id))));
 
@@ -282,6 +289,13 @@ CREATE POLICY turns_can_bet_policy ON api.turns USING (((bet IS NULL) OR ( SELEC
 CREATE POLICY turns_can_card_policy ON api.turns AS RESTRICTIVE USING (((card IS NULL) OR ( SELECT room_options.can_card
    FROM api.room_options
   WHERE (room_options.room_id = room_options.room_id))));
+
+
+--
+-- Name: turns turns_card_type_policy; Type: POLICY; Schema: api; Owner: master
+--
+
+CREATE POLICY turns_card_type_policy ON api.turns USING (((card IS NULL) OR (card = ANY (ARRAY['red'::public.card, 'black'::public.card]))));
 
 
 --

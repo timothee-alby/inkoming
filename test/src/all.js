@@ -39,6 +39,8 @@ describe('Unroll', async function() {
         user_id: user1Id
       })
       expect(response.status).to.equal(409)
+      const json = await response.json()
+      expect(json.message).to.match(/players_room_id_fkey/)
     })
 
     it('cannot join without user id', async function() {
@@ -46,6 +48,8 @@ describe('Unroll', async function() {
         room_id: roomId
       })
       expect(response.status).to.equal(403)
+      const json = await response.json()
+      expect(json.message).to.match(/players_user_id_policy/)
     })
 
     it('can join', async function() {
@@ -68,6 +72,8 @@ describe('Unroll', async function() {
         user_id: user2Id
       })
       expect(response.status).to.equal(403)
+      const json = await response.json()
+      expect(json.message).to.match(/players_user_id_policy/)
     })
 
     it('cannot join a room twice', async function() {
@@ -106,6 +112,8 @@ describe('Unroll', async function() {
         card: 'red'
       })
       expect(response.status).to.equal(403)
+      const json = await response.json()
+      expect(json.message).to.match(/turns_player_id_policy/)
     })
 
     it('cannot add turns with invalid cards', async function() {
@@ -114,6 +122,8 @@ describe('Unroll', async function() {
         card: 'blue'
       })
       expect(response.status).to.equal(400)
+      const json = await response.json()
+      expect(json.message).to.match(/invalid input value for enum card/)
     })
 
     it('cannot add turns without card or bet', async function() {
@@ -121,6 +131,8 @@ describe('Unroll', async function() {
         player_id: player2Id
       })
       expect(response.status).to.equal(400)
+      const json = await response.json()
+      expect(json.message).to.match(/turns_card_or_bet_not_null/)
     })
 
     it('cannot add turns out of order', async function() {
@@ -142,6 +154,8 @@ describe('Unroll', async function() {
           bet: 1
         })
         expect(response.status).to.equal(403)
+        const json = await response.json()
+        expect(json.message).to.match(/turns_can_bet_policy/)
       })
     })
 
@@ -160,6 +174,8 @@ describe('Unroll', async function() {
           bet: 0
         })
         expect(response.status).to.equal(403)
+        const json = await response.json()
+        expect(json.message).to.match(/turns_min_bet_policy/)
       })
 
       it('can bet once all players have played', async function() {
@@ -176,6 +192,8 @@ describe('Unroll', async function() {
           card: 'red'
         })
         expect(response.status).to.equal(403)
+        const json = await response.json()
+        expect(json.message).to.match(/turns_can_card_policy/)
       })
 
       it('cannot bet lower or equal to max bet', async function() {
@@ -184,14 +202,18 @@ describe('Unroll', async function() {
           bet: 1
         })
         expect(response.status).to.equal(403)
+        const json = await response.json()
+        expect(json.message).to.match(/turns_min_bet_policy/)
       })
 
       it('cannot bet higher than max bet', async function() {
-        const response = await fetch.post('/turns', user1Id, {
-          player_id: player1Id,
+        const response = await fetch.post('/turns', user2Id, {
+          player_id: player2Id,
           bet: 3
         })
         expect(response.status).to.equal(403)
+        const json = await response.json()
+        expect(json.message).to.match(/turns_max_bet_policy/)
       })
     })
   })
