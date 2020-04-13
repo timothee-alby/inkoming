@@ -81,7 +81,9 @@ describe('Unroll', async function() {
         room_id: roomId,
         user_id: user1Id
       })
-      expect(response.status).to.not.equal(201)
+      expect(response.status).to.equal(409)
+      const json = await response.json()
+      expect(json.message).to.match(/players_room_id_user_id_key/)
     })
 
     it('can only list themselves', async function() {
