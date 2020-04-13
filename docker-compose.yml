@@ -33,3 +33,17 @@ services:
       - "8080"
     environment:
       API_URL: http://localhost:3000/
+
+  test:
+    image: node:12
+    working_dir: /home/node/app
+    environment:
+      PGRST_DB_URI: "postgres://master:changeme@db:5432/fleure_du_noir"
+      PGRST_JWT_SECRET: "that-is-no-so-secret-but-still-32+-characters-long"
+      PGRST_API_URL: http://server:3000
+    volumes:
+      - "./test:/home/node/app"
+    command: "npm test"
+    depends_on:
+      - server
+      - db
