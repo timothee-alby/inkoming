@@ -118,8 +118,6 @@ describe('Unroll', async function() {
         player_id: player2Id
       })
       expect(response.status).to.equal(403)
-      const json = await response.json()
-      expect(json.message).to.match(/turns_player_id_policy/)
     })
 
     it('cannot add turns with invalid cards', async function() {
