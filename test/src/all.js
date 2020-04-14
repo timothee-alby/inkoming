@@ -16,15 +16,20 @@ describe('Unroll', async function() {
     })
 
     it('post', async function() {
-      const response = await fetch.post('/rooms', user1Id, {
+      let response = await fetch.post('/rooms', user1Id, {
         name: 'Test room number 1'
+      })
+      expect(response.status).to.equal(201)
+
+      response = await fetch.post('/rooms', user1Id, {
+        name: 'Test room number 2'
       })
       expect(response.status).to.equal(201)
     })
 
     it('get', async function() {
       const json = await fetch.get('/rooms', user1Id)
-      expect(json).to.be.ofSize(1)
+      expect(json).to.be.ofSize(2)
 
       const room = json[0]
       expect(room.name).to.equal('Test room number 1')

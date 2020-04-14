@@ -300,7 +300,7 @@ ALTER TABLE api.turns ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY turns_can_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS NULL) OR ( SELECT room_options.can_bet
    FROM api.room_options
-  WHERE (room_options.room_id = room_options.room_id))));
+  WHERE (room_options.room_id = turns.room_id))));
 
 
 --
@@ -318,7 +318,7 @@ CREATE POLICY turns_can_card_card_policy ON api.turns AS RESTRICTIVE USING (((ca
 
 CREATE POLICY turns_can_card_policy ON api.turns AS RESTRICTIVE USING (((card IS NULL) OR ( SELECT room_options.can_card
    FROM api.room_options
-  WHERE (room_options.room_id = room_options.room_id))));
+  WHERE (room_options.room_id = turns.room_id))));
 
 
 --
@@ -334,7 +334,7 @@ CREATE POLICY turns_card_type_policy ON api.turns USING (((card IS NULL) OR (car
 
 CREATE POLICY turns_in_turn_policy ON api.turns AS RESTRICTIVE USING ((player_id = ( SELECT room_options.next_player_id
    FROM api.room_options
-  WHERE (room_options.room_id = room_options.room_id))));
+  WHERE (room_options.room_id = turns.room_id))));
 
 
 --
@@ -343,7 +343,7 @@ CREATE POLICY turns_in_turn_policy ON api.turns AS RESTRICTIVE USING ((player_id
 
 CREATE POLICY turns_max_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS NULL) OR (bet <= ( SELECT room_options.max_bet
    FROM api.room_options
-  WHERE (room_options.room_id = room_options.room_id)))));
+  WHERE (room_options.room_id = turns.room_id)))));
 
 
 --
@@ -352,7 +352,7 @@ CREATE POLICY turns_max_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS N
 
 CREATE POLICY turns_min_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS NULL) OR (bet >= ( SELECT room_options.min_bet
    FROM api.room_options
-  WHERE (room_options.room_id = room_options.room_id)))));
+  WHERE (room_options.room_id = turns.room_id)))));
 
 
 --
