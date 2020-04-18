@@ -144,9 +144,10 @@ describe('Unroll', async function() {
         player_id: player1Id,
         card: 'red'
       })
-      expect(response.status).to.equal(403)
+      expect(response.status).to.equal(400)
       const json = await response.json()
-      expect(json.message).to.match(/turns_in_turn_policy/)
+      expect(json.message).to.match(/api_turns_validate_order/)
+      expect(json.details).to.match(/player_not_in_order/)
     })
   })
 
