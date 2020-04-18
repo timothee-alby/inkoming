@@ -1,7 +1,24 @@
 #!/bin/bash
 
-docker-compose run --rm db psql postgres://master:changeme@db:5432/postgres < sql/dropall.sql
-docker-compose run --rm db psql postgres://master:changeme@db:5432/postgres < sql/createdb.sql
+echo "=> Dropping all"
+docker-compose run --rm db psql postgres://master:changeme@db:5432/postgres < sql/dropall.sql > /dev/null
 
-docker-compose run --rm db psql postgres://master:changeme@db:5432/fleure_du_noir < sql/roles.sql
-docker-compose run --rm db psql postgres://master:changeme@db:5432/fleure_du_noir < sql/schema.sql
+echo "=> Creating Database"
+docker-compose run --rm db psql postgres://master:changeme@db:5432/postgres < sql/createdb.sql > /dev/null
+
+echo "=> Creating Roles"
+bin/psql < sql/roles.sql > /dev/null
+
+echo "=> Creating schema"
+bin/psql < sql/schema.sql > /dev/null
+
+for dir in types tables views references triggers policies
+do
+  echo "=> Creating ${dir}"
+  for file in sql/${dir}/*
+  do
+      bin/psql < ${file} > /dev/null
+  done
+done
+
+echo "=> DONE ✅"
