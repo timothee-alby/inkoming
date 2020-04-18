@@ -2,6 +2,11 @@ CREATE FUNCTION public.api_turns_remove_carded_card() RETURNS trigger
     LANGUAGE plpgsql SECURITY DEFINER
     AS $$
 BEGIN
+
+IF NEW.card IS NULL THEN
+  RETURN NULL;
+END IF;
+
 UPDATE api.players
 SET cards = (
 CASE WHEN (NEW.card = 'black'::CARD)
