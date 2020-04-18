@@ -157,9 +157,10 @@ describe('Unroll', async function() {
           player_id: player2Id,
           bet: 1
         })
-        expect(response.status).to.equal(403)
+        expect(response.status).to.equal(400)
         const json = await response.json()
-        expect(json.message).to.match(/turns_can_bet_policy/)
+        expect(json.message).to.match(/api_turns_validate_bet/)
+        expect(json.details).to.match(/turn_cannot_bet/)
       })
 
       it('can play red', async function() {
@@ -221,9 +222,10 @@ describe('Unroll', async function() {
           player_id: player1Id,
           bet: 0
         })
-        expect(response.status).to.equal(403)
+        expect(response.status).to.equal(400)
         const json = await response.json()
-        expect(json.message).to.match(/turns_min_bet_policy/)
+        expect(json.message).to.match(/api_turns_validate_bet/)
+        expect(json.details).to.match(/bet_too_low/)
       })
 
       it('can bet once all players have played', async function() {
@@ -250,9 +252,10 @@ describe('Unroll', async function() {
           player_id: player2Id,
           bet: 1
         })
-        expect(response.status).to.equal(403)
+        expect(response.status).to.equal(400)
         const json = await response.json()
-        expect(json.message).to.match(/turns_min_bet_policy/)
+        expect(json.message).to.match(/api_turns_validate_bet/)
+        expect(json.details).to.match(/bet_too_low/)
       })
 
       it('cannot bet higher than max bet', async function() {
@@ -260,9 +263,10 @@ describe('Unroll', async function() {
           player_id: player2Id,
           bet: 9
         })
-        expect(response.status).to.equal(403)
+        expect(response.status).to.equal(400)
         const json = await response.json()
-        expect(json.message).to.match(/turns_max_bet_policy/)
+        expect(json.message).to.match(/api_turns_validate_bet/)
+        expect(json.details).to.match(/bet_too_high/)
       })
     })
   })
