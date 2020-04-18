@@ -187,9 +187,10 @@ describe('Unroll', async function() {
           player_id: player1Id,
           card: 'black'
         })
-        expect(response.status).to.equal(403)
+        expect(response.status).to.equal(400)
         const json = await response.json()
-        expect(json.message).to.match(/turns_can_card_card/)
+        expect(json.message).to.match(/api_turns_validate_card/)
+        expect(json.details).to.match(/player_does_not_have_card/)
       })
 
       it('can play red twice', async function() {
@@ -238,9 +239,10 @@ describe('Unroll', async function() {
           player_id: player2Id,
           card: 'red'
         })
-        expect(response.status).to.equal(403)
+        expect(response.status).to.equal(400)
         const json = await response.json()
-        expect(json.message).to.match(/turns_can_card_policy/)
+        expect(json.message).to.match(/api_turns_validate_card/)
+        expect(json.details).to.match(/turn_cannot_card/)
       })
 
       it('cannot bet lower or equal to min bet', async function() {
