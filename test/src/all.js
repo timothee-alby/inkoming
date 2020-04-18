@@ -243,7 +243,7 @@ describe('Unroll', async function() {
         expect(json.message).to.match(/turns_can_card_policy/)
       })
 
-      it('cannot bet lower or equal to max bet', async function() {
+      it('cannot bet lower or equal to min bet', async function() {
         const response = await fetch.post('/turns', user2Id, {
           player_id: player2Id,
           bet: 1
