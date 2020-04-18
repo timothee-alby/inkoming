@@ -54,7 +54,9 @@ describe('Unroll', async function() {
       })
       expect(response.status).to.equal(403)
       const json = await response.json()
-      expect(json.message).to.match(/players_user_id_policy/)
+      expect(json.message).to.equal(
+        'new row violates row-level security policy for table "players"'
+      )
     })
 
     it('can join', async function() {
@@ -78,7 +80,9 @@ describe('Unroll', async function() {
       })
       expect(response.status).to.equal(403)
       const json = await response.json()
-      expect(json.message).to.match(/players_user_id_policy/)
+      expect(json.message).to.equal(
+        'new row violates row-level security policy for table "players"'
+      )
     })
 
     it('cannot join a room twice', async function() {
@@ -118,6 +122,10 @@ describe('Unroll', async function() {
         player_id: player2Id
       })
       expect(response.status).to.equal(403)
+      const json = await response.json()
+      expect(json.message).to.equal(
+        'new row violates row-level security policy for table "turns"'
+      )
     })
 
     it('cannot add turns with invalid cards', async function() {
