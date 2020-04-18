@@ -304,7 +304,7 @@ CREATE POLICY turns_can_bet_policy ON api.turns AS RESTRICTIVE USING (((bet IS N
 
 
 --
--- Name: turns turns_can_card_card; Type: POLICY; Schema: api; Owner: master
+-- Name: turns turns_can_card_card_policy; Type: POLICY; Schema: api; Owner: master
 --
 
 CREATE POLICY turns_can_card_card_policy ON api.turns AS RESTRICTIVE USING (((card IS NULL) OR ( SELECT (turns.card = ANY (players.cards))
