@@ -12,6 +12,7 @@ services:
       POSTGRES_PASSWORD: changeme
     volumes:
       - "./pgdata:/var/lib/postgresql/data"
+      - "~/.psqlrc:/root/.psqlrc"
 
   server:
     image: postgrest/postgrest
