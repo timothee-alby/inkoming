@@ -138,13 +138,13 @@ describe('Unroll', async function() {
       expect(json.message).to.match(/invalid input value for enum card/)
     })
 
-    it('cannot add turns without card or bet', async function() {
+    it('cannot add turns without card, bet or fold', async function() {
       const response = await fetch.post('/turns', user2Id, {
         player_id: player2Id
       })
       expect(response.status).to.equal(400)
       const json = await response.json()
-      expect(json.message).to.match(/turns_card_or_bet_not_null/)
+      expect(json.message).to.match(/turns_only_card_or_bet_or_fold/)
     })
 
     it('cannot add turns out of order', async function() {
@@ -170,6 +170,17 @@ describe('Unroll', async function() {
         const json = await response.json()
         expect(json.message).to.match(/api_turns_validate_bet/)
         expect(json.details).to.match(/turn_cannot_bet/)
+      })
+
+      it('cannot fold until all players have played', async function() {
+        const response = await fetch.post('/turns', user2Id, {
+          player_id: player2Id,
+          fold: true
+        })
+        expect(response.status).to.equal(400)
+        const json = await response.json()
+        expect(json.message).to.match(/api_turns_validate_fold/)
+        expect(json.details).to.match(/turn_cannot_fold/)
       })
 
       it('can play red', async function() {
@@ -276,6 +287,16 @@ describe('Unroll', async function() {
         const json = await response.json()
         expect(json.message).to.match(/api_turns_validate_bet/)
         expect(json.details).to.match(/bet_too_high/)
+      })
+    })
+
+    describe('End mode', async function() {
+      it('can fold', async function() {
+        const response = await fetch.post('/turns', user2Id, {
+          player_id: player2Id,
+          fold: true
+        })
+        expect(response.status).to.equal(201)
       })
     })
   })

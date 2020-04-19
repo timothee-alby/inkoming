@@ -1,23 +1,62 @@
 CREATE VIEW api.room_states AS
- SELECT rooms.id AS room_id,
-    ARRAY( SELECT sub_players.id
-           FROM api.players sub_players
-          WHERE (sub_players.room_id = rooms.id)
-          ORDER BY sub_players.created_at, sub_players.id) AS player_ids,
-    count(ordered_turns.id) AS total_turns,
-    count(DISTINCT players.id) AS total_players,
-    count(ordered_turns.card) AS total_cards,
-    count(ordered_turns.bet) AS total_bets,
-    max(ordered_turns.bet) AS last_bet,
-    (array_agg(ordered_turns.player_id))[1] AS last_player_id
-   FROM ((api.rooms
-     LEFT JOIN api.players ON ((players.room_id = rooms.id)))
-     LEFT JOIN (
-       SELECT *
-       FROM api.turns
-       ORDER BY turns.created_at DESC
-     ) ordered_turns ON ordered_turns.player_id = players.id
-  GROUP BY rooms.id;
+WITH
+all_rooms AS (
+  SELECT
+    rooms.id AS room_id,
+    COUNT(DISTINCT player_states.player_id) AS total_players,
+    (
+      COUNT(DISTINCT player_states.player_id)
+      FILTER (WHERE player_states.standing)
+    ) AS total_standing_players,
+    (
+      array_agg(
+        player_states.player_id
+        ORDER BY player_states.created_at, player_states.player_id
+      )
+      FILTER (WHERE player_states.player_id IS NOT NULL)
+    ) AS player_ids,
+    (
+      array_agg(
+        player_states.player_id
+        ORDER BY player_states.created_at, player_states.player_id
+      )
+      FILTER (WHERE player_states.standing)
+    ) AS standing_player_ids
+  FROM api.rooms
+  LEFT JOIN api.player_states ON rooms.id = player_states.room_id
+  GROUP BY rooms.id
+),
+
+turns_summaries AS (
+  SELECT
+    turns.room_id,
+    count(turns.id) AS total_turns,
+    count(turns.card) AS total_cards,
+    count(turns.bet) AS total_bets,
+    max(turns.bet) AS last_bet,
+    (
+      array_agg(turns.player_id ORDER BY turns.created_at DESC)
+    ) AS last_player_ids,
+    (
+      array_agg(turns.player_id ORDER BY turns.created_at DESC)
+    )[1] AS last_player_id,
+    (
+      array_agg(turns.player_id ORDER BY turns.created_at DESC)
+      FILTER (WHERE player_states.standing)
+    ) AS last_standing_player_ids,
+    (
+      array_agg(turns.player_id ORDER BY turns.created_at DESC)
+      FILTER (WHERE player_states.standing)
+    )[1] AS last_standing_player_id
+  FROM api.turns turns
+  JOIN api.player_states USING(player_id)
+  GROUP BY turns.room_id
+)
+
+SELECT *
+FROM all_rooms
+LEFT JOIN turns_summaries USING (room_id)
+;
 
 ALTER TABLE api.room_states OWNER TO master;
 

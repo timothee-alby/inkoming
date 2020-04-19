@@ -5,7 +5,14 @@ CREATE TABLE api.turns (
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     card public.card,
     bet integer,
-    CONSTRAINT turns_card_or_bet_not_null CHECK (((card IS NOT NULL) OR (bet IS NOT NULL)))
+    fold boolean,
+    CONSTRAINT turns_only_card_or_bet_or_fold CHECK (
+      (
+        CASE WHEN card IS NULL THEN 0 ELSE 1 END
+        + CASE WHEN bet IS NULL THEN 0 ELSE 1 END
+        + CASE WHEN fold IS NULL THEN 0 ELSE 1 END
+      ) = 1
+    )
 );
 
 ALTER TABLE api.turns OWNER TO master;
