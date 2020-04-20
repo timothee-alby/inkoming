@@ -27,6 +27,6 @@ $$;
 ALTER FUNCTION public.api_turns_validate_fold() OWNER TO master;
 
 CREATE TRIGGER api_turns_validate_fold
-BEFORE INSERT OR UPDATE
+BEFORE INSERT
 ON api.turns
 FOR EACH ROW EXECUTE FUNCTION public.api_turns_validate_fold();

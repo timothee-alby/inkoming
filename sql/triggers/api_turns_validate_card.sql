@@ -32,6 +32,6 @@ $$;
 ALTER FUNCTION public.api_turns_validate_card() OWNER TO master;
 
 CREATE TRIGGER api_turns_validate_card
-BEFORE INSERT OR UPDATE
+BEFORE INSERT
 ON api.turns
 FOR EACH ROW EXECUTE FUNCTION public.api_turns_validate_card();
