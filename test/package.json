@@ -28,6 +28,7 @@
     "pg": "^8.0.2",
     "pg-hstore": "^2.3.3",
     "prettier-eslint-cli": "^5.0.0",
-    "sequelize": "^5.0.0"
+    "sequelize": "^5.0.0",
+    "uuid": "^7.0.3"
   }
 }

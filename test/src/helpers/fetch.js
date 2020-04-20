@@ -11,24 +11,39 @@ function makeJwt(userId) {
   )
 }
 
-async function request(method, path, userId, body) {
-  return fetch(`${process.env.PGRST_API_URL}${path}`, {
-    method,
-    headers: {
+async function request(method, path, headers, userId, body) {
+  headers = Object.assign(
+    {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${makeJwt(userId)}`
     },
+    headers
+  )
+
+  const response = await fetch(`${process.env.PGRST_API_URL}${path}`, {
+    method,
+    headers,
     body
   })
+
+  return { response, json: response.json ? await response.json() : null }
 }
 
 async function get(path, userId) {
-  const response = await request('GET', path, userId)
-  return response.json()
+  return request('GET', path, {}, userId)
 }
 
 async function post(path, userId, json) {
-  return request('POST', path, userId, JSON.stringify(json))
+  return request(
+    'POST',
+    path,
+    {
+      Accept: 'application/vnd.pgrst.object+json',
+      Prefer: 'return=representation'
+    },
+    userId,
+    JSON.stringify(json)
+  )
 }
 
 module.exports = {
