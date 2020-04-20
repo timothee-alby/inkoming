@@ -49,11 +49,7 @@ describe('Round end', async function() {
 
     const { json } = await fetch.get(
       `/room_states?room_id=eq.${roomId}`,
-      user2Id,
-      {
-        player_id: player2Id,
-        bet: 4
-      }
+      user2Id
     )
     const [roomState] = json
     expect(roomState.challenger_player_id).to.equal(player1Id)
