@@ -27,6 +27,11 @@ $$
     FROM api.room_states
     WHERE room_states.room_id = player_state.room_id;
 
+    IF room_state.outcome IS NOT NULL THEN
+      RAISE insufficient_privilege
+        USING DETAIL = 'round_has_outcome';
+    END IF;
+
     IF room_state.challenger_player_id IS NULL
       OR room_state.challenger_player_id <> player_id THEN
       RAISE insufficient_privilege

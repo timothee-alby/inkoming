@@ -36,6 +36,14 @@ turns_summaries AS (
       COUNT(turns.card)
       FILTER (WHERE turns.revealed)
     ) AS total_revealed_cards,
+    (
+      COUNT(turns.card)
+      FILTER (WHERE turns.revealed AND turns.card = 'red')
+    ) AS total_revealed_red_cards,
+    (
+      COUNT(turns.card)
+      FILTER (WHERE turns.revealed AND turns.card = 'black')
+    ) AS total_revealed_black_cards,
     count(turns.bet) AS total_bets,
     max(turns.bet) AS last_bet,
     (
@@ -64,7 +72,13 @@ SELECT
    last_standing_player_id
   ELSE
     NULL
-  END AS challenger_player_id
+  END AS challenger_player_id,
+  CASE
+  WHEN total_revealed_black_cards > 0 THEN
+    'lost'::OUTCOME
+  WHEN total_revealed_red_cards = last_bet THEN
+    'won'::OUTCOME
+  END AS outcome
 FROM all_rooms
 LEFT JOIN turns_summaries USING (room_id)
 ;
