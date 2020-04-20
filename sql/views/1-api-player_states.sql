@@ -1,4 +1,3 @@
-DROP VIEW IF EXISTS api.player_states CASCADE;
 CREATE VIEW api.player_states AS
 SELECT
   players.room_id AS room_id,
