@@ -53,7 +53,14 @@ turns_summaries AS (
   GROUP BY turns.room_id
 )
 
-SELECT *
+SELECT
+  *,
+  CASE
+  WHEN last_bet = total_cards OR total_standing_players = 1 THEN
+   last_standing_player_id
+  ELSE
+    NULL
+  END AS challenger_player_id
 FROM all_rooms
 LEFT JOIN turns_summaries USING (room_id)
 ;
