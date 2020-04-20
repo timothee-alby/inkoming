@@ -11,11 +11,15 @@ enriched_room_states AS (
 )
 
 SELECT room_id,
-  total_cards >= total_players AS can_bet,
+  total_cards >= total_players AND challenger_player_id IS NULL AS can_bet,
   total_bets = 0 AS can_card,
+  challenger_player_id IS NOT NULL AS can_challenge,
   COALESCE(last_bet, 0) + 1 AS min_bet,
   total_cards AS max_bet,
   CASE
+  WHEN challenger_player_id IS NOT NULL THEN
+    -- challenge mode has started
+    NULL
   WHEN last_standing_player_id IS NULL THEN
     -- no player has played yet. First player is next
     standing_player_ids[1]

@@ -38,8 +38,8 @@ describe('Round end', async function() {
       fold: true
     })
     expect(response.status).to.equal(400)
-    expect(json.message).to.match(/api_turns_validate_order/)
-    expect(json.details).to.match(/round_has_ended/)
+    expect(json.message).to.match(/api_turns_validate_fold/)
+    expect(json.details).to.match(/turn_cannot_fold/)
   })
 
   it('last standing player is challenger', async function() {
