@@ -8,7 +8,6 @@ $$
     room_state RECORD;
     player_state RECORD;
     target_turn RECORD;
-    updated_count UUID;
   BEGIN
     SELECT INTO jwt_user_id current_setting('request.jwt.claim.user_id', true)::UUID;
 
@@ -57,11 +56,9 @@ $$
         USING DETAIL = 'turn_not_found';
     END IF;
 
-    UPDATE INTO updated_count api.turns
+    UPDATE api.turns
     SET revealed = true
-    WHERE turns.id = target_turn.id
-    RETURNING *
-    ;
+    WHERE turns.id = target_turn.id;
 
     -- all good; respond with 200
   END
