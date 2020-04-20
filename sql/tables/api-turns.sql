@@ -6,6 +6,7 @@ CREATE TABLE api.turns (
     card public.card,
     bet integer,
     fold boolean,
+    revealed boolean DEFAULT false,
     CONSTRAINT turns_only_card_or_bet_or_fold CHECK (
       (
         CASE WHEN card IS NULL THEN 0 ELSE 1 END

@@ -32,6 +32,10 @@ turns_summaries AS (
     turns.room_id,
     count(turns.id) AS total_turns,
     count(turns.card) AS total_cards,
+    (
+      COUNT(turns.card)
+      FILTER (WHERE turns.revealed)
+    ) AS total_revealed_cards,
     count(turns.bet) AS total_bets,
     max(turns.bet) AS last_bet,
     (
