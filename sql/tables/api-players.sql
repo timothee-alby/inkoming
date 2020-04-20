@@ -3,7 +3,8 @@ CREATE TABLE api.players (
     room_id uuid NOT NULL,
     user_id uuid NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
-    cards public.card[] DEFAULT ARRAY['black'::public.card, 'red'::public.card, 'red'::public.card, 'red'::public.card] NOT NULL
+    cards public.card[] DEFAULT ARRAY['black'::public.card, 'red'::public.card, 'red'::public.card, 'red'::public.card] NOT NULL,
+    points integer NOT NULL DEFAULT 0
 );
 
 ALTER TABLE api.players OWNER TO master;
