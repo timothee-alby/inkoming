@@ -9,7 +9,6 @@ describe('Players', async function() {
   let roomId
 
   before(async function() {
-    await fixture.clearState()
     const { rooms } = await fixture.setState({
       rooms: [{ as: user1Id, user_id: user1Id, name: 'Foo Name' }]
     })

@@ -4,10 +4,6 @@ const fetch = require('./helpers/fetch')
 const fixture = require('./helpers/fixture')
 
 describe('Rooms', async function() {
-  before(async function() {
-    return fixture.clearState()
-  })
-
   describe('creating', async function() {
     it('allow any user to create', async function() {
       const userId = uuidv4()
