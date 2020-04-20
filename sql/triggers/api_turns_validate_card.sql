@@ -2,6 +2,8 @@ CREATE OR REPLACE FUNCTION public.api_turns_validate_card() RETURNS TRIGGER LANG
   DECLARE
     room_option record;
     player record;
+    total_cards_of_type integer;
+    total_cards_of_type_used integer;
   BEGIN
     IF NEW.card IS NULL THEN
       RETURN NEW;
@@ -20,9 +22,22 @@ CREATE OR REPLACE FUNCTION public.api_turns_validate_card() RETURNS TRIGGER LANG
         USING DETAIL = 'turn_cannot_card';
     END IF;
 
-    IF NOT NEW.card = ANY(player.cards) THEN
+    total_cards_of_type =
+      ARRAY_LENGTH(ARRAY_POSITIONS(player.cards, NEW.card), 1);
+
+    IF total_cards_of_type < 1 THEN
       RAISE EXCEPTION 'api_turns_validate_card'
         USING DETAIL = 'player_does_not_have_card';
+    END IF;
+
+    SELECT INTO total_cards_of_type_used COUNT(*)
+    FROM api.turns
+    WHERE turns.player_id = NEW.player_id
+      AND turns.card = NEW.card;
+
+    IF total_cards_of_type - total_cards_of_type_used < 1 THEN
+      RAISE EXCEPTION 'api_turns_validate_card'
+        USING DETAIL = 'player_does_not_have_card_available';
     END IF;
 
     RETURN NEW;

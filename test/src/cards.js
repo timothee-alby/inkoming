@@ -52,20 +52,6 @@ describe('Cards', async function() {
     expect(response.status).to.equal(201)
   })
 
-  it('removes played card from player 1', async function() {
-    const { json } = await fetch.get('/players', user1Id)
-    expect(json).to.be.ofSize(1)
-    const [player] = json
-    expect(player.cards).to.be.equalTo(['red', 'red', 'red'])
-  })
-
-  it('removes played card from player 2', async function() {
-    const { json } = await fetch.get('/players', user2Id)
-    expect(json).to.be.ofSize(1)
-    const [player] = json
-    expect(player.cards).to.be.equalTo(['black', 'red', 'red'])
-  })
-
   it('cannot play black twice', async function() {
     const { response, json } = await fetch.post('/turns', user1Id, {
       player_id: player1Id,
@@ -82,12 +68,5 @@ describe('Cards', async function() {
       card: 'red'
     })
     expect(response.status).to.equal(201)
-  })
-
-  it('removes second played card from player 1', async function() {
-    const { json } = await fetch.get('/players', user1Id)
-    expect(json).to.be.ofSize(1)
-    const [player] = json
-    expect(player.cards).to.be.equalTo(['red', 'red'])
   })
 })
