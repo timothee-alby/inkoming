@@ -11,6 +11,11 @@ CREATE OR REPLACE FUNCTION public.api_turns_validate_order() RETURNS TRIGGER LAN
     FROM api.room_options
     WHERE room_options.room_id = player.room_id;
 
+    IF room_option.next_player_id IS NULL THEN
+      RAISE EXCEPTION 'api_turns_validate_order'
+        USING DETAIL = 'round_has_ended';
+    END IF;
+
     IF room_option.next_player_id <> player.id THEN
       RAISE EXCEPTION 'api_turns_validate_order'
         USING DETAIL = 'player_not_in_order';
