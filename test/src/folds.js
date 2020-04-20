@@ -11,7 +11,7 @@ describe('folds', async function() {
   before(async function() {
     await fixture.clearState()
     const { players } = await fixture.setState({
-      rooms: [{ as: user1Id, name: 'Foo Name' }],
+      rooms: [{ as: user1Id, user_id: user1Id, name: 'Foo Name' }],
       players: ([room]) => [
         { as: user1Id, room_id: room.id, user_id: user1Id },
         { as: user2Id, room_id: room.id, user_id: user2Id }
