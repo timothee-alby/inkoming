@@ -1,5 +1,5 @@
 {
-  "name": "fleure-de-noir-tests",
+  "name": "fleur-de-noir-tests",
   "version": "0.0.0",
   "scripts": {
     "test": "NODE_ENV=test mocha --recursive --reporter spec --exit $@ --require bootstrap.js src",
