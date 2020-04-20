@@ -12,7 +12,12 @@ const postData = async function(path, data) {
 const postDatum = async function(path, datum) {
   const userId = datum.as
   delete datum.as
-  const { json } = await fetch.post(path, userId, datum)
+  const { response, json } = await fetch.post(path, userId, datum)
+  if (response.status !== 201) {
+    throw new Error(
+      `Could not create fixture on ${path}! (${JSON.stringify(datum)})`
+    )
+  }
   return json
 }
 
