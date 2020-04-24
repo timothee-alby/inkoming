@@ -12,7 +12,7 @@ bin/psql < sql/roles.sql > /dev/null
 echo "=> Creating schema"
 bin/psql < sql/schema.sql > /dev/null
 
-for dir in types tables views references triggers policies functions
+for dir in extensions types tables views references triggers policies functions
 do
   echo "=> Creating ${dir}"
   for file in sql/${dir}/*
