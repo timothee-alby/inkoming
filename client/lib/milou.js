@@ -34,8 +34,14 @@ const makeFetchFunction = options => {
   }
 }
 
+const callFetchFunction = async options => {
+  return makeFetchFunction(options)(options.url)
+}
+
 const milou = options => {
   return useSWR(options.url, makeFetchFunction(options))
 }
+
+export { makeFetchFunction, makeFetchHeaders, callFetchFunction }
 
 export default milou
