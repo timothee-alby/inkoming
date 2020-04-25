@@ -1,28 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Grid, Box, Typography } from '@material-ui/core'
 import { useAuth } from './auth'
-import { getGetHeader } from '../lib/fetch'
+import milou from '../lib/milou'
 import RoomCard from './room-card'
 import RoomCreate from './room-create'
 import ContentLoading from './content-loading'
+import RequestError from './request-error'
 
 const RoomList = () => {
-  const [rooms, setRooms] = useState(null)
-  const { userJwt } = useAuth()
+  const { data: rooms, error } = milou({
+    url: `${process.env.API_URL}/rooms`,
+    jwt: useAuth().userJwt
+  })
 
-  useEffect(() => {
-    const get = async () => {
-      const res = await fetch(`${process.env.API_URL}/rooms`, {
-        headers: getGetHeader(userJwt)
-      })
-      const json = await res.json()
-      setRooms(json)
-    }
+  if (error) {
+    return <RequestError />
+  }
 
-    get()
-  }, [setRooms])
-
-  if (rooms === null) {
+  if (!rooms) {
     return <ContentLoading />
   }
 
