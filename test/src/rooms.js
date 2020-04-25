@@ -14,6 +14,16 @@ describe('Rooms', async function() {
       expect(response.status).to.equal(201)
       expect(json.name).to.equal('Test room number 1')
     })
+
+    it('cannot create with empty name', async function() {
+      const userId = uuidv4()
+      const { response, json } = await fetch.post('/rooms', userId, {
+        user_id: userId,
+        name: ''
+      })
+      expect(response.status).to.equal(400)
+      expect(json.message).to.match(/name_min_length/)
+    })
   })
 
   describe('listing', async function() {
