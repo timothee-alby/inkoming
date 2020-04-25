@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Box, CircularProgress, Typography } from '@material-ui/core'
+import { Grid, Box, Typography } from '@material-ui/core'
 import { useAuth } from './auth'
 import { getGetHeader } from '../lib/fetch'
 import RoomCard from './room-card'
 import RoomCreate from './room-create'
+import ContentLoading from './content-loading'
 
 const RoomList = () => {
   const [rooms, setRooms] = useState(null)
@@ -22,11 +23,7 @@ const RoomList = () => {
   }, [setRooms])
 
   if (rooms === null) {
-    return (
-      <Box display="flex" justifyContent="center" paddingTop={4}>
-        <CircularProgress />
-      </Box>
-    )
+    return <ContentLoading />
   }
 
   if (rooms.length === 0) {
