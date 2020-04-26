@@ -8,13 +8,20 @@ import ContentLoading from './content-loading'
 import RequestError from './request-error'
 
 const RoomList = () => {
-  const { data: rooms, error } = milou({
-    url: `${process.env.API_URL}/rooms`,
-    jwt: useAuth().userJwt
-  })
+  const [error, setError] = React.useState(null)
+  const [rooms, setRooms] = React.useState(null)
+
+  if (!rooms && !error) {
+    milou({
+      url: `${process.env.API_URL}/rooms`,
+      jwt: useAuth().userJwt
+    })
+      .then(setRooms)
+      .catch(setError)
+  }
 
   if (error) {
-    return <RequestError />
+    return <RequestError setError={setError} />
   }
 
   if (!rooms) {

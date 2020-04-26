@@ -27,8 +27,9 @@ const RequestError = ({ error, setError }) => {
   const router = useRouter()
 
   const handleClose = () => {
+    if (!setError) return
     setIsOpen(false)
-    setError && setError(null)
+    setError(null)
   }
 
   const handleReload = () => {
@@ -53,9 +54,11 @@ const RequestError = ({ error, setError }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} variant="outlined">
-            Close
-          </Button>
+          {setError && (
+            <Button onClick={handleClose} variant="outlined">
+              Close
+            </Button>
+          )}
           <Button onClick={handleReload} variant="contained">
             Reload Page
           </Button>

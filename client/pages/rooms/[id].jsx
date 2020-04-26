@@ -11,16 +11,25 @@ import RoomPlayersList from '../../components/room-players-list'
 
 const Room = () => {
   let room = { id: useRouter().query.id }
-  const { data: rooms, error } = milou({
-    url: `${process.env.API_URL}/rooms?id=eq.${room.id}&select=id,name,players(id,user_id,nickname)`,
-    jwt: useAuth().userJwt
-  })
+  const [error, setError] = React.useState(null)
+  const [rooms, setRooms] = React.useState(null)
+
+  if (room.id && !rooms && !error) {
+    milou({
+      url: `${process.env.API_URL}/rooms?id=eq.${room.id}&select=id,name,players(id,user_id,nickname)`,
+      jwt: useAuth().userJwt
+    })
+      .then(setRooms)
+      .catch(setError)
+  }
 
   const WrappedHeader = HeaderWrapper()
 
   let WrappedContent
   if (error) {
-    WrappedContent = AppContentWrapper(props => <RequestError />)
+    WrappedContent = AppContentWrapper(props => (
+      <RequestError setError={setError} />
+    ))
   } else if (!rooms) {
     WrappedContent = AppContentWrapper(props => <ContentLoading />)
   } else if (rooms.length === 0) {

@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import RoomCreateDialog from './room-create-dialog'
 import { useAuth } from './auth'
-import { callFetchFunction } from '../lib/milou'
+import milou from '../lib/milou'
 import RequestError from './request-error'
 
 const RoomCreate = ({ buttonVariant }) => {
@@ -14,7 +14,7 @@ const RoomCreate = ({ buttonVariant }) => {
 
   const createRoom = async roomName => {
     try {
-      const room = await callFetchFunction({
+      const room = await milou({
         method: 'POST',
         url: `${process.env.API_URL}/rooms`,
         jwt: userJwt,
@@ -23,7 +23,7 @@ const RoomCreate = ({ buttonVariant }) => {
           name: roomName
         }
       })
-      await callFetchFunction({
+      await milou({
         method: 'POST',
         url: `${process.env.API_URL}/players`,
         jwt: userJwt,

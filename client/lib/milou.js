@@ -1,5 +1,3 @@
-import useSWR from 'swr'
-
 const makeFetchHeaders = ({ method, jwt, singleObject, preferReturn }) => {
   const headers = {
     'Content-Type': 'application/json'
@@ -34,14 +32,10 @@ const makeFetchFunction = options => {
   }
 }
 
-const callFetchFunction = async options => {
+const milou = async options => {
   return makeFetchFunction(options)(options.url)
 }
 
-const milou = options => {
-  return useSWR(options.url, makeFetchFunction(options))
-}
-
-export { makeFetchFunction, makeFetchHeaders, callFetchFunction }
+export { makeFetchFunction, makeFetchHeaders }
 
 export default milou

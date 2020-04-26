@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import AuthDialog from './auth-dialog'
-import { POST_HEADERS } from '../lib/fetch'
+import milou from '../lib/milou'
+import RequestError from './request-error'
 
 const USER_CACHE_KEY = 'fdn_user'
 
@@ -8,6 +9,7 @@ export const AuthContext = createContext(null)
 export const useAuth = () => useContext(AuthContext)
 
 const AuthProvider = ({ children }) => {
+  const [error, setError] = React.useState(null)
   const [userName, setUserName] = useState()
   const [userJwt, setUserJwt] = useState()
   const [userId, setUserId] = useState()
@@ -47,17 +49,17 @@ const AuthProvider = ({ children }) => {
   }
 
   const createServerUser = async () => {
-    const createServerUser = await fetch(
-      `${process.env.API_URL}/rpc/generate_user`,
-      {
+    try {
+      const { jwt } = await milou({
         method: 'POST',
-        headers: POST_HEADERS
-      }
-    )
-    const { jwt } = await createServerUser.json()
-    const { user_id: userId } = parseJwt(jwt)
-    setUserId(userId)
-    setUserJwt(jwt)
+        url: `${process.env.API_URL}/rpc/generate_user`
+      })
+      const { user_id: userId } = parseJwt(jwt)
+      setUserId(userId)
+      setUserJwt(jwt)
+    } catch (error) {
+      setError(error)
+    }
   }
 
   useEffect(() => {
@@ -66,6 +68,10 @@ const AuthProvider = ({ children }) => {
       createServerUser()
     }
   }, [setUserJwt])
+
+  if (error) {
+    return <RequestError />
+  }
 
   if (!userJwt || !userName) {
     return <AuthDialog setUserName={setUserName} />

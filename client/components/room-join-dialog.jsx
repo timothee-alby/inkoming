@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import { useAuth } from './auth'
-import { callFetchFunction } from '../lib/milou'
+import milou from '../lib/milou'
 import RequestError from './request-error'
 
 const RoomJoinDialog = ({ room }) => {
@@ -22,7 +22,7 @@ const RoomJoinDialog = ({ room }) => {
     setInflight(true)
 
     try {
-      await callFetchFunction({
+      await milou({
         method: 'POST',
         url: `${process.env.API_URL}/players`,
         jwt: userJwt,
