@@ -21,13 +21,14 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const RequestError = ({ error }) => {
+const RequestError = ({ error, setError }) => {
   const classes = useStyles()
   const [isOpen, setIsOpen] = React.useState(true)
   const router = useRouter()
 
   const handleClose = () => {
     setIsOpen(false)
+    setError && setError(null)
   }
 
   const handleReload = () => {

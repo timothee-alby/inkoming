@@ -44,7 +44,7 @@ const RoomJoinDialog = ({ room }) => {
   }
 
   if (error) {
-    return <RequestError />
+    return <RequestError setError={setError} />
   }
 
   return (

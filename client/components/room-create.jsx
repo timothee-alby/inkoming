@@ -4,25 +4,52 @@ import { Button } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import RoomCreateDialog from './room-create-dialog'
 import { useAuth } from './auth'
-import { getPostHeader } from '../lib/fetch'
+import { callFetchFunction } from '../lib/milou'
+import RequestError from './request-error'
 
 const RoomCreate = ({ buttonVariant }) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false)
-  const { userId, userJwt } = useAuth()
+  const [error, setError] = React.useState(null)
+  const { userId, userJwt, userName } = useAuth()
 
-  const createRoom = roomName => {
-    fetch(`${process.env.API_URL}/rooms`, {
-      method: 'POST',
-      headers: getPostHeader(userJwt),
-      body: JSON.stringify({
-        user_id: userId,
-        name: roomName
+  const createRoom = async roomName => {
+    try {
+      const room = await callFetchFunction({
+        method: 'POST',
+        url: `${process.env.API_URL}/rooms`,
+        jwt: userJwt,
+        body: {
+          user_id: userId,
+          name: roomName
+        }
       })
-    })
-      .then(res => res.json())
-      .then(res => {
-        Router.push(`/rooms/${res.id}`)
+      await callFetchFunction({
+        method: 'POST',
+        url: `${process.env.API_URL}/players`,
+        jwt: userJwt,
+        body: {
+          user_id: userId,
+          room_id: room.id,
+          nickname: userName
+        }
       })
+      Router.push(`/rooms/${room.id}`)
+    } catch (error) {
+      setError(error)
+    }
+  }
+
+  let dialog
+  if (error) {
+    dialog = <RequestError setError={setError} />
+  } else {
+    dialog = (
+      <RoomCreateDialog
+        createRoom={createRoom}
+        isDialogOpen={isDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
+      />
+    )
   }
 
   return (
@@ -36,11 +63,7 @@ const RoomCreate = ({ buttonVariant }) => {
       >
         New Room
       </Button>
-      <RoomCreateDialog
-        createRoom={createRoom}
-        isDialogOpen={isDialogOpen}
-        setIsDialogOpen={setIsDialogOpen}
-      />
+      {dialog}
     </>
   )
 }
