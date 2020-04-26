@@ -81,4 +81,50 @@ describe('Players', async function() {
     result = await fetch.get('/players', user2Id)
     expect(result.json).to.be.ofSize(1)
   })
+
+  describe('Connect', async function() {
+    let player1
+    let player2
+
+    before(async function() {
+      const { players } = await fixture.setState({
+        rooms: [{ as: user1Id, user_id: user1Id, name: 'Foo Name' }],
+        players: ([room]) => [
+          {
+            as: user1Id,
+            room_id: room.id,
+            user_id: user1Id,
+            nickname: 'user1'
+          },
+          { as: user2Id, room_id: room.id, user_id: user2Id, nickname: 'user2' }
+        ]
+      })
+      player1 = players[0]
+      player2 = players[1]
+    })
+
+    it('can connect', async function() {
+      const { response, json } = await fetch.post(
+        '/rpc/connect_player',
+        user1Id,
+        {
+          player_id: player1.id
+        }
+      )
+      expect(response.status).to.equal(200)
+      expect(json.jwt).to.exist
+    })
+
+    it('cannot join for another player', async function() {
+      const { response, json } = await fetch.post(
+        '/rpc/connect_player',
+        user1Id,
+        {
+          player_id: player2.id
+        }
+      )
+      expect(response.status).to.equal(403)
+      expect(json.details).to.equal('invalid_player_id')
+    })
+  })
 })

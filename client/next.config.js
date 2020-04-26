@@ -18,7 +18,10 @@ module.exports = phase => {
 
   const env = {
     API_URL: (() => {
-      if (isDev) return 'http://localhost:3000'
+      if (isDev) return 'http://localhost:3030'
+    })(),
+    WEBSOCKET_URL: (() => {
+      if (isDev) return 'ws://localhost:3050'
     })()
   }
 
