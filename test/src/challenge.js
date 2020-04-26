@@ -13,9 +13,9 @@ describe('Challenge', async function() {
     const { players } = await fixture.setState({
       rooms: [{ as: user1Id, user_id: user1Id, name: 'Foo Name' }],
       players: ([room]) => [
-        { as: user1Id, room_id: room.id, user_id: user1Id },
-        { as: user2Id, room_id: room.id, user_id: user2Id },
-        { as: user3Id, room_id: room.id, user_id: user3Id }
+        { as: user1Id, room_id: room.id, user_id: user1Id, nickname: 'user1' },
+        { as: user2Id, room_id: room.id, user_id: user2Id, nickname: 'user2' },
+        { as: user3Id, room_id: room.id, user_id: user3Id, nickname: 'user3' }
       ],
       turns: ([player1, player2, player3]) => [
         { as: user1Id, player_id: player1.id, card: 'red' },

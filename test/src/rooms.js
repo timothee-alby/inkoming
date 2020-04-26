@@ -39,9 +39,24 @@ describe('Rooms', async function() {
           { as: user0Id, user_id: user0Id, name: 'Baz Name' }
         ],
         players: ([room1, room2, room3]) => [
-          { as: user1Id, room_id: room2.id, user_id: user1Id },
-          { as: user2Id, room_id: room1.id, user_id: user2Id },
-          { as: user2Id, room_id: room3.id, user_id: user2Id }
+          {
+            as: user1Id,
+            room_id: room2.id,
+            user_id: user1Id,
+            nickname: 'user1'
+          },
+          {
+            as: user2Id,
+            room_id: room1.id,
+            user_id: user2Id,
+            nickname: 'user2'
+          },
+          {
+            as: user2Id,
+            room_id: room3.id,
+            user_id: user2Id,
+            nickname: 'user2'
+          }
         ]
       })
     })

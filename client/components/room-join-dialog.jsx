@@ -15,7 +15,7 @@ import RequestError from './request-error'
 const RoomJoinDialog = ({ room }) => {
   const [inflight, setInflight] = React.useState(false)
   const [error, setError] = React.useState(null)
-  const { userJwt, userId } = useAuth()
+  const { userJwt, userId, userName } = useAuth()
   const router = useRouter()
 
   const handleJoin = async e => {
@@ -28,7 +28,8 @@ const RoomJoinDialog = ({ room }) => {
         jwt: userJwt,
         body: {
           user_id: userId,
-          room_id: room.id
+          room_id: room.id,
+          nickname: userName
         }
       })
       router.reload()

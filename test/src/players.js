@@ -18,7 +18,8 @@ describe('Players', async function() {
   it('cannot join without room id', async function() {
     const { response, json } = await fetch.post('/players', user1Id, {
       room_id: '9d89f9f7-2caf-40b9-bb99-112bc4170dfb',
-      user_id: user1Id
+      user_id: user1Id,
+      nickname: 'foo'
     })
     expect(response.status).to.equal(409)
     expect(json.message).to.match(/players_room_id_fkey/)
@@ -37,7 +38,8 @@ describe('Players', async function() {
   it('player 1 can join', async function() {
     const { response } = await fetch.post('/players', user1Id, {
       room_id: roomId,
-      user_id: user1Id
+      user_id: user1Id,
+      nickname: 'My sweet nickname'
     })
     expect(response.status).to.equal(201)
   })
@@ -45,7 +47,8 @@ describe('Players', async function() {
   it('player 2 can join', async function() {
     const { response } = await fetch.post('/players', user2Id, {
       room_id: roomId,
-      user_id: user2Id
+      user_id: user2Id,
+      nickname: 'My better nickname'
     })
     expect(response.status).to.equal(201)
   })
@@ -64,7 +67,8 @@ describe('Players', async function() {
   it('cannot join a room twice', async function() {
     const { response, json } = await fetch.post('/players', user1Id, {
       room_id: roomId,
-      user_id: user1Id
+      user_id: user1Id,
+      nickname: 'bar'
     })
     expect(response.status).to.equal(409)
     expect(json.message).to.match(/players_room_id_user_id_key/)

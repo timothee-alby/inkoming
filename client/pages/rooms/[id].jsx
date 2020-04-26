@@ -7,11 +7,12 @@ import { useAuth } from '../../components/auth'
 import ContentLoading from '../../components/content-loading'
 import RequestError from '../../components/request-error'
 import RoomJoinDialog from '../../components/room-join-dialog'
+import RoomPlayersList from '../../components/room-players-list'
 
 const Room = () => {
   let room = { id: useRouter().query.id }
   const { data: rooms, error } = milou({
-    url: `${process.env.API_URL}/rooms?id=eq.${room.id}&select=id,name,players(id,user_id)`,
+    url: `${process.env.API_URL}/rooms?id=eq.${room.id}&select=id,name,players(id,user_id,nickname)`,
     jwt: useAuth().userJwt
   })
 
@@ -26,7 +27,7 @@ const Room = () => {
     WrappedContent = AppContentWrapper(props => <RoomJoinDialog room={room} />)
   } else {
     room = rooms[0]
-    WrappedContent = AppContentWrapper(props => <h1>{room.name}</h1>)
+    WrappedContent = AppContentWrapper(props => <RoomPlayersList room={room} />)
   }
 
   return (
