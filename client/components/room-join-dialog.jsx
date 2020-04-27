@@ -12,7 +12,7 @@ import { useAuth } from './auth'
 import milou from '../lib/milou'
 import RequestError from './request-error'
 
-const RoomJoinDialog = ({ room }) => {
+const RoomJoinDialog = ({ roomId, setHasJoined }) => {
   const [inflight, setInflight] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { userJwt, userId, userName } = useAuth()
@@ -28,14 +28,14 @@ const RoomJoinDialog = ({ room }) => {
         jwt: userJwt,
         body: {
           user_id: userId,
-          room_id: room.id,
+          room_id: roomId,
           nickname: userName
         }
       })
-      router.reload()
     } catch (error) {
       setError(error)
     }
+    setHasJoined(true)
   }
 
   const handleBail = e => {
@@ -44,7 +44,7 @@ const RoomJoinDialog = ({ room }) => {
   }
 
   if (error) {
-    return <RequestError setError={setError} />
+    return <RequestError />
   }
 
   return (

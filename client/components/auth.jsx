@@ -1,85 +1,72 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import AuthDialog from './auth-dialog'
+import React from 'react'
 import milou from '../lib/milou'
+import JwtHelper from '../lib/jwt-helper'
 import RequestError from './request-error'
 
 const USER_CACHE_KEY = 'fdn_user'
 
-export const AuthContext = createContext(null)
-export const useAuth = () => useContext(AuthContext)
+export const AuthContext = React.createContext(null)
+export const useAuth = () => React.useContext(AuthContext)
+
+const createServerUser = async (setUserJwt, setError) => {
+  try {
+    const { jwt } = await milou({
+      method: 'POST',
+      url: `${process.env.API_URL}/rpc/generate_user`
+    })
+    setUserJwt(jwt)
+  } catch (error) {
+    setError(error)
+  }
+}
 
 const AuthProvider = ({ children }) => {
   const [error, setError] = React.useState(null)
-  const [userName, setUserName] = useState()
-  const [userJwt, setUserJwt] = useState()
-  const [userId, setUserId] = useState()
+  const [userName, setUserName] = React.useState()
+  const [userJwt, setUserJwt] = React.useState()
+  const [userId, setUserId] = React.useState()
 
-  const storeUser = () => {
-    const user = {
-      id: userId,
-      jwt: userJwt,
-      name: userName
+  // store userId and userJwt in local storage
+  React.useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem(USER_CACHE_KEY)) || {}
+    const newUser = {}
+    if (userJwt) newUser.jwt = userJwt
+    if (userName) newUser.name = userName
+
+    const newStoredUser = Object.assign(storedUser, newUser)
+
+    localStorage.setItem(USER_CACHE_KEY, JSON.stringify(newStoredUser))
+  }, [userJwt, userName])
+
+  // extract userId from userJwt
+  React.useEffect(() => {
+    if (!userJwt) return
+    const { user_id: userId } = JwtHelper.getPayload(userJwt)
+    setUserId(userId)
+  }, [userJwt])
+
+  // get userName and userJwt from local storage
+  React.useEffect(() => {
+    const { jwt: storedUserJwt, name: storedUserName } =
+      JSON.parse(localStorage.getItem(USER_CACHE_KEY)) || {}
+
+    if (storedUserName) {
+      setUserName(storedUserName)
     }
-    localStorage.setItem(USER_CACHE_KEY, JSON.stringify(user))
-  }
 
-  const loadStoredUser = () => {
-    const rawUser = localStorage.getItem(USER_CACHE_KEY)
-    const user = JSON.parse(rawUser)
-    if (user && Object.keys(user).length > 0) {
-      setUserName(user.name)
-      setUserId(user.id)
-      setUserJwt(user.jwt)
-      return user
+    if (storedUserJwt) {
+      setUserJwt(storedUserJwt)
+    } else {
+      createServerUser(setUserJwt, setUserId, setError)
     }
-    return null
-  }
-
-  const parseJwt = token => {
-    var base64Url = token.split('.')[1]
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-    var jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-        .join('')
-    )
-
-    return JSON.parse(jsonPayload)
-  }
-
-  const createServerUser = async () => {
-    try {
-      const { jwt } = await milou({
-        method: 'POST',
-        url: `${process.env.API_URL}/rpc/generate_user`
-      })
-      const { user_id: userId } = parseJwt(jwt)
-      setUserId(userId)
-      setUserJwt(jwt)
-    } catch (error) {
-      setError(error)
-    }
-  }
-
-  useEffect(() => {
-    const storedUser = loadStoredUser()
-    if (!storedUser) {
-      createServerUser()
-    }
-  }, [setUserJwt])
+  }, [])
 
   if (error) {
     return <RequestError />
   }
 
-  if (!userJwt || !userName) {
-    return <AuthDialog setUserName={setUserName} />
-  }
-
-  storeUser()
   return (
-    <AuthContext.Provider value={{ userId, userName, userJwt }}>
+    <AuthContext.Provider value={{ userJwt, userId, userName, setUserName }}>
       {children}
     </AuthContext.Provider>
   )

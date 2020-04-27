@@ -31,7 +31,7 @@ const RoomCard = ({ room }) => {
   const classes = useStyles()
   return (
     <Card className={classes.root + ' pattern-diagonal-stripes-md'}>
-      <Link href={'/rooms/' + room.id}>
+      <Link href={`/rooms/${room.id}`}>
         <CardActionArea>
           <CardContent className={classes.content}>
             <Typography variant="h5" component="h2" className={classes.title}>

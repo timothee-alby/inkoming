@@ -1,102 +1,69 @@
 import React from 'react'
-import milou from '../../lib/milou'
-import AppContentWrapper from '../_content'
-import HeaderWrapper from '../../components/header'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { IconButton } from '@material-ui/core'
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
+import milou from '../../lib/milou'
+import Content from '../../components/content'
+import Header from '../../components/header'
 import { useAuth } from '../../components/auth'
 import ContentLoading from '../../components/content-loading'
 import RequestError from '../../components/request-error'
 import RoomJoinDialog from '../../components/room-join-dialog'
 import RoomContent from '../../components/room-content'
 
-function createWebSocket(jwt) {}
+const NavigateBackLogo = () => (
+  <Link href={'/rooms'}>
+    <IconButton aria-label="delete">
+      <NavigateBeforeIcon fontSize="large" />
+    </IconButton>
+  </Link>
+)
 
 const Room = () => {
-  let room = { id: useRouter().query.id }
-  const [error, setError] = React.useState(null)
-  const [rooms, setRooms] = React.useState(null)
-  const [playerJwt, setPlayerJwt] = React.useState(null)
-  const [socket, setSocket] = React.useState(null)
-  const [socketPayload, setSocketPayload] = React.useState(null)
+  const { id: roomId } = useRouter().query
   const { userJwt } = useAuth()
+  const [inFlight, setInFlight] = React.useState(true)
+  const [error, setError] = React.useState()
+  const [room, setRoom] = React.useState()
+  const [player, setPlayer] = React.useState()
+  const [hasJoined, setHasJoined] = React.useState(false)
 
-  if (room.id && !rooms && !error) {
+  // fetch the room and its player. There will be only 0 or 1 player as the user
+  // can only see its player
+  React.useEffect(() => {
+    if (!roomId) return
+
     milou({
-      url: `${process.env.API_URL}/rooms?id=eq.${room.id}&select=id,name,players(id,user_id,nickname)`,
+      url: `${process.env.API_URL}/rooms?id=eq.${roomId}&select=*,players(*)`,
       jwt: userJwt
     })
-      .then(setRooms)
+      .then(rooms => setRoom(rooms[0]))
       .catch(setError)
-  }
+      .finally(() => setInFlight(false))
+  }, [userJwt, roomId, hasJoined])
 
-  const WrappedHeader = HeaderWrapper()
+  // extract player from room
+  // room)
+  React.useEffect(() => {
+    if (!room) return
 
-  if (error) {
-    const WrappedContent = AppContentWrapper(props => (
-      <RequestError setError={setError} />
-    ))
-    return renderPage(WrappedHeader, WrappedContent)
-  }
+    setPlayer(room.players[0])
+  }, [room])
 
-  if (!rooms) {
-    const WrappedContent = AppContentWrapper(props => <ContentLoading />)
-    return renderPage(WrappedHeader, WrappedContent)
-  }
-
-  if (rooms.length === 0) {
-    const WrappedContent = AppContentWrapper(props => (
-      <RoomJoinDialog room={room} />
-    ))
-    return renderPage(WrappedHeader, WrappedContent)
-  }
-
-  room = rooms[0]
-  if (!playerJwt) {
-    milou({
-      method: 'POST',
-      url: `${process.env.API_URL}/rpc/connect_player`,
-      jwt: userJwt,
-      body: {
-        player_id: room.players[0].id
-      }
-    })
-      .then(res => setPlayerJwt(res.jwt))
-      .catch(setError)
-
-    const WrappedContent = AppContentWrapper(props => <ContentLoading />)
-    return renderPage(WrappedHeader, WrappedContent, room)
-  }
-
-  if (!socket) {
-    const pendingSocket = new WebSocket(
-      `${process.env.WEBSOCKET_URL}/${playerJwt}`
-    )
-    pendingSocket.onopen = e => {
-      pendingSocket.send(JSON.stringify({ notification: 'A player joined' }))
-      setSocket(pendingSocket)
-    }
-    pendingSocket.onmessage = e => {
-      const data = JSON.parse(e.data)
-      const payload = JSON.parse(data.payload)
-      setSocketPayload(payload)
-    }
-
-    const WrappedContent = AppContentWrapper(props => <ContentLoading />)
-    return renderPage(WrappedHeader, WrappedContent, room)
-  }
-
-  // at this point, the player is successfully connected to the room
-  const WrappedContent = AppContentWrapper(props => (
-    <RoomContent room={room} socketPayload={socketPayload} />
-  ))
-  return renderPage(WrappedHeader, WrappedContent, room)
-}
-
-const renderPage = (WrappedHeader, WrappedContent, room = null) => {
   return (
     <>
-      <WrappedHeader title={room && room.name} />
-      <WrappedContent />
+      <Header logo={<NavigateBackLogo />} title={room && room.name} />
+      <Content>
+        {inFlight && <ContentLoading />}
+        {error && <RequestError setError={setError} />}
+        {!room && !inFlight && !error && (
+          <RoomJoinDialog roomId={roomId} setHasJoined={setHasJoined} />
+        )}
+        {room && player && (
+          <RoomContent room={room} player={player} setError={setError} />
+        )}
+      </Content>
     </>
   )
 }

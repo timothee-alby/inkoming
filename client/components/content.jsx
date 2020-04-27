@@ -8,13 +8,9 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const AppContentWrapper = WrappedComponent => props => {
+const Content = props => {
   const classes = useStyles()
-  return (
-    <Box className={classes.root}>
-      {WrappedComponent && <WrappedComponent {...props} />}
-    </Box>
-  )
+  return <Box className={classes.root}>{props.children}</Box>
 }
 
-export default AppContentWrapper
+export default Content

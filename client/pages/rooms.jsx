@@ -1,20 +1,43 @@
 import React from 'react'
-import AppContentWrapper from './_content'
-import HeaderWrapper from '../components/header'
-import RoomList from '../components/rooms-list'
+import milou from '../lib/milou'
+import { useAuth } from '../components/auth'
+import Header from '../components/header'
+import Content from '../components/content'
+import RoomsList from '../components/rooms-list'
+import RoomsListEmpty from '../components/rooms-list-empty'
 import RoomCreate from '../components/room-create'
+import RequestError from '../components/request-error'
+import ContentLoading from '../components/content-loading'
 
 const Rooms = () => {
-  const WrappedHeader = HeaderWrapper(props => (
-    <RoomCreate buttonVariant="outlined" />
-  ))
+  const { userJwt } = useAuth()
+  const [rooms, setRooms] = React.useState(null)
+  const [inFlight, setInFlight] = React.useState(true)
+  const [error, setError] = React.useState(null)
 
-  const WrappedContent = AppContentWrapper(props => <RoomList />)
+  React.useEffect(() => {
+    if (!userJwt) return
+
+    milou({
+      url: `${process.env.API_URL}/rooms`,
+      jwt: userJwt
+    })
+      .then(setRooms)
+      .catch(setError)
+      .finally(() => setInFlight(false))
+  }, [userJwt])
 
   return (
     <>
-      <WrappedHeader title="Rooms" />
-      <WrappedContent />
+      <Header title="Rooms">
+        <RoomCreate buttonVariant="outlined" />
+      </Header>
+      <Content>
+        {inFlight && <ContentLoading />}
+        {error && <RequestError />}
+        {rooms && rooms.length === 0 && <RoomsListEmpty />}
+        {rooms && rooms.length > 0 && <RoomsList rooms={rooms} />}
+      </Content>
     </>
   )
 }

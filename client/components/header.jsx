@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const HeaderWrapper = WrappedComponent => props => {
+const Header = props => {
   const classes = useStyles()
   const { userName } = useAuth()
 
@@ -29,10 +29,11 @@ const HeaderWrapper = WrappedComponent => props => {
       className={classes.root + ' pattern-cross-dots-sm'}
     >
       <Toolbar className={classes.toolbar}>
+        {props.logo ? props.logo : null}
         <Typography variant="h6" className={classes.title}>
           {props.title}
         </Typography>
-        {WrappedComponent && <WrappedComponent {...props} />}
+        {props.children}
         <Typography variant="h6" className={classes.userName}>
           {userName}
         </Typography>
@@ -41,4 +42,4 @@ const HeaderWrapper = WrappedComponent => props => {
   )
 }
 
-export default HeaderWrapper
+export default Header
