@@ -3,6 +3,7 @@ SELECT
   players.id AS player_id,
   players.room_id AS room_id,
   players.user_id AS user_id,
+  players.nickname AS nickname,
   players.created_at AS created_at,
   COUNT(turns.fold) = 0 AS standing,
   ARRAY_LENGTH(players.cards, 1) AS total_cards,
