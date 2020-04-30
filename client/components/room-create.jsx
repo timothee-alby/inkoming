@@ -2,10 +2,10 @@ import React from 'react'
 import Router from 'next/router'
 import { Button } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
-import RoomCreateDialog from './room-create-dialog'
-import { useAuth } from './auth'
-import milou from '../lib/milou'
-import RequestError from './request-error'
+import RoomCreateDialog from '~/components/room-create-dialog'
+import { useAuth } from '~/components/auth'
+import milou from '~/lib/milou'
+import RequestError from '~/components/request-error'
 
 const RoomCreate = ({ buttonVariant }) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false)

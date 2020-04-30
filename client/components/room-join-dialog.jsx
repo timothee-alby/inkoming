@@ -8,9 +8,9 @@ import {
   LinearProgress
 } from '@material-ui/core'
 import { useRouter } from 'next/router'
-import { useAuth } from './auth'
-import milou from '../lib/milou'
-import RequestError from './request-error'
+import { useAuth } from '~/components/auth'
+import milou from '~/lib/milou'
+import RequestError from '~/components/request-error'
 
 const RoomJoinDialog = ({ roomId, setHasJoined }) => {
   const [inflight, setInflight] = React.useState(false)

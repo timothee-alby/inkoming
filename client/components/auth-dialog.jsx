@@ -9,7 +9,7 @@ import {
   Button,
   LinearProgress
 } from '@material-ui/core'
-import { useAuth } from './auth'
+import { useAuth } from '~/components/auth'
 
 const AuthDialog = () => {
   const { userJwt, userName, setUserName } = useAuth()

@@ -1,7 +1,7 @@
 import React from 'react'
-import milou from '../lib/milou'
-import JwtHelper from '../lib/jwt-helper'
-import RequestError from './request-error'
+import milou from '~/lib/milou'
+import JwtHelper from '~/lib/jwt-helper'
+import RequestError from '~/components/request-error'
 
 const USER_CACHE_KEY = 'fdn_user'
 

@@ -1,13 +1,13 @@
 import React from 'react'
-import milou from '../lib/milou'
-import { useAuth } from '../components/auth'
-import Header from '../components/header'
-import Content from '../components/content'
-import RoomsList from '../components/rooms-list'
-import RoomsListEmpty from '../components/rooms-list-empty'
-import RoomCreate from '../components/room-create'
-import RequestError from '../components/request-error'
-import ContentLoading from '../components/content-loading'
+import milou from '~/lib/milou'
+import { useAuth } from '~/components/auth'
+import Header from '~/components/header'
+import Content from '~/components/content'
+import RoomsList from '~/components/rooms-list'
+import RoomsListEmpty from '~/components/rooms-list-empty'
+import RoomCreate from '~/components/room-create'
+import RequestError from '~/components/request-error'
+import ContentLoading from '~/components/content-loading'
 
 const Rooms = () => {
   const { userJwt } = useAuth()

@@ -1,9 +1,9 @@
 import React from 'react'
-import milou from '../lib/milou'
-import SocketHelper from '../lib/socket-helper'
-import { useAuth } from './auth'
-import RoomPlayersList from './room-players-list'
-import RoomNotification from './room-notification'
+import milou from '~/lib/milou'
+import SocketHelper from '~/lib/socket-helper'
+import { useAuth } from '~/components/auth'
+import RoomPlayersList from '~/components/room-players-list'
+import RoomNotification from '~/components/room-notification'
 
 const RoomContent = ({ room, player, setError }) => {
   const { userJwt } = useAuth()
