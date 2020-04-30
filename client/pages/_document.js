@@ -10,6 +10,8 @@ class MyDocument extends Document {
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width"
           />
+          <link rel="stylesheet" href="/styles/dist/roboto.css" />
+          <link rel="stylesheet" href="/styles/dist/pattern.min.css" />
         </Head>
         <body className="pattern-cross-dots-sm">
           <Main />
