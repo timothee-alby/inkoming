@@ -3,13 +3,13 @@ import { useAuth } from './auth'
 import AuthDialog from './auth-dialog'
 
 const WelcomeDialog = ({ room }) => {
-  const { userName, setUserName } = useAuth()
+  const { userJwt, userName, setUserName } = useAuth()
 
-  if (userName) {
+  if (userJwt && userName) {
     return null
   }
 
-  return <AuthDialog setUserName={setUserName} />
+  return <AuthDialog />
 }
 
 export default WelcomeDialog

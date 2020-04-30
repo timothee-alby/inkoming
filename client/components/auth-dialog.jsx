@@ -9,17 +9,24 @@ import {
   Button,
   LinearProgress
 } from '@material-ui/core'
+import { useAuth } from './auth'
 
-const AuthDialog = ({ setUserName }) => {
+const AuthDialog = () => {
+  const { userJwt, userName, setUserName } = useAuth()
   const [tempName, setTempName] = React.useState('')
   const [inflight, setInflight] = React.useState(false)
+
+  React.useEffect(() => {
+    if (!userJwt && userName) {
+      setInflight(true)
+    }
+  }, [userJwt, userName])
 
   const handleSubmit = e => {
     e.preventDefault()
     if (!tempName) return false
 
     setUserName(tempName)
-    setInflight(true)
     return false
   }
 
@@ -40,7 +47,7 @@ const AuthDialog = ({ setUserName }) => {
             type="text"
             fullWidth
             variant="outlined"
-            value={tempName}
+            value={tempName || userName}
             onChange={e => setTempName(e.target.value)}
             disabled={inflight}
           />
