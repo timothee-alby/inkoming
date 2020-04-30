@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid } from '@material-ui/core'
-import RoomCard from '~/components/room-card'
+import RoomCard from '~/components/rooms/room-card'
 
 const RoomsList = ({ rooms }) => {
   return (

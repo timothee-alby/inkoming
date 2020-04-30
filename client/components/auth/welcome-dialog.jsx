@@ -1,6 +1,6 @@
 import React from 'react'
-import { useAuth } from '~/components/auth'
-import AuthDialog from '~/components/auth-dialog'
+import { useAuth } from '~/components/auth/auth-context'
+import AuthDialog from '~/components/auth/auth-dialog'
 
 const WelcomeDialog = ({ room }) => {
   const { userJwt, userName, setUserName } = useAuth()

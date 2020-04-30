@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAuth } from '~/components/auth'
+import { useAuth } from '~/components/auth/auth-context'
 
 const ProtectedPage = ({ children }) => {
   const { userJwt, userName } = useAuth()

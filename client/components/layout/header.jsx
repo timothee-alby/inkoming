@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppBar, Toolbar, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { useAuth } from '~/components/auth'
+import { useAuth } from '~/components/auth/auth-context'
 
 const useStyles = makeStyles(theme => ({
   root: {

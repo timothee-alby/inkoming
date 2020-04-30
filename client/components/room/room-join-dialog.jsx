@@ -8,7 +8,7 @@ import {
   LinearProgress
 } from '@material-ui/core'
 import { useRouter } from 'next/router'
-import { useAuth } from '~/components/auth'
+import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
 import RequestError from '~/components/request-error'
 
