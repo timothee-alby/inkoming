@@ -17,6 +17,12 @@ const AuthDialog = () => {
   const [inflight, setInflight] = React.useState(false)
 
   React.useEffect(() => {
+    if (userName) {
+      setTempName(userName)
+    }
+  }, [userName])
+
+  React.useEffect(() => {
     if (!userJwt && userName) {
       setInflight(true)
     }
@@ -40,20 +46,25 @@ const AuthDialog = () => {
             It looks like you are new here, Please enter a nickname to proceed.
           </DialogContentText>
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             label="Nickname"
             type="text"
             fullWidth
             variant="outlined"
-            value={tempName || userName}
+            value={tempName}
+            autoComplete="off"
             onChange={e => setTempName(e.target.value)}
             disabled={inflight}
           />
         </DialogContent>
         <DialogActions>
-          <Button color="primary" type="submit" disabled={inflight}>
+          <Button
+            color="primary"
+            type="submit"
+            variant="contained"
+            disabled={inflight}
+          >
             Set my nickname
           </Button>
         </DialogActions>
