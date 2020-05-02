@@ -40,6 +40,7 @@ $$
     DELETE FROM api.turns
     WHERE turns.room_id = room_state.room_id;
 
+    PERFORM notify_room()
     -- all good; respond with 200
   END
 $$;
