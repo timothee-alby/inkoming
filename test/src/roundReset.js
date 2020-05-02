@@ -80,10 +80,12 @@ describe('Round Reset', async function() {
       expect(response.status).to.equal(200)
 
       const { json } = await fetch.get(
-        `/player_states?room_id=eq.${roomId}`,
+        `/rooms?id=eq.${roomId}&select=*,room_states(*)`,
         user1Id
       )
-      const [player1State, player2State, player3State] = json
+      const [{ room_states: roomStates }] = json
+      const [{ all_players: allPlayers }] = roomStates
+      const [player1State, player2State, player3State] = allPlayers
       expect(player1State.points).to.equal(1)
       expect(player2State.points).to.equal(0)
       expect(player3State.points).to.equal(0)
@@ -108,10 +110,12 @@ describe('Round Reset', async function() {
       expect(response.status).to.equal(200)
 
       const { json } = await fetch.get(
-        `/player_states?room_id=eq.${roomId}`,
+        `/rooms?id=eq.${roomId}&select=*,room_states(*)`,
         user1Id
       )
-      const [player1State, player2State, player3State] = json
+      const [{ room_states: roomStates }] = json
+      const [{ all_players: allPlayers }] = roomStates
+      const [player1State, player2State, player3State] = allPlayers
       expect(player1State.total_cards).to.equal(3)
       expect(player2State.total_cards).to.equal(4)
       expect(player3State.total_cards).to.equal(4)

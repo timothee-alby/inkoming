@@ -1,6 +1,6 @@
 CREATE OR REPLACE FUNCTION public.api_turns_validate_bet() RETURNS TRIGGER LANGUAGE PLPGSQL SECURITY DEFINER AS $$
   DECLARE
-    room_option record;
+    room_state record;
     player record;
   BEGIN
     IF NEW.bet IS NULL THEN
@@ -11,21 +11,21 @@ CREATE OR REPLACE FUNCTION public.api_turns_validate_bet() RETURNS TRIGGER LANGU
     FROM api.players
     WHERE players.id = NEW.player_id;
 
-    SELECT INTO room_option *
-    FROM api.room_options
-    WHERE room_options.room_id = player.room_id;
+    SELECT INTO room_state *
+    FROM api.room_states
+    WHERE room_states.room_id = player.room_id;
 
-    IF room_option.can_bet <> TRUE THEN
+    IF room_state.can_bet <> TRUE THEN
       RAISE EXCEPTION 'api_turns_validate_bet'
         USING DETAIL = 'turn_cannot_bet';
     END IF;
 
-    IF NEW.bet > room_option.max_bet THEN
+    IF NEW.bet > room_state.max_bet THEN
       RAISE EXCEPTION 'api_turns_validate_bet'
         USING DETAIL = 'bet_too_high';
     END IF;
 
-    IF NEW.bet < room_option.min_bet THEN
+    IF NEW.bet < room_state.min_bet THEN
       RAISE EXCEPTION 'api_turns_validate_bet'
         USING DETAIL = 'bet_too_low';
     END IF;

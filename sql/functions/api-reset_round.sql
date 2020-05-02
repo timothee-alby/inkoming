@@ -6,24 +6,23 @@ $$
   DECLARE
     jwt_user_id UUID;
     room_state RECORD;
-    player_state RECORD;
+    player RECORD;
   BEGIN
     SELECT INTO jwt_user_id current_setting('request.jwt.claim.user_id', true)::UUID;
 
-    SELECT INTO player_state *
-    FROM api.player_states
-    WHERE player_states.player_id = player_id
-    AND player_states.user_id = jwt_user_id;
+    SELECT INTO player *
+    FROM api.players
+    WHERE players.id = player_id
+    AND players.user_id = jwt_user_id;
 
-    IF player_state.player_id IS NULL
-      OR player_state.player_id <> player_id THEN
+    IF player.id IS NULL THEN
       RAISE insufficient_privilege
         USING DETAIL = 'invalid_player_id';
     END IF;
 
     SELECT INTO room_state *
     FROM api.room_states
-    WHERE room_states.room_id = player_state.room_id;
+    WHERE room_states.room_id = player.room_id;
 
     IF room_state.outcome IS NULL THEN
       RAISE insufficient_privilege

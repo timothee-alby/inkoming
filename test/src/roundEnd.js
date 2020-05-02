@@ -48,10 +48,11 @@ describe('Round end', async function() {
     })
 
     const { json } = await fetch.get(
-      `/room_states?room_id=eq.${roomId}`,
+      `/rooms?id=eq.${roomId}&select=*,room_states(*)`,
       user2Id
     )
-    const [roomState] = json
+    const [{ room_states: roomStates }] = json
+    const [roomState] = roomStates
     expect(roomState.challenger_player_id).to.equal(player1Id)
   })
 
@@ -63,14 +64,15 @@ describe('Round end', async function() {
     expect(response.status).to.equal(201)
 
     const { json } = await fetch.get(
-      `/room_states?room_id=eq.${roomId}`,
+      `/rooms?id=eq.${roomId}&select=*,room_states(*)`,
       user2Id,
       {
         player_id: player2Id,
         bet: 4
       }
     )
-    const [roomState] = json
+    const [{ room_states: roomStates }] = json
+    const [roomState] = roomStates
     expect(roomState.challenger_player_id).to.equal(player2Id)
   })
 })

@@ -1,6 +1,6 @@
 CREATE OR REPLACE FUNCTION public.api_turns_validate_card() RETURNS TRIGGER LANGUAGE PLPGSQL SECURITY DEFINER AS $$
   DECLARE
-    room_option record;
+    room_state record;
     player record;
     total_cards_of_type integer;
     total_cards_of_type_used integer;
@@ -13,11 +13,11 @@ CREATE OR REPLACE FUNCTION public.api_turns_validate_card() RETURNS TRIGGER LANG
     FROM api.players
     WHERE players.id = NEW.player_id;
 
-    SELECT INTO room_option *
-    FROM api.room_options
-    WHERE room_options.room_id = player.room_id;
+    SELECT INTO room_state *
+    FROM api.room_states
+    WHERE room_states.room_id = player.room_id;
 
-    IF room_option.can_card <> TRUE THEN
+    IF room_state.can_card <> TRUE THEN
       RAISE EXCEPTION 'api_turns_validate_card'
         USING DETAIL = 'turn_cannot_card';
     END IF;

@@ -6,25 +6,25 @@ $$
   DECLARE
     jwt_user_id UUID;
     room_state RECORD;
-    player_state RECORD;
+    player RECORD;
     target_turn RECORD;
+    room_state_player RECORD;
   BEGIN
     SELECT INTO jwt_user_id current_setting('request.jwt.claim.user_id', true)::UUID;
 
-    SELECT INTO player_state *
-    FROM api.player_states
-    WHERE player_states.player_id = player_id
-    AND player_states.user_id = jwt_user_id;
+    SELECT INTO player *
+    FROM api.players
+    WHERE players.id = player_id
+    AND players.user_id = jwt_user_id;
 
-    IF player_state.player_id IS NULL
-      OR player_state.player_id <> player_id THEN
+    IF player.id IS NULL THEN
       RAISE insufficient_privilege
         USING DETAIL = 'invalid_player_id';
     END IF;
 
     SELECT INTO room_state *
     FROM api.room_states
-    WHERE room_states.room_id = player_state.room_id;
+    WHERE room_states.room_id = player.room_id;
 
     IF room_state.outcome IS NOT NULL THEN
       RAISE insufficient_privilege
@@ -37,7 +37,14 @@ $$
         USING DETAIL = 'player_not_challenger';
     END IF;
 
-    IF player_state.carded_cards > player_state.revealed_cards
+    SELECT INTO room_state_player
+        (all_players -> 'carded_cards')::TEXT::INT AS carded_cards,
+        (all_players -> 'revealed_cards')::TEXT::INT AS revealed_cards
+      FROM
+        json_array_elements(room_state.all_players) all_players
+      where all_players ->> 'id' = player_id::TEXT;
+
+    IF room_state_player.carded_cards > room_state_player.revealed_cards
       AND target_player_id <> player_id THEN
       RAISE insufficient_privilege
         USING DETAIL = 'player_has_unrevealed_cards';
