@@ -1,31 +1,30 @@
-const { v4: uuidv4 } = require('uuid')
 const { expect } = require('chai')
 const fetch = require('./helpers/fetch')
 const fixture = require('./helpers/fixture')
 
 describe('Cards', async function() {
-  const user1Id = uuidv4()
-  const user2Id = uuidv4()
-  let player1Id
-  let player2Id
+  let user1, user2, player1Id, player2Id
 
   before(async function() {
-    const { players } = await fixture.setState({
-      rooms: [{ as: user1Id, user_id: user1Id, name: 'Foo Name' }],
-      players: ([room]) => [
-        { as: user1Id, room_id: room.id, user_id: user1Id, nickname: 'user1' },
-        { as: user2Id, room_id: room.id, user_id: user2Id, nickname: 'user2' }
+    const { users, players } = await fixture.setState({
+      users: 2,
+      rooms: ([user1]) => [{ as: user1, user_id: user1.id, name: 'Foo Name' }],
+      players: ([user1, user2], [room]) => [
+        { as: user1, room_id: room.id, user_id: user1.id, nickname: 'user1' },
+        { as: user2, room_id: room.id, user_id: user2.id, nickname: 'user2' }
       ],
-      turns: ([player1]) => [
-        { as: user1Id, player_id: player1.id, card: 'black' }
+      turns: ([user1, user2], [player1]) => [
+        { as: user1, player_id: player1.id, card: 'black' }
       ]
     })
+    user1 = users[0]
+    user2 = users[1]
     player1Id = players[0].id
     player2Id = players[1].id
   })
 
   it('cannot add bet until all players have played', async function() {
-    const { response, json } = await fetch.post('/turns', user2Id, {
+    const { response, json } = await fetch.post('/turns', user2, {
       player_id: player2Id,
       bet: 1
     })
@@ -35,7 +34,7 @@ describe('Cards', async function() {
   })
 
   it('cannot fold until all players have played', async function() {
-    const { response, json } = await fetch.post('/turns', user2Id, {
+    const { response, json } = await fetch.post('/turns', user2, {
       player_id: player2Id,
       fold: true
     })
@@ -45,7 +44,7 @@ describe('Cards', async function() {
   })
 
   it('can play red', async function() {
-    const { response } = await fetch.post('/turns', user2Id, {
+    const { response } = await fetch.post('/turns', user2, {
       player_id: player2Id,
       card: 'red'
     })
@@ -53,7 +52,7 @@ describe('Cards', async function() {
   })
 
   it('cannot play black twice', async function() {
-    const { response, json } = await fetch.post('/turns', user1Id, {
+    const { response, json } = await fetch.post('/turns', user1, {
       player_id: player1Id,
       card: 'black'
     })
@@ -63,7 +62,7 @@ describe('Cards', async function() {
   })
 
   it('can play red twice', async function() {
-    const { response } = await fetch.post('/turns', user1Id, {
+    const { response } = await fetch.post('/turns', user1, {
       player_id: player1Id,
       card: 'red'
     })

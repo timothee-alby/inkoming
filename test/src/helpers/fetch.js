@@ -1,24 +1,16 @@
 const fetch = require('node-fetch')
-var jwt = require('jsonwebtoken')
 
-function makeJwt(userId) {
-  return jwt.sign(
-    {
-      role: 'web_anon',
-      user_id: userId
-    },
-    process.env.PGRST_JWT_SECRET
-  )
-}
-
-async function request(method, path, headers, userId, body) {
+async function request(method, path, headers, user, body) {
   headers = Object.assign(
     {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${makeJwt(userId)}`
+      'Content-Type': 'application/json'
     },
     headers
   )
+
+  if (user) {
+    headers.Authorization = `Bearer ${user.jwt}`
+  }
 
   const response = await fetch(`${process.env.PGRST_API_URL}${path}`, {
     method,
@@ -29,11 +21,11 @@ async function request(method, path, headers, userId, body) {
   return { response, json: response.json ? await response.json() : null }
 }
 
-async function get(path, userId) {
-  return request('GET', path, {}, userId)
+async function get(path, user) {
+  return request('GET', path, {}, user)
 }
 
-async function post(path, userId, json) {
+async function post(path, user, json) {
   return request(
     'POST',
     path,
@@ -41,7 +33,7 @@ async function post(path, userId, json) {
       Accept: 'application/vnd.pgrst.object+json',
       Prefer: 'return=representation'
     },
-    userId,
+    user,
     JSON.stringify(json)
   )
 }

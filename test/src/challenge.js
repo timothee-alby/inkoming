@@ -1,39 +1,40 @@
-const { v4: uuidv4 } = require('uuid')
 const { expect } = require('chai')
 const fetch = require('./helpers/fetch')
 const fixture = require('./helpers/fixture')
 
 describe('Challenge', async function() {
-  let user1Id, user2Id, user3Id, player1Id, player2Id, player3Id
+  let user1, user2, player1Id, player2Id, player3Id
 
   before(async function() {
-    user1Id = uuidv4()
-    user2Id = uuidv4()
-    user3Id = uuidv4()
-    const { players } = await fixture.setState({
-      rooms: [{ as: user1Id, user_id: user1Id, name: 'Foo Name' }],
-      players: ([room]) => [
-        { as: user1Id, room_id: room.id, user_id: user1Id, nickname: 'user1' },
-        { as: user2Id, room_id: room.id, user_id: user2Id, nickname: 'user2' },
-        { as: user3Id, room_id: room.id, user_id: user3Id, nickname: 'user3' }
+    const { users, players } = await fixture.setState({
+      users: 3,
+      rooms: ([user1]) => [
+        { as: user1, user_id: user1.id, name: 'Foo Name' }
       ],
-      turns: ([player1, player2, player3]) => [
-        { as: user1Id, player_id: player1.id, card: 'red' },
-        { as: user2Id, player_id: player2.id, card: 'red' },
-        { as: user3Id, player_id: player3.id, card: 'red' },
-        { as: user1Id, player_id: player1.id, card: 'red' },
-        { as: user2Id, player_id: player2.id, card: 'red' },
-        { as: user3Id, player_id: player3.id, card: 'red' },
-        { as: user1Id, player_id: player1.id, bet: 6 }
+      players: ([user1, user2, user3], [room]) => [
+        { as: user1, room_id: room.id, user_id: user1.id, nickname: 'user1' },
+        { as: user2, room_id: room.id, user_id: user2.id, nickname: 'user2' },
+        { as: user3, room_id: room.id, user_id: user3.id, nickname: 'user3' }
+      ],
+      turns: ([user1, user2, user3], [player1, player2, player3]) => [
+        { as: user1, player_id: player1.id, card: 'red' },
+        { as: user2, player_id: player2.id, card: 'red' },
+        { as: user3, player_id: player3.id, card: 'red' },
+        { as: user1, player_id: player1.id, card: 'red' },
+        { as: user2, player_id: player2.id, card: 'red' },
+        { as: user3, player_id: player3.id, card: 'red' },
+        { as: user1, player_id: player1.id, bet: 6 }
       ]
     })
+    user1 = users[0]
+    user2 = users[1]
     player1Id = players[0].id
     player2Id = players[1].id
     player3Id = players[2].id
   })
 
   it('cannot fake player_id', async function() {
-    const { response, json } = await fetch.post('/rpc/reveal_card', user2Id, {
+    const { response, json } = await fetch.post('/rpc/reveal_card', user2, {
       player_id: player1Id,
       target_player_id: player1Id
     })
@@ -43,7 +44,7 @@ describe('Challenge', async function() {
   })
 
   it('cannot reveal if not challenger', async function() {
-    const { response, json } = await fetch.post('/rpc/reveal_card', user2Id, {
+    const { response, json } = await fetch.post('/rpc/reveal_card', user2, {
       player_id: player2Id,
       target_player_id: player2Id
     })
@@ -53,7 +54,7 @@ describe('Challenge', async function() {
   })
 
   it('cannot reveal other player cards before own', async function() {
-    const { response, json } = await fetch.post('/rpc/reveal_card', user1Id, {
+    const { response, json } = await fetch.post('/rpc/reveal_card', user1, {
       player_id: player1Id,
       target_player_id: player2Id
     })
@@ -63,7 +64,7 @@ describe('Challenge', async function() {
   })
 
   it('can reveal first own card', async function() {
-    const { response } = await fetch.post('/rpc/reveal_card', user1Id, {
+    const { response } = await fetch.post('/rpc/reveal_card', user1, {
       player_id: player1Id,
       target_player_id: player1Id
     })
@@ -71,7 +72,7 @@ describe('Challenge', async function() {
   })
 
   it('can reveal second own card', async function() {
-    const { response } = await fetch.post('/rpc/reveal_card', user1Id, {
+    const { response } = await fetch.post('/rpc/reveal_card', user1, {
       player_id: player1Id,
       target_player_id: player1Id
     })
@@ -79,7 +80,7 @@ describe('Challenge', async function() {
   })
 
   it('cannot reveal more own card', async function() {
-    const { response, json } = await fetch.post('/rpc/reveal_card', user1Id, {
+    const { response, json } = await fetch.post('/rpc/reveal_card', user1, {
       player_id: player1Id,
       target_player_id: player1Id
     })
@@ -89,7 +90,7 @@ describe('Challenge', async function() {
   })
 
   it('can reveal second player first card', async function() {
-    const { response } = await fetch.post('/rpc/reveal_card', user1Id, {
+    const { response } = await fetch.post('/rpc/reveal_card', user1, {
       player_id: player1Id,
       target_player_id: player2Id
     })
@@ -97,7 +98,7 @@ describe('Challenge', async function() {
   })
 
   it('can reveal third player first card', async function() {
-    const { response } = await fetch.post('/rpc/reveal_card', user1Id, {
+    const { response } = await fetch.post('/rpc/reveal_card', user1, {
       player_id: player1Id,
       target_player_id: player3Id
     })
@@ -105,7 +106,7 @@ describe('Challenge', async function() {
   })
 
   it('can reveal second player second card', async function() {
-    const { response } = await fetch.post('/rpc/reveal_card', user1Id, {
+    const { response } = await fetch.post('/rpc/reveal_card', user1, {
       player_id: player1Id,
       target_player_id: player2Id
     })

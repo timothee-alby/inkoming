@@ -1,36 +1,37 @@
-const { v4: uuidv4 } = require('uuid')
 const { expect } = require('chai')
 const fetch = require('./helpers/fetch')
 const fixture = require('./helpers/fixture')
 
 describe('Room State', async function() {
-  let roomId, user1Id, user2Id, user3Id, player2Id, player1Id
+  let roomId, user1, user3, player2Id, player1Id
 
   describe('with turns', async function() {
     beforeEach(async function() {
-      user1Id = uuidv4()
-      user2Id = uuidv4()
-      user3Id = uuidv4()
-      const { rooms, players } = await fixture.setState({
-        rooms: [{ as: user1Id, user_id: user1Id, name: 'Foo Name' }],
-        players: ([room]) => [
+      const { users, rooms, players } = await fixture.setState({
+        users: 3,
+        rooms: ([user1]) => [
+          { as: user1, user_id: user1.id, name: 'Foo Name' }
+        ],
+        players: ([user1, user2], [room]) => [
           {
-            as: user1Id,
+            as: user1,
             room_id: room.id,
-            user_id: user1Id,
+            user_id: user1.id,
             nickname: 'user1'
           },
-          { as: user2Id, room_id: room.id, user_id: user2Id, nickname: 'user2' }
+          { as: user2, room_id: room.id, user_id: user2.id, nickname: 'user2' }
         ],
-        turns: ([player1, player2]) => [
-          { as: user1Id, player_id: player1.id, card: 'black' },
-          { as: user2Id, player_id: player2.id, card: 'red' },
-          { as: user1Id, player_id: player1.id, card: 'red' },
-          { as: user2Id, player_id: player2.id, card: 'red' },
-          { as: user1Id, player_id: player1.id, bet: 1 }
+        turns: ([user1, user2], [player1, player2]) => [
+          { as: user1, player_id: player1.id, card: 'black' },
+          { as: user2, player_id: player2.id, card: 'red' },
+          { as: user1, player_id: player1.id, card: 'red' },
+          { as: user2, player_id: player2.id, card: 'red' },
+          { as: user1, player_id: player1.id, bet: 1 }
         ]
       })
       roomId = rooms[0].id
+      user1 = users[0]
+      user3 = users[2]
       player1Id = players[0].id
       player2Id = players[1].id
     })
@@ -38,7 +39,7 @@ describe('Room State', async function() {
     it('return correct roomState', async function() {
       const { response, json } = await fetch.get(
         `/rooms?id=eq.${roomId}&select=*,room_states(*)`,
-        user1Id
+        user1
       )
       expect(response.status).to.equal(200)
 
@@ -134,21 +135,23 @@ describe('Room State', async function() {
 
   describe('without turns', async function() {
     beforeEach(async function() {
-      user1Id = uuidv4()
-      user2Id = uuidv4()
-      const { rooms, players } = await fixture.setState({
-        rooms: [{ as: user1Id, user_id: user1Id, name: 'Foo Name' }],
-        players: ([room]) => [
+      const { users, rooms, players } = await fixture.setState({
+        users: 2,
+        rooms: ([user1]) => [
+          { as: user1, user_id: user1.id, name: 'Foo Name' }
+        ],
+        players: ([user1, user2], [room]) => [
           {
-            as: user1Id,
+            as: user1,
             room_id: room.id,
-            user_id: user1Id,
+            user_id: user1.id,
             nickname: 'user1'
           },
-          { as: user2Id, room_id: room.id, user_id: user2Id, nickname: 'user2' }
+          { as: user2, room_id: room.id, user_id: user2.id, nickname: 'user2' }
         ]
       })
       roomId = rooms[0].id
+      user1 = users[0]
       player1Id = players[0].id
       player2Id = players[1].id
     })
@@ -156,7 +159,7 @@ describe('Room State', async function() {
     it('cannot view other room states', async function() {
       const { response, json } = await fetch.get(
         `/room_states?room_id=eq.${roomId}`,
-        user3Id
+        user3
       )
       expect(response.status).to.equal(200)
       expect(json.length).to.equal(0)
@@ -165,7 +168,7 @@ describe('Room State', async function() {
     it('cannot view other room states via resource embedding', async function() {
       const { response, json } = await fetch.get(
         `/rooms?id=eq.${roomId}&select=*,room_states(*)`,
-        user3Id
+        user3
       )
       expect(response.status).to.equal(200)
       expect(json.length).to.equal(0)
@@ -174,7 +177,7 @@ describe('Room State', async function() {
     it('does not return null for total or booleans', async function() {
       const { response, json } = await fetch.get(
         `/rooms?id=eq.${roomId}&select=*,room_states(*)`,
-        user1Id
+        user1
       )
       expect(response.status).to.equal(200)
 
