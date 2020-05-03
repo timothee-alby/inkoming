@@ -7,7 +7,9 @@ $$
       ROW_TO_JSON(data), current_setting('app.jwt_secret')
     ) AS jwt
   FROM (
-    SELECT gen_random_uuid() AS user_id
+    SELECT
+      'web_anon' AS role,
+      gen_random_uuid() AS user_id
   ) AS data;
 $$;
 
