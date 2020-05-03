@@ -35,6 +35,10 @@ const theme = createMuiTheme({
           gradient: colours.hokersGreen
         }
       }
+    },
+    card: {
+      red: 'darkred',
+      black: 'black'
     }
   }
 })

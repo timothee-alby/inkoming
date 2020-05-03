@@ -22,7 +22,7 @@ class SocketHelper {
 
   onMessage(e) {
     const data = JSON.parse(e.data)
-    const payload = JSON.parse(data.payload)
+    const payload = data.payload
     if (!payload) return
 
     switch (payload.type) {
