@@ -11,12 +11,16 @@ const colours = {
   sunray: '#DDA448',
   maximumYellowRed: '#E7BC5F',
 
-  // misc
-  cBlue: '#2D728F',
+  // ternary
   mauveTaupe: '#74444b',
+
+  // header
+  cBlue: '#2D728F',
+  tealBlue: '#3D809A',
+
+  // misc
   maximumBlueGreen: '#5ABCB9',
-  powderBlue: '#ACE3E9',
-  tealBlue: '#3D809A'
+  powderBlue: '#ACE3E9'
 }
 
 const theme = createMuiTheme({
@@ -24,6 +28,12 @@ const theme = createMuiTheme({
     type: 'light',
     primary: { main: colours.myrtieGreen },
     secondary: { main: colours.sunray },
+    ternary: {
+      main: colours.mauveTaupe,
+      contrastText: '#fff',
+      dark: 'rgb(81, 47, 52)',
+      light: 'rgb(143, 105, 111)'
+    },
     background: {
       default: colours.powderBlue,
       header: { main: colours.cBlue, gradient: colours.tealBlue },
@@ -38,7 +48,8 @@ const theme = createMuiTheme({
     },
     card: {
       red: 'darkred',
-      black: 'black'
+      black: 'black',
+      unknown: colours.mauveTaupe
     }
   }
 })

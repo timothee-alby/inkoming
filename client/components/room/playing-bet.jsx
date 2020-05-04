@@ -1,6 +1,6 @@
 import React from 'react'
-import { IconButton } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import IconButtonTernary from '~/components/elements/icon-button-ternary'
 
 import Filter1Icon from '@material-ui/icons/Filter1'
 import Filter2Icon from '@material-ui/icons/Filter2'
@@ -57,9 +57,9 @@ const PlayingBet = ({ turns }) => {
   if (!BetIcon) return null
 
   return (
-    <IconButton aria-label="settings" color="secondary">
+    <IconButtonTernary aria-label={maxBet} disabled>
       <BetIcon className={classes.actionIcon} />
-    </IconButton>
+    </IconButtonTernary>
   )
 }
 

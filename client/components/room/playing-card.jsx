@@ -5,9 +5,6 @@ import SpaIcon from '@material-ui/icons/Spa'
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
 
 const useStyles = makeStyles(theme => ({
-  iconUnknonw: {
-    color: theme.palette.card.black
-  },
   iconRed: {
     color: theme.palette.card.red
   },
