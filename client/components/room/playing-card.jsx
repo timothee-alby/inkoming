@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import SpaIcon from '@material-ui/icons/Spa'
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
@@ -15,11 +16,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const PlayingCard = ({ colour, style }) => {
+const PlayingCard = ({ colour, className }) => {
   const classes = useStyles()
 
   if (!colour) {
-    return <HelpOutlineIcon className={classes.iconUnknonw} style={style} />
+    return <HelpOutlineIcon className={clsx(classes.iconUnknonw, className)} />
   }
 
   return (

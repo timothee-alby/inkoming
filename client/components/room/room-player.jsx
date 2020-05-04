@@ -8,16 +8,32 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import RoomPlayerAvatar from '~/components/room/player/room-player-avatar'
 import RoomPlayerTurns from '~/components/room/player/room-player-turns'
+import PlayingBet from '~/components/room/playing-bet'
 
 const useStyles = makeStyles(theme => ({
   content: {
     textAlign: 'center'
+  },
+  action: {
+    marginRight: 0,
+    marginTop: 0
   }
 }))
 
 const RoomPlayer = ({ player, roomState }) => {
   const classes = useStyles()
-  const isNext = player.id === roomState.next_player_id
+  const [isNext, setIsNext] = React.useState(false)
+  const [playerTurns, setPlayerTurns] = React.useState([])
+
+  React.useEffect(() => {
+    setIsNext(player.id === roomState.next_player_id)
+    const allTurns = roomState.all_turns
+    if (allTurns) {
+      setPlayerTurns(allTurns.filter(turn => turn.player_id === player.id))
+    } else {
+      setPlayerTurns([])
+    }
+  }, [player, roomState])
 
   return (
     <Card>
@@ -26,9 +42,11 @@ const RoomPlayer = ({ player, roomState }) => {
         variant="rounded"
         avatar={<RoomPlayerAvatar player={player} />}
         subheader={`${player.total_cards} cards`}
+        action={<PlayingBet turns={playerTurns} />}
+        classes={{ action: classes.action }}
       ></CardHeader>
       <CardContent className={classes.content}>
-        <RoomPlayerTurns player={player} allTurns={roomState.all_turns} />
+        <RoomPlayerTurns turns={playerTurns} />
       </CardContent>
       {isNext && <LinearProgress />}
     </Card>

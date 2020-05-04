@@ -1,19 +1,23 @@
 import React from 'react'
 import { Box } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import PlayingCard from '~/components/room/playing-card'
 
-const RoomPlayer = ({ player, allTurns = [] }) => {
-  if (!allTurns) return null
+const useStyles = makeStyles(theme => ({
+  playingCard: {
+    fontSize: 40
+  }
+}))
 
-  const playerTurns = allTurns.filter(turn => turn.player_id === player.id)
-
-  if (!playerTurns.length) return null
+const RoomPlayer = ({ turns }) => {
+  const classes = useStyles()
+  if (!turns.length) return null
 
   return (
     <>
-      {playerTurns.map(playerTurn => (
-        <Box key={playerTurn.id}>
-          <PlayingCard style={{ fontSize: 40 }} />
+      {turns.map(turn => (
+        <Box key={turn.id}>
+          {!turn.bet && <PlayingCard className={classes.playingCard} />}
         </Box>
       ))}
     </>
