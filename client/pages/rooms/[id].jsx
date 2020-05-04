@@ -11,6 +11,7 @@ import ContentLoading from '~/components/layout/content-loading'
 import RequestError from '~/components/request-error'
 import RoomJoinDialog from '~/components/room/room-join-dialog'
 import RoomContent from '~/components/room/room-content'
+import RoundReset from '~/components/room/round-reset'
 
 const NavigateBackLogo = () => (
   <Link href={'/rooms'}>
@@ -26,6 +27,7 @@ const Room = () => {
   const [inFlight, setInFlight] = React.useState(true)
   const [error, setError] = React.useState()
   const [room, setRoom] = React.useState()
+  const [roomState, setRoomState] = React.useState()
   const [player, setPlayer] = React.useState()
   const [hasJoined, setHasJoined] = React.useState(false)
 
@@ -53,7 +55,16 @@ const Room = () => {
 
   return (
     <>
-      <Header logo={<NavigateBackLogo />} title={room && room.name} />
+      <Header logo={<NavigateBackLogo />} title={room && room.name}>
+        {roomState && roomState.outcome && (
+          <RoundReset
+            buttonVariant="outlined"
+            roomState={roomState}
+            player={player}
+            setError={setError}
+          />
+        )}
+      </Header>
       <Content>
         {inFlight && <ContentLoading />}
         {error && <RequestError setError={setError} />}
@@ -61,7 +72,13 @@ const Room = () => {
           <RoomJoinDialog roomId={roomId} setHasJoined={setHasJoined} />
         )}
         {room && player && (
-          <RoomContent room={room} player={player} setError={setError} />
+          <RoomContent
+            room={room}
+            player={player}
+            roomState={roomState}
+            setRoomState={setRoomState}
+            setError={setError}
+          />
         )}
       </Content>
     </>

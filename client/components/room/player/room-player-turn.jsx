@@ -48,6 +48,7 @@ const RoomPlayerTurn = ({ roomState, mePlayer, turn, stacked, setError }) => {
       <IconButtonCard
         aria-label={turn.colour || 'unknown'}
         disabled={
+          !!roomState.outcome ||
           !!turn.card ||
           stacked ||
           roomState.challenger_player_id !== mePlayer.id

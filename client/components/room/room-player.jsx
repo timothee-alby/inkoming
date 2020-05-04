@@ -56,7 +56,7 @@ const RoomPlayer = ({ player, roomState, mePlayer, setError }) => {
           setError={setError}
         />
       </CardContent>
-      {isNext && <LinearProgress />}
+      {isNext && !roomState.outcome && <LinearProgress />}
     </Card>
   )
 }

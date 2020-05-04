@@ -33,11 +33,10 @@ const fetchData = async (
   }
 }
 
-const RoomContent = ({ room, player, setError }) => {
+const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
   const { userJwt } = useAuth()
   const [playerJwt, setPlayerJwt] = React.useState()
   const [socketIsConnected, setSocketIsConnected] = React.useState()
-  const [roomState, setRoomState] = React.useState()
   const [playerTurns, setPlayerTurns] = React.useState([])
   const [playerIsNext, setPlayerIsNext] = React.useState(false)
   const [notification, setNotification] = React.useState()
