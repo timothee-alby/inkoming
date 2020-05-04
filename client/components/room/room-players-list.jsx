@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const RoomPlayersList = ({ roomState }) => {
+const RoomPlayersList = ({ roomState, mePlayer, setError }) => {
   const classes = useStyles()
   const players = roomState.all_players || []
 
@@ -33,7 +33,12 @@ const RoomPlayersList = ({ roomState }) => {
     >
       {players.map(player => (
         <Box key={player.id}>
-          <RoomPlayer player={player} roomState={roomState} />
+          <RoomPlayer
+            player={player}
+            roomState={roomState}
+            mePlayer={mePlayer}
+            setError={setError}
+          />
         </Box>
       ))}
     </Box>

@@ -1,30 +1,21 @@
 import React from 'react'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import SpaIcon from '@material-ui/icons/Spa'
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
-
-const useStyles = makeStyles(theme => ({
-  iconRed: {
-    color: theme.palette.card.red
-  },
-  iconBlack: {
-    color: theme.palette.card.black
-  }
-}))
+import CardRedIcon from '~/components/icons/card-red-icon'
+import CardBlackIcon from '~/components/icons/card-black-icon'
+import CardUnknownIcon from '~/components/icons/card-unknown-icon'
 
 const PlayingCard = ({ colour, className }) => {
-  const classes = useStyles()
-
-  if (!colour) {
-    return <HelpOutlineIcon className={clsx(classes.iconUnknonw, className)} />
+  let CardIcon = null
+  switch (colour) {
+    case 'red':
+      CardIcon = CardRedIcon
+      break
+    case 'black':
+      CardIcon = CardBlackIcon
+      break
+    default:
+      CardIcon = CardUnknownIcon
   }
-
-  return (
-    <SpaIcon
-      className={colour === 'red' ? classes.iconRed : classes.iconBlack}
-    />
-  )
+  return <CardIcon className={className} />
 }
 
 export default PlayingCard

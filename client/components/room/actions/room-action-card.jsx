@@ -1,19 +1,9 @@
 import React from 'react'
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction'
 import { Badge } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
 import PlayingCard from '~/components/room/playing-card'
-
-const useStyles = makeStyles(theme => ({
-  iconRed: {
-    color: theme.palette.card.red
-  },
-  iconBlack: {
-    color: theme.palette.card.black
-  }
-}))
 
 const RoomActionCard = props => {
   const {
@@ -27,7 +17,6 @@ const RoomActionCard = props => {
     colour,
     ...speedDialActionProps
   } = props
-  const classes = useStyles()
   const { userJwt } = useAuth()
   const [remainingCount, setRemainingCount] = React.useState()
   const [canClick, setCanClick] = React.useState()

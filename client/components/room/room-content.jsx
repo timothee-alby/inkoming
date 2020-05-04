@@ -73,7 +73,7 @@ const RoomContent = ({ room, player, setError }) => {
     if (!socketIsConnected) return
 
     fetchData(userJwt, room, player, setRoomState, setPlayerTurns, setError)
-  }, [userJwt, room, socketIsConnected])
+  }, [userJwt, room, socketIsConnected, setError])
 
   React.useEffect(() => {
     if (!roomState) return
@@ -85,7 +85,11 @@ const RoomContent = ({ room, player, setError }) => {
   return (
     <>
       {roomState && (
-        <RoomPlayersList roomState={roomState} setError={setError} />
+        <RoomPlayersList
+          roomState={roomState}
+          mePlayer={player}
+          setError={setError}
+        />
       )}
       {roomState && (
         <RoomActions
