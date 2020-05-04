@@ -1,17 +1,8 @@
 import React from 'react'
 import { Box } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 import RoomPlayerTurn from '~/components/room/player/room-player-turn'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center'
-  }
-}))
-
 const RoomPlayerTurns = ({ roomState, mePlayer, turns, setError }) => {
-  const classes = useStyles()
   const [cardTurns, setCardTurns] = React.useState([])
   const [unknownCardTurns, setUnknownCardTurns] = React.useState([])
 
@@ -32,7 +23,7 @@ const RoomPlayerTurns = ({ roomState, mePlayer, turns, setError }) => {
   }, [cardTurns])
 
   return (
-    <Box className={classes.root}>
+    <>
       {cardTurns.map((turn, idx) => (
         <Box key={turn.id}>
           <RoomPlayerTurn
@@ -44,7 +35,7 @@ const RoomPlayerTurns = ({ roomState, mePlayer, turns, setError }) => {
           />
         </Box>
       ))}
-    </Box>
+    </>
   )
 }
 
