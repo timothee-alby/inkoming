@@ -2,6 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import IconButtonTernary from '~/components/elements/icon-button-ternary'
 
+import PanToolIcon from '@material-ui/icons/PanTool'
 import Filter1Icon from '@material-ui/icons/Filter1'
 import Filter2Icon from '@material-ui/icons/Filter2'
 import Filter3Icon from '@material-ui/icons/Filter3'
@@ -37,16 +38,21 @@ const useStyles = makeStyles(theme => ({
 
 const PlayingBet = ({ turns }) => {
   const classes = useStyles()
-  const [maxBet, setMaxBet] = React.useState([])
+  const [maxBet, setMaxBet] = React.useState(null)
+  const [folded, setFolded] = React.useState(false)
   const [BetIcon, setBetIcon] = React.useState(null)
 
   React.useEffect(() => {
-    setMaxBet(
-      Math.max.apply(
-        Math,
-        turns.map(turn => turn.bet)
+    if (turns.find(turn => turn.fold)) {
+      setFolded(true)
+    } else {
+      setMaxBet(
+        Math.max.apply(
+          Math,
+          turns.map(turn => turn.bet)
+        )
       )
-    )
+    }
   }, [turns])
 
   React.useEffect(() => {
@@ -54,11 +60,10 @@ const PlayingBet = ({ turns }) => {
     setBetIcon(betIcons[betIndex])
   }, [maxBet])
 
-  if (!BetIcon) return null
-
   return (
     <IconButtonTernary aria-label={maxBet} disabled>
-      <BetIcon className={classes.actionIcon} />
+      {folded && <PanToolIcon className={classes.actionIcon} />}
+      {!folded && BetIcon && <BetIcon className={classes.actionIcon} />}
     </IconButtonTernary>
   )
 }
