@@ -2,9 +2,9 @@ import React from 'react'
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction'
 import { Badge } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import SpaIcon from '@material-ui/icons/Spa'
 import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
+import PlayingCard from '~/components/room/playing-card'
 
 const useStyles = makeStyles(theme => ({
   badge: {
@@ -77,11 +77,7 @@ const RoomActionCard = props => {
       <SpeedDialAction
         {...speedDialActionProps}
         key={colour}
-        icon={
-          <SpaIcon
-            className={colour === 'red' ? classes.iconRed : classes.iconBlack}
-          />
-        }
+        icon={<PlayingCard colour={colour} />}
         disabled={!canClick}
         tooltipTitle={`Play ${colour}`}
         onClick={handleClick}
