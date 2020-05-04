@@ -1,20 +1,38 @@
 import React from 'react'
-import { Box, Typography, Badge } from '@material-ui/core'
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  LinearProgress
+} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import RoomPlayerAvatar from '~/components/room/player/room-player-avatar'
+import RoomPlayerTurns from '~/components/room/player/room-player-turns'
 
-const RoomPlayersList = ({ player, roomState }) => {
+const useStyles = makeStyles(theme => ({
+  content: {
+    textAlign: 'center'
+  }
+}))
+
+const RoomPlayer = ({ player, roomState }) => {
+  const classes = useStyles()
   const isNext = player.id === roomState.next_player_id
+
   return (
-    <Box>
-      {isNext && (
-        <Badge color="secondary" badgeContent="next">
-          <Typography variant="h6">{player.nickname}</Typography>
-        </Badge>
-      )}
-      {!isNext && <Typography variant="h6">{player.nickname}</Typography>}
-      <Typography variant="subtitle2">{player.points} points</Typography>
-      <Typography variant="subtitle2">{player.total_cards} cards</Typography>
-    </Box>
+    <Card>
+      <CardHeader
+        title={player.nickname}
+        variant="rounded"
+        avatar={<RoomPlayerAvatar player={player} />}
+        subheader={`${player.total_cards} cards`}
+      ></CardHeader>
+      <CardContent className={classes.content}>
+        <RoomPlayerTurns player={player} allTurns={roomState.all_turns} />
+      </CardContent>
+      {isNext && <LinearProgress />}
+    </Card>
   )
 }
 
-export default RoomPlayersList
+export default RoomPlayer

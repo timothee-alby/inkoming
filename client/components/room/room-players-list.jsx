@@ -1,8 +1,16 @@
 import React from 'react'
-import { Grid, Box, Typography } from '@material-ui/core'
+import { Container, Grid, Box, Typography } from '@material-ui/core'
 import RoomPlayer from '~/components/room/room-player'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    minHeight: `calc(100vh - ${theme.spacing(12)}px)`
+  }
+}))
 
 const RoomPlayersList = ({ roomState }) => {
+  const classes = useStyles()
   const players = roomState.all_players || []
 
   if (players.length === 0) {
@@ -16,14 +24,18 @@ const RoomPlayersList = ({ roomState }) => {
   }
 
   return (
-    <Box display="flex" justifyContent="center">
-      <Grid container spacing={2}>
-        {players.map(player => (
-          <Grid item xs={12} key={player.id}>
-            <RoomPlayer player={player} roomState={roomState} />
-          </Grid>
-        ))}
-      </Grid>
+    <Box
+      display="flex"
+      flexWrap="wrap"
+      alignItems="center"
+      justifyContent="space-around"
+      className={classes.root}
+    >
+      {players.map(player => (
+        <Box key={player.id}>
+          <RoomPlayer player={player} roomState={roomState} />
+        </Box>
+      ))}
     </Box>
   )
 }
