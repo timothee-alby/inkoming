@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 
 const RoomActions = props => {
   const classes = useStyles()
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(false)
   const { roomState, player } = props
 
   React.useEffect(() => {

@@ -7,12 +7,6 @@ import milou from '~/lib/milou'
 import PlayingCard from '~/components/room/playing-card'
 
 const useStyles = makeStyles(theme => ({
-  badge: {
-    marginTop: theme.spacing(4)
-  },
-  action: {
-    marginTop: theme.spacing(3) * -1
-  },
   iconRed: {
     color: theme.palette.card.red
   },
@@ -72,7 +66,10 @@ const RoomActionCard = props => {
       overlap="circle"
       badgeContent={remainingCount}
       invisible={!speedDialActionProps.open}
-      className={classes.badge}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right'
+      }}
     >
       <SpeedDialAction
         {...speedDialActionProps}
@@ -81,7 +78,6 @@ const RoomActionCard = props => {
         disabled={!canClick}
         tooltipTitle={`Play ${colour}`}
         onClick={handleClick}
-        className={classes.action}
       />
     </Badge>
   )
