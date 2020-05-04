@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@material-ui/core'
+import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -10,7 +10,11 @@ const useStyles = makeStyles(theme => ({
 
 const Content = props => {
   const classes = useStyles()
-  return <Box className={classes.root}>{props.children}</Box>
+  return (
+    <Container maxWidth="sm" className={classes.root}>
+      {props.children}
+    </Container>
+  )
 }
 
 export default Content
