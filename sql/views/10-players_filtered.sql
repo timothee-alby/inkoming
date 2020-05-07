@@ -6,7 +6,10 @@ CREATE OR REPLACE VIEW players_filtered AS
     players.user_id AS user_id,
     players.nickname AS nickname,
     players.created_at AS created_at,
-    COUNT(turns.fold) = 0 AS standing,
+    (
+      COALESCE(ARRAY_LENGTH(players.cards, 1), 0) > 0
+      AND COUNT(turns.fold) = 0
+    ) AS standing,
     ARRAY_LENGTH(players.cards, 1) AS total_cards,
     COUNT(turns.card) AS carded_cards,
     (
