@@ -76,6 +76,9 @@ enriched_room_states_2 AS (
     WHEN challenger_player_id IS NOT NULL THEN
       -- challenge mode has started
       NULL
+    WHEN total_players < 2 THEN
+      -- not enough players yet
+      NULL
     WHEN last_standing_player_id IS NULL THEN
       -- no player has played yet. First player is next
       standing_player_ids[1]

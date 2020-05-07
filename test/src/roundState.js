@@ -225,4 +225,40 @@ describe('Room State', async function() {
       )
     })
   })
+
+  describe('with only one player', async function() {
+    beforeEach(async function() {
+      const { users, rooms } = await fixture.setState({
+        users: 1,
+        rooms: ([user1]) => [
+          { as: user1, user_id: user1.id, name: 'Foo Name' }
+        ],
+        players: ([user1], [room]) => [
+          {
+            as: user1,
+            room_id: room.id,
+            user_id: user1.id,
+            nickname: 'user1'
+          }
+        ]
+      })
+      roomId = rooms[0].id
+      user1 = users[0]
+    })
+
+    it('next player is null', async function() {
+      const { response, json } = await fetch.get(
+        `/rooms?id=eq.${roomId}&select=*,room_states(*)`,
+        user1
+      )
+      expect(response.status).to.equal(200)
+
+      const [{ room_states: roomStates }] = json
+      const [roomState] = roomStates
+      expect(roomState.next_player_id).to.equal(
+        null,
+        'unexpected roomState.max_bet'
+      )
+    })
+  })
 })
