@@ -23,7 +23,7 @@ CREATE OR REPLACE FUNCTION public.api_turns_validate_card() RETURNS TRIGGER LANG
     END IF;
 
     total_cards_of_type =
-      ARRAY_LENGTH(ARRAY_POSITIONS(player.cards, NEW.card), 1);
+      COALESCE(ARRAY_LENGTH(ARRAY_POSITIONS(player.cards, NEW.card), 1), 0);
 
     IF total_cards_of_type < 1 THEN
       RAISE EXCEPTION 'api_turns_validate_card'

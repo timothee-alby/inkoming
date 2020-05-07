@@ -57,7 +57,17 @@ const clearState = async function() {
   return sequelize.query('DELETE FROM api.rooms')
 }
 
+// quick and dirty way to set a player's card instead of playing multiple rounds
+const setPlayerCards = async function(playerId, cards) {
+  return sequelize.query(
+    `UPDATE api.players SET cards = '{${cards.join(
+      ','
+    )}}' WHERE id = '${playerId}';`
+  )
+}
+
 module.exports = {
   clearState,
-  setState
+  setState,
+  setPlayerCards
 }
