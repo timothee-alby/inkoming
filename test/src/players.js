@@ -3,15 +3,16 @@ const fetch = require('./helpers/fetch')
 const fixture = require('./helpers/fixture')
 
 describe('Players', async function() {
-  let user1, user2, roomId
+  let user1, user2, user3, player1, roomId
 
   before(async function() {
     const { users, rooms } = await fixture.setState({
-      users: 2,
+      users: 3,
       rooms: ([user1]) => [{ as: user1, user_id: user1.id, name: 'Foo Name' }]
     })
     user1 = users[0]
     user2 = users[1]
+    user3 = users[2]
     roomId = rooms[0].id
   })
 
@@ -36,12 +37,13 @@ describe('Players', async function() {
   })
 
   it('player 1 can join', async function() {
-    const { response } = await fetch.post('/players', user1, {
+    const { response, json } = await fetch.post('/players', user1, {
       room_id: roomId,
       user_id: user1.id,
       nickname: 'My sweet nickname'
     })
     expect(response.status).to.equal(201)
+    player1 = json
   })
 
   it('player 2 can join', async function() {
@@ -131,5 +133,19 @@ describe('Players', async function() {
       expect(response.status).to.equal(403)
       expect(json.details).to.equal('invalid_player_id')
     })
+  })
+
+  it('cannot join when round has started', async function() {
+    await fetch.post('/turns', user1, {
+      player_id: player1.id,
+      card: 'black'
+    })
+    const { response, json } = await fetch.post('/players', user3, {
+      room_id: roomId,
+      user_id: user3.id,
+      nickname: 'nickname'
+    })
+    expect(response.status).to.equal(400)
+    expect(json.details).to.equal('round_has_started')
   })
 })
