@@ -10,7 +10,7 @@ CREATE OR REPLACE VIEW players_filtered AS
       COALESCE(ARRAY_LENGTH(players.cards, 1), 0) > 0
       AND COUNT(turns.fold) = 0
     ) AS standing,
-    ARRAY_LENGTH(players.cards, 1) AS total_cards,
+    COALESCE(ARRAY_LENGTH(players.cards, 1), 0) AS total_cards,
     COUNT(turns.card) AS carded_cards,
     (
       COUNT(turns.card)

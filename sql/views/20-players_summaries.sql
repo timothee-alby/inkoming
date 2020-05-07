@@ -21,7 +21,15 @@ CREATE OR REPLACE VIEW players_summaries AS
         ORDER BY created_at, id
       )
       FILTER (WHERE standing)
-    ) AS standing_player_ids
+    ) AS standing_player_ids,
+    (
+      COUNT(DISTINCT id)
+      FILTER (WHERE total_cards > 0)
+    ) AS total_players_with_cards,
+    (
+      ARRAY_AGG(id)
+      FILTER (WHERE points > 1)
+    ) AS game_winner_by_points_player_ids
   FROM players_filtered
   GROUP BY room_id
 );

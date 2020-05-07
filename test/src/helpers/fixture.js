@@ -65,9 +65,15 @@ const setPlayerCards = async function(playerId, cards) {
     )}}' WHERE id = '${playerId}';`
   )
 }
+const setPlayerPoints = async function(playerId, points) {
+  return sequelize.query(
+    `UPDATE api.players SET points = ${points} WHERE id = '${playerId}';`
+  )
+}
 
 module.exports = {
   clearState,
   setState,
-  setPlayerCards
+  setPlayerCards,
+  setPlayerPoints
 }

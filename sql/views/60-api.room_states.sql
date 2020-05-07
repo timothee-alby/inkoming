@@ -21,6 +21,14 @@ enriched_room_states_1 AS (
     last_standing_player_ids,
     last_standing_player_id,
     CASE
+    WHEN total_players_with_cards = 1 THEN
+      standing_player_ids[1]
+    WHEN ARRAY_LENGTH(game_winner_by_points_player_ids, 1) = 1 THEN
+      game_winner_by_points_player_ids[1]
+    ELSE
+      NULL
+    END AS game_winner_player_id,
+    CASE
     WHEN last_bet = total_cards OR total_standing_players = 1 THEN
      last_standing_player_id
     ELSE
@@ -79,6 +87,9 @@ enriched_room_states_2 AS (
     WHEN total_players < 2 THEN
       -- not enough players yet
       NULL
+    WHEN game_winner_player_id IS NOT NULL THEN
+      -- game has ended
+      NULL
     WHEN last_standing_player_id IS NULL THEN
       -- no player has played yet. First player is next
       standing_player_ids[1]
@@ -95,7 +106,8 @@ enriched_room_states_2 AS (
         -- last player is not last in turn. Next player in turn goes next
         standing_player_ids[(last_standing_player_position + 1)]
       END
-    END AS next_player_id
+    END AS next_player_id,
+    game_winner_player_id
     FROM enriched_room_states_1
   )
 
@@ -126,7 +138,8 @@ enriched_room_states_2 AS (
     can_challenge,
     min_bet,
     max_bet,
-    next_player_id
+    next_player_id,
+    game_winner_player_id
   FROM api.rooms -- to enforce row-level policy
   JOIN api.players ON players.room_id = rooms.id -- to get resource embedding
   JOIN enriched_room_states_2 ON rooms.id = enriched_room_states_2.room_id
