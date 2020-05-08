@@ -22,7 +22,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const RoomPlayer = ({ player, roomState, mePlayer, setError }) => {
+const RoomPlayer = ({
+  player,
+  roomState,
+  mePlayer,
+  challengerPlayer,
+  setError
+}) => {
   const classes = useStyles()
   const [isNext, setIsNext] = React.useState(false)
   const [playerTurns, setPlayerTurns] = React.useState([])
@@ -55,6 +61,7 @@ const RoomPlayer = ({ player, roomState, mePlayer, setError }) => {
           roomState={roomState}
           mePlayer={mePlayer}
           turns={playerTurns}
+          challengerPlayer={challengerPlayer}
           setError={setError}
         />
       </CardContent>

@@ -2,7 +2,13 @@ import React from 'react'
 import { Box } from '@material-ui/core'
 import RoomPlayerTurn from '~/components/room/player/room-player-turn'
 
-const RoomPlayerTurns = ({ roomState, mePlayer, turns, setError }) => {
+const RoomPlayerTurns = ({
+  roomState,
+  mePlayer,
+  turns,
+  challengerPlayer,
+  setError
+}) => {
   const [cardTurns, setCardTurns] = React.useState([])
   const [unknownCardTurns, setUnknownCardTurns] = React.useState([])
 
@@ -31,6 +37,7 @@ const RoomPlayerTurns = ({ roomState, mePlayer, turns, setError }) => {
             mePlayer={mePlayer}
             turn={turn}
             stacked={idx < unknownCardTurns.length - 1}
+            challengerPlayer={challengerPlayer}
             setError={setError}
           />
         </Box>

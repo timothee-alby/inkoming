@@ -12,7 +12,22 @@ const useStyles = makeStyles(theme => ({
 
 const RoomPlayersList = ({ roomState, mePlayer, setError }) => {
   const classes = useStyles()
-  const players = roomState.all_players || []
+  const [players, setPlayers] = React.useState([])
+  const [challengerPlayer, setChallengerPlayer] = React.useState()
+
+  React.useEffect(() => {
+    if (!roomState) return
+
+    setPlayers(roomState.all_players || [])
+  }, [roomState])
+
+  React.useEffect(() => {
+    if (!roomState) return
+
+    setChallengerPlayer(
+      players.find(player => player.id === roomState.challenger_player_id)
+    )
+  }, [roomState, players])
 
   if (players.length === 0) {
     return (
@@ -38,6 +53,7 @@ const RoomPlayersList = ({ roomState, mePlayer, setError }) => {
             player={player}
             roomState={roomState}
             mePlayer={mePlayer}
+            challengerPlayer={challengerPlayer}
             setError={setError}
           />
         </Box>
