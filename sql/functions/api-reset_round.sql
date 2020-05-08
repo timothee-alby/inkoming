@@ -29,6 +29,11 @@ $$
         USING DETAIL = 'round_has_no_outcome';
     END IF;
 
+    -- delete all turns first
+    DELETE FROM api.turns
+    WHERE turns.room_id = room_state.room_id;
+
+    -- THEN update the challenger player. This will trigger notify_room()
     IF room_state.outcome = 'won' THEN
       UPDATE api.players
       SET points = points + 1
@@ -37,10 +42,6 @@ $$
       PERFORM remove_card_from_player(room_state.challenger_player_id);
     END IF;
 
-    DELETE FROM api.turns
-    WHERE turns.room_id = room_state.room_id;
-
-    PERFORM notify_room()
     -- all good; respond with 200
   END
 $$;

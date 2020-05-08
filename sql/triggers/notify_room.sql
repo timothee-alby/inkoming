@@ -38,8 +38,3 @@ CREATE TRIGGER notify_room
 AFTER INSERT OR UPDATE
 ON api.players
 FOR EACH ROW EXECUTE FUNCTION public.notify_room();
-
-CREATE TRIGGER notify_room
-AFTER UPDATE
-ON api.rooms
-FOR EACH ROW EXECUTE FUNCTION public.notify_room();
