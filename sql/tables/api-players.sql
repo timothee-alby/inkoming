@@ -5,7 +5,8 @@ CREATE TABLE api.players (
     nickname character varying NOT NULL CONSTRAINT name_min_length CHECK (char_length(nickname) > 0),
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     cards public.card[] DEFAULT ARRAY['black'::public.card, 'red'::public.card, 'red'::public.card, 'red'::public.card] NOT NULL,
-    points integer NOT NULL DEFAULT 0
+    points integer NOT NULL DEFAULT 0,
+    last_challenger_at timestamp without time zone
 );
 
 ALTER TABLE api.players OWNER TO master;

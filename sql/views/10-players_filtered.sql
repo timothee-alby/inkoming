@@ -16,7 +16,8 @@ CREATE OR REPLACE VIEW players_filtered AS
       COUNT(turns.card)
       FILTER (WHERE turns.revealed)
     ) AS revealed_cards,
-    players.points AS points
+    players.points AS points,
+    last_challenger_at
   FROM api.players
   LEFT JOIN api.turns ON turns.player_id = players.id
   GROUP BY players.room_id, players.id

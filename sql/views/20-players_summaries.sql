@@ -29,7 +29,13 @@ CREATE OR REPLACE VIEW players_summaries AS
     (
       ARRAY_AGG(id)
       FILTER (WHERE points > 1)
-    ) AS game_winner_by_points_player_ids
+    ) AS game_winner_by_points_player_ids,
+    (
+      ARRAY_AGG(
+        id
+        ORDER BY last_challenger_at DESC NULLS LAST, created_at ASC
+      )
+    ) AS next_first_player_ids
   FROM players_filtered
   GROUP BY room_id
 );

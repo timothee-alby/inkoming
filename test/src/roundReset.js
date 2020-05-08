@@ -84,11 +84,14 @@ describe('Round Reset', async function() {
         user1
       )
       const [{ room_states: roomStates }] = json
-      const [{ all_players: allPlayers }] = roomStates
+      const [roomState] = roomStates
+      const { all_players: allPlayers } = roomState
       const [player1State, player2State, player3State] = allPlayers
       expect(player1State.points).to.equal(1)
       expect(player2State.points).to.equal(0)
       expect(player3State.points).to.equal(0)
+
+      expect(roomState.next_player_id).to.equal(player1Id)
     })
   })
 

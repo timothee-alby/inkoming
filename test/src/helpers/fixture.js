@@ -18,7 +18,9 @@ const postDatum = async function(path, datum) {
 
   if (response.status < 200 || response.status >= 300) {
     throw new Error(
-      `Could not create fixture on ${path}! (${JSON.stringify(datum)})`
+      `Could not create fixture on ${path}! (${JSON.stringify(
+        datum
+      )}) (${JSON.stringify(json)})`
     )
   }
 

@@ -36,7 +36,7 @@ $$
     -- THEN update the challenger player. This will trigger notify_room()
     IF room_state.outcome = 'won' THEN
       UPDATE api.players
-      SET points = points + 1
+      SET points = points + 1, last_challenger_at = NOW()
       WHERE players.id = room_state.challenger_player_id;
     ELSE
       PERFORM remove_card_from_player(room_state.challenger_player_id);

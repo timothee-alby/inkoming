@@ -19,7 +19,9 @@ $$
     FROM player_cards;
 
     UPDATE api.players
-    SET cards =
+    SET
+    last_challenger_at = NOW(),
+    cards =
       CASE
       WHEN card_to_remove = 'black'::CARD THEN
         -- easy: as there's one black card

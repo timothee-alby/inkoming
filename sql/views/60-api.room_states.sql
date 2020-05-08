@@ -43,7 +43,12 @@ enriched_room_states_1 AS (
     ARRAY_POSITION(
       standing_player_ids,
       last_standing_player_id
-    ) AS last_standing_player_position
+    ) AS last_standing_player_position,
+    ARRAY(
+        SELECT *
+        FROM UNNEST(next_first_player_ids) AS val
+        WHERE val = ANY(standing_player_ids)
+    ) AS next_standing_first_player_ids
   FROM players_summaries
   LEFT JOIN turns_summaries USING (room_id)
 ),
@@ -80,7 +85,7 @@ enriched_room_states_2 AS (
     challenger_player_id IS NOT NULL AS can_challenge,
     COALESCE(last_bet, 0) + 1 AS min_bet,
     COALESCE(total_cards, 0) AS max_bet,
-    CASE
+    CASE -- next_player_id
     WHEN challenger_player_id IS NOT NULL THEN
       -- challenge mode has started
       NULL
@@ -92,7 +97,7 @@ enriched_room_states_2 AS (
       NULL
     WHEN last_standing_player_id IS NULL THEN
       -- no player has played yet. First player is next
-      standing_player_ids[1]
+      next_standing_first_player_ids[1]
     WHEN total_standing_players = 1 THEN
       -- only one player left. No next player
       NULL
