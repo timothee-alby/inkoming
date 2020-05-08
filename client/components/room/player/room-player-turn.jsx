@@ -42,6 +42,7 @@ const RoomPlayerTurn = ({
       roomState.outcome || // the round has ended
       !challengerPlayer || // no challenger
       turn.revealed || // card already revealed
+      stacked || // the card is stacked behind another
       challengerPlayer.id !== mePlayer.id // only the challenger can reveal cards
     ) {
       return setCardDisabled(true)
