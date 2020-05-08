@@ -9,7 +9,7 @@ import RoomNotification from '~/components/room/room-notification'
 const fetchData = async (
   userJwt,
   room,
-  player,
+  playerId,
   setRoomState,
   setPlayerTurns,
   setError
@@ -24,7 +24,7 @@ const fetchData = async (
     setRoomState(roomState)
 
     const turns = await milou({
-      url: `${process.env.API_URL}/turns?player_id=eq.${player.id}`,
+      url: `${process.env.API_URL}/turns?player_id=eq.${playerId}`,
       jwt: userJwt
     })
     setPlayerTurns(turns)
@@ -36,23 +36,32 @@ const fetchData = async (
 const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
   const { userJwt } = useAuth()
   const [playerJwt, setPlayerJwt] = React.useState()
+  const [playerId, setPlayerId] = React.useState()
   const [socketIsConnected, setSocketIsConnected] = React.useState()
   const [playerTurns, setPlayerTurns] = React.useState([])
   const [playerIsNext, setPlayerIsNext] = React.useState(false)
   const [notification, setNotification] = React.useState()
 
   React.useEffect(() => {
+    if (!player) return
+
+    setPlayerId(player.id)
+  }, [player])
+
+  React.useEffect(() => {
+    if (!playerId) return
+
     milou({
       method: 'POST',
       url: `${process.env.API_URL}/rpc/connect_player`,
       jwt: userJwt,
       body: {
-        player_id: player.id
+        player_id: playerId
       }
     })
       .then(json => setPlayerJwt(json.jwt))
       .catch(setError)
-  }, [userJwt, player, setError])
+  }, [userJwt, playerId, setError])
 
   React.useEffect(() => {
     if (!playerJwt) return
@@ -64,21 +73,29 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
       setRoomState
     )
     socketHelper.createSocket()
-  }, [playerJwt])
+  }, [playerJwt, setSocketIsConnected, setNotification, setRoomState])
 
   React.useEffect(() => {
     // don't fetch the room state until the socket is connected to make sure
     // we're up-to-date
     if (!socketIsConnected) return
 
-    fetchData(userJwt, room, player, setRoomState, setPlayerTurns, setError)
-  }, [userJwt, room, socketIsConnected, setError])
+    fetchData(userJwt, room, playerId, setRoomState, setPlayerTurns, setError)
+  }, [
+    socketIsConnected,
+    userJwt,
+    room,
+    playerId,
+    setRoomState,
+    setPlayerTurns,
+    setError
+  ])
 
   React.useEffect(() => {
     if (!roomState) return
 
-    setPlayerIsNext(player.id === roomState.next_player_id)
-  }, [roomState, player])
+    setPlayerIsNext(playerId === roomState.next_player_id)
+  }, [roomState, playerId])
 
   console.log('roomState', roomState)
   return (

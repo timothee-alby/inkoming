@@ -30,6 +30,7 @@ const Room = () => {
   const [roomState, setRoomState] = React.useState()
   const [player, setPlayer] = React.useState()
   const [hasJoined, setHasJoined] = React.useState(false)
+  const [lastChallengerAt, setLastChallengerAt] = React.useState()
 
   // fetch the room and its player. There will be only 0 or 1 player as the user
   // can only see its player
@@ -43,7 +44,7 @@ const Room = () => {
       .then(rooms => setRoom(rooms[0]))
       .catch(setError)
       .finally(() => setInFlight(false))
-  }, [userJwt, roomId, hasJoined])
+  }, [userJwt, roomId, hasJoined, lastChallengerAt])
 
   // extract player from room
   // room)
@@ -52,6 +53,21 @@ const Room = () => {
 
     setPlayer(room.players[0])
   }, [room])
+
+  React.useEffect(() => {
+    if (!roomState) return
+
+    const lastChallengers = roomState.all_players.filter(
+      player => player.last_challenger_at
+    )
+    if (!lastChallengers.length) return
+
+    setLastChallengerAt(
+      Math.max(
+        ...lastChallengers.map(player => new Date(player.last_challenger_at))
+      )
+    )
+  }, [roomState])
 
   return (
     <>
