@@ -116,7 +116,7 @@ enriched_room_states_2 AS (
     FROM enriched_room_states_1
   )
 
-  SELECT
+  SELECT DISTINCT ON (players.room_id)
     players.room_id,
     all_players,
     all_turns,
