@@ -18,10 +18,10 @@ module.exports = phase => {
 
   const env = {
     API_URL: (() => {
-      if (isDev) return 'http://localhost:3030'
+      return process.env.API_URL || 'http://localhost:3030'
     })(),
     WEBSOCKET_URL: (() => {
-      if (isDev) return 'ws://localhost:3050'
+      return process.env.WEBSOCKET_URL || 'ws://localhost:3050'
     })()
   }
 
