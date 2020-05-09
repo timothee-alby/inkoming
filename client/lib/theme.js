@@ -20,7 +20,9 @@ const colours = {
 
   // misc
   maximumBlueGreen: '#5ABCB9',
-  powderBlue: '#ACE3E9'
+  powderBlue: '#ACE3E9',
+
+  darkSpace: '#273554'
 }
 
 const theme = createMuiTheme({
@@ -35,7 +37,7 @@ const theme = createMuiTheme({
       light: 'rgb(143, 105, 111)'
     },
     background: {
-      default: colours.powderBlue,
+      default: colours.darkSpace,
       header: { main: colours.cBlue, gradient: colours.tealBlue },
       action: {
         main: colours.myrtieGreen,

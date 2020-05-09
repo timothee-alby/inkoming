@@ -12,10 +12,13 @@ class MyDocument extends Document {
           />
           <link rel="stylesheet" href="/styles/dist/roboto.css" />
           <link rel="stylesheet" href="/styles/dist/pattern.min.css" />
+          <link rel="stylesheet" href="/styles/dist/nightsky.css" />
         </Head>
-        <body className="pattern-cross-dots-sm">
-          <Main />
-          <NextScript />
+        <body className="stars">
+          <div className="twinkling">
+            <Main />
+            <NextScript />
+          </div>
         </body>
       </Html>
     )
