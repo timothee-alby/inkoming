@@ -19,7 +19,6 @@ import amber from '@material-ui/core/colors/amber'
 import orange from '@material-ui/core/colors/orange'
 import deepOrange from '@material-ui/core/colors/deepOrange'
 import brown from '@material-ui/core/colors/brown'
-import grey from '@material-ui/core/colors/grey'
 import blueGrey from '@material-ui/core/colors/blueGrey'
 
 const colours = [
@@ -40,7 +39,6 @@ const colours = [
   orange,
   deepOrange,
   brown,
-  grey,
   blueGrey
 ]
 
