@@ -12,6 +12,13 @@ import RequestError from '~/components/request-error'
 import RoomJoinDialog from '~/components/room/room-join-dialog'
 import RoomContent from '~/components/room/room-content'
 import RoundReset from '~/components/room/round-reset'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles(theme => ({
+  content: {
+    padding: theme.spacing(0)
+  }
+}))
 
 const NavigateBackLogo = () => (
   <Link href={'/rooms'}>
@@ -22,6 +29,7 @@ const NavigateBackLogo = () => (
 )
 
 const Room = () => {
+  const classes = useStyles()
   const { id: roomId } = useRouter().query
   const { userJwt } = useAuth()
   const [inFlight, setInFlight] = React.useState(true)
@@ -81,7 +89,7 @@ const Room = () => {
           />
         )}
       </Header>
-      <Content>
+      <Content className={classes.content}>
         {inFlight && <ContentLoading />}
         {error && <RequestError setError={setError} />}
         {!room && !inFlight && !error && (

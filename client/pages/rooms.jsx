@@ -8,8 +8,16 @@ import RoomsListEmpty from '~/components/rooms/rooms-list-empty'
 import RoomCreate from '~/components/rooms/room-create'
 import RequestError from '~/components/request-error'
 import ContentLoading from '~/components/layout/content-loading'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles(theme => ({
+  content: {
+    padding: theme.spacing(2)
+  }
+}))
 
 const Rooms = () => {
+  const classes = useStyles()
   const { userJwt } = useAuth()
   const [rooms, setRooms] = React.useState(null)
   const [inFlight, setInFlight] = React.useState(true)
@@ -32,7 +40,7 @@ const Rooms = () => {
       <Header title="Rooms">
         <RoomCreate buttonVariant="outlined" />
       </Header>
-      <Content>
+      <Content className={classes.content}>
         {inFlight && <ContentLoading />}
         {error && <RequestError />}
         {rooms && rooms.length === 0 && <RoomsListEmpty />}

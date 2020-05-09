@@ -4,14 +4,14 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(2)
+    // padding: theme.spacing(0)
   }
 }))
 
 const Content = props => {
   const classes = useStyles()
   return (
-    <Container maxWidth="sm" className={classes.root}>
+    <Container maxWidth="sm" {...props}>
       {props.children}
     </Container>
   )

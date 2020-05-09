@@ -17,7 +17,7 @@ import PlayingBet from '~/components/room/playing-bet'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: theme.spacing(4)
+    margin: theme.spacing(2)
   },
   header: {
     paddingBottom: theme.spacing(2)
