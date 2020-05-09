@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: theme.spacing(10),
     right: theme.spacing(2)
+  },
+  fab: {
+    borderRadius: '4px'
   }
 }))
 
@@ -42,7 +45,7 @@ const RoomActions = props => {
   return (
     <SpeedDial
       ariaLabel="Actions"
-      className={classes.speedDial}
+      classes={{ root: classes.speedDial, fab: classes.fab }}
       icon={<SpeedDialIcon icon={<SportsVolleyballIcon />} />}
       onClose={handleClose}
       onOpen={handleOpen}
@@ -50,14 +53,38 @@ const RoomActions = props => {
       direction="down"
     >
       {roomState.can_card && (
-        <RoomActionCard {...props} setOpen={setOpen} colour="red" />
+        <RoomActionCard
+          {...props}
+          setOpen={setOpen}
+          className={classes.fab}
+          FabProps={{ size: 'medium' }}
+          colour="red"
+        />
       )}
       {roomState.can_card && (
-        <RoomActionCard {...props} setOpen={setOpen} colour="black" />
+        <RoomActionCard
+          {...props}
+          setOpen={setOpen}
+          className={classes.fab}
+          FabProps={{ size: 'medium' }}
+          colour="black"
+        />
       )}
-      {roomState.can_bet && <RoomActionBet {...props} setOpen={setOpen} />}
+      {roomState.can_bet && (
+        <RoomActionBet
+          {...props}
+          setOpen={setOpen}
+          className={classes.fab}
+          FabProps={{ size: 'medium' }}
+        />
+      )}
       {roomState.can_bet && !roomState.can_card && (
-        <RoomActionFold {...props} setOpen={setOpen} />
+        <RoomActionFold
+          {...props}
+          setOpen={setOpen}
+          className={classes.fab}
+          FabProps={{ size: 'medium' }}
+        />
       )}
     </SpeedDial>
   )
