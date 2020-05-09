@@ -1,18 +1,114 @@
 import React from 'react'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import LocalFloristIcon from '@material-ui/icons/LocalFlorist'
+import SvgIcon from '@material-ui/core/SvgIcon'
 
-const useStyles = makeStyles(theme => ({
-  icon: {
-    color: theme.palette.card.red
-  }
-}))
-
-const CardRedIcon = ({ colour, className }) => {
-  const classes = useStyles()
-
-  return <LocalFloristIcon className={clsx(classes.icon, className)} />
+const CardRedIcon = props => {
+  return (
+    <SvgIcon {...props}>
+      <svg
+        enableBackground="new 0 0 512 512"
+        height="24"
+        width="24"
+        version="1.1"
+        viewBox="0 0 512 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="256" cy="256" fill="#273554" id="Background_12_" r="256" />
+        <path
+          d="M379.35,137.811l-46.736,61.823l-27.446,15l-67.37-3.073l-72.337-72.337l-14,8.588  l61.155,143.526l26.078,220.068C244.414,511.787,250.182,512,256,512c136.663,0,248.305-107.089,255.61-241.929L379.35,137.811z"
+          id="Shadow"
+          opacity="0.1"
+        />
+        <g id="Alien_2_">
+          <g id="Alien_1_">
+            <rect
+              fill="#61C9D6"
+              height="109.747"
+              transform="matrix(0.8524 -0.5229 0.5229 0.8524 -73.0919 120.6888)"
+              width="15.715"
+              x="169.366"
+              y="134.935"
+            />
+            <circle cx="151.46" cy="147.811" fill="#90ECFF" r="16.424" />
+            <rect
+              fill="#61C9D6"
+              height="109.747"
+              transform="matrix(-0.8524 -0.5229 0.5229 -0.8524 531.5892 529.6817)"
+              width="15.714"
+              x="332.701"
+              y="134.934"
+            />
+            <circle cx="366.321" cy="147.811" fill="#90ECFF" r="16.423" />
+            <polygon
+              fill="#76D8E5"
+              points="197.998,530.735 198.001,530.733 197.999,530.733   "
+            />
+            <circle cx="257.766" cy="301.766" fill="#90ECFF" r="122.113" />
+            <path
+              d="M135.654,481.988C171.531,501.134,212.494,512,256,512c44.941,0,87.169-11.595,123.879-31.935v-178.3    H135.654V481.988z"
+              fill="#90ECFF"
+            />
+            <circle cx="257.036" cy="277.838" fill="#76D8E5" r="60.67" />
+            <circle cx="257.037" cy="277.838" fill="#FFFFFF" r="51.975" />
+            <circle cx="257.037" cy="277.838" fill="#002C40" r="34.779" />
+            <circle cx="257.037" cy="389.007" fill="#76D8E5" r="41.348" />
+            <circle cx="257.037" cy="389.007" fill="#FFFFFF" r="35.422" />
+            <circle cx="257.037" cy="389.007" fill="#002C40" r="23.703" />
+            <g>
+              <path
+                d="M257.037,486.356c15.081,0,27.308-12.227,27.308-27.309h-54.616     C229.729,474.13,241.955,486.356,257.037,486.356z"
+                fill="#231F20"
+              />
+            </g>
+            <path
+              d="M240.49,480.736c4.595,3.511,10.318,5.62,16.547,5.62c6.229,0,11.951-2.109,16.546-5.62    c-2.343-6.896-8.857-11.866-16.546-11.866C249.348,468.87,242.833,473.84,240.49,480.736z"
+              fill="#FF4F54"
+            />
+            <circle cx="167.886" cy="295.017" fill="#76D8E5" r="2.627" />
+            <circle cx="188.134" cy="446.184" fill="#76D8E5" r="2.627" />
+            <circle cx="150.265" cy="432.983" fill="#76D8E5" r="2.627" />
+            <circle cx="154.387" cy="331.758" fill="#76D8E5" r="11.773" />
+            <circle cx="325.305" cy="440.525" fill="#76D8E5" r="11.773" />
+            <circle cx="189.617" cy="351.806" fill="#76D8E5" r="6.75" />
+            <circle cx="337.078" cy="325.009" fill="#76D8E5" r="6.75" />
+            <circle cx="343.828" cy="291.337" fill="#76D8E5" r="3.765" />
+            <circle cx="357.454" cy="358.555" fill="#76D8E5" r="3.271" />
+            <circle cx="323.579" cy="351.806" fill="#76D8E5" r="6.749" />
+            <circle cx="154.387" cy="384.596" fill="#76D8E5" r="6.75" />
+            <circle cx="196.367" cy="477.613" fill="#76D8E5" r="6.75" />
+            <circle cx="340.558" cy="488.433" fill="#76D8E5" r="6.75" />
+            <circle cx="330.329" cy="384.596" fill="#76D8E5" r="6.75" />
+            <circle cx="357.454" cy="410.079" fill="#76D8E5" r="6.749" />
+            <circle cx="181.385" cy="412.71" fill="#76D8E5" r="6.75" />
+            <circle cx="163.152" cy="459.048" fill="#76D8E5" r="6.749" />
+            <circle cx="205.062" cy="212.879" fill="#76D8E5" r="6.75" />
+            <circle cx="288.327" cy="212.879" fill="#76D8E5" r="6.75" />
+            <circle cx="330.329" cy="245.339" fill="#76D8E5" r="6.75" />
+            <circle cx="177.224" cy="256.674" fill="#76D8E5" r="6.75" />
+            <circle cx="245.843" cy="271.713" fill="#FFFFFF" r="12.509" />
+            <circle cx="249.911" cy="384.596" fill="#FFFFFF" r="8.289" />
+          </g>
+          <g>
+            <path
+              d="M117.199,160.774c-13.439,0-24.333-10.894-24.333-24.333c0,13.439-10.895,24.333-24.333,24.333    c13.439,0,24.333,10.895,24.333,24.333C92.866,171.669,103.76,160.774,117.199,160.774z"
+              fill="#FFFFFF"
+            />
+            <path
+              d="M463.412,312.616c-7.891,0-14.287-6.396-14.287-14.287c0,7.891-6.397,14.287-14.288,14.287    c7.891,0,14.288,6.397,14.288,14.288C449.125,319.014,455.521,312.616,463.412,312.616z"
+              fill="#FFFFFF"
+            />
+            <path
+              d="M315.284,64.642c-6.739,0-12.203-5.463-12.203-12.203c0,6.739-5.463,12.203-12.202,12.203    c6.739,0,12.202,5.463,12.202,12.203C303.081,70.105,308.545,64.642,315.284,64.642z"
+              fill="#FFFFFF"
+            />
+            <path
+              d="M131.487,311.264c-7.891,0-14.288-6.396-14.288-14.288c0,7.892-6.397,14.288-14.288,14.288    c7.891,0,14.288,6.397,14.288,14.288C117.199,317.661,123.596,311.264,131.487,311.264z"
+              fill="#FFFFFF"
+            />
+          </g>
+        </g>
+      </svg>
+    </SvgIcon>
+  )
 }
 
 export default CardRedIcon

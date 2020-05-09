@@ -1,7 +1,7 @@
 import React from 'react'
 import { SpeedDialAction, SpeedDialIcon } from '@material-ui/lab/'
 import { makeStyles } from '@material-ui/core/styles'
-import GavelIcon from '@material-ui/icons/Gavel'
+import BetActionIcon from '~/components/icons/bet-action-icon'
 import CloseIcon from '@material-ui/icons/Close'
 import RoomActionChooseBet from '~/components/room/actions/room-action-choose-bet'
 
@@ -10,6 +10,12 @@ const useStyles = makeStyles(theme => ({
     background: 'none',
     boxShadow: 'none',
     padding: 0
+  },
+  speeDialRoot: {
+    height: '35px'
+  },
+  openIcon: {
+    transform: 'none'
   }
 }))
 
@@ -39,9 +45,10 @@ const RoomActionBet = props => {
       key="bet"
       icon={
         <SpeedDialIcon
-          icon={<GavelIcon />}
-          openIcon={<CloseIcon />}
+          icon={<BetActionIcon fontSize="large" />}
+          openIcon={<CloseIcon fontSize="large" />}
           open={choosingBet}
+          classes={{ root: classes.speeDialRoot, openIcon: classes.openIcon }}
         />
       }
       tooltipTitle={

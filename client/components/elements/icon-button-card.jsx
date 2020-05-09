@@ -4,14 +4,17 @@ import { withStyles } from '@material-ui/core/styles'
 
 const CustomIconButton = withStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
+    padding: theme.spacing(1.5),
+    margin: theme.spacing(1),
+    marginTop: 0,
     '&:hover': {
-      backgroundColor: theme.palette.primary.dark
+      backgroundColor: theme.palette.secondary.dark
     },
-    color: theme.palette.primary.contrastText,
     '&$disabled': {
-      backgroundColor: theme.palette.ternary.main,
-      color: theme.palette.ternary.contrastText
+      marginTop: theme.spacing(1),
+      padding: theme.spacing(0.5),
+      backgroundColor: theme.palette.common.white
     }
   },
   disabled: {}

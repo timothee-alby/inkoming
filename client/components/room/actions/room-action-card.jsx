@@ -63,7 +63,7 @@ const RoomActionCard = props => {
       <SpeedDialAction
         {...speedDialActionProps}
         key={colour}
-        icon={<PlayingCard colour={colour} />}
+        icon={<PlayingCard colour={colour} fontSize="large" />}
         disabled={!canClick}
         tooltipTitle={`Play ${colour}`}
         onClick={handleClick}

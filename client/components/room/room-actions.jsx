@@ -1,10 +1,10 @@
 import React from 'react'
 import { SpeedDial, SpeedDialIcon } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
-import SportsVolleyballIcon from '@material-ui/icons/SportsVolleyball'
 import RoomActionCard from '~/components/room/actions/room-action-card'
 import RoomActionFold from '~/components/room/actions/room-action-fold'
 import RoomActionBet from '~/components/room/actions/room-action-bet'
+import ActionsIcon from '~/components/icons/actions-icon'
 
 const useStyles = makeStyles(theme => ({
   speedDial: {
@@ -13,7 +13,17 @@ const useStyles = makeStyles(theme => ({
     right: theme.spacing(2)
   },
   fab: {
-    borderRadius: '4px'
+    borderRadius: '4px',
+    backgroundColor: theme.palette.secondary.main,
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.dark
+    }
+  },
+  speedDialIconRoot: {
+    height: theme.spacing(8)
+  },
+  speedDialIconIcon: {
+    fontSize: theme.spacing(8)
   }
 }))
 
@@ -46,7 +56,15 @@ const RoomActions = props => {
     <SpeedDial
       ariaLabel="Actions"
       classes={{ root: classes.speedDial, fab: classes.fab }}
-      icon={<SpeedDialIcon icon={<SportsVolleyballIcon />} />}
+      icon={
+        <SpeedDialIcon
+          icon={<ActionsIcon />}
+          classes={{
+            root: classes.speedDialIconRoot,
+            icon: classes.speedDialIconIcon
+          }}
+        />
+      }
       onClose={handleClose}
       onOpen={handleOpen}
       open={open}

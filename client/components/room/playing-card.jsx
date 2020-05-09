@@ -3,7 +3,8 @@ import CardRedIcon from '~/components/icons/card-red-icon'
 import CardBlackIcon from '~/components/icons/card-black-icon'
 import CardUnknownIcon from '~/components/icons/card-unknown-icon'
 
-const PlayingCard = ({ colour, className }) => {
+const PlayingCard = props => {
+  const { colour, ...iconProps } = props
   let CardIcon = null
   switch (colour) {
     case 'red':
@@ -15,7 +16,7 @@ const PlayingCard = ({ colour, className }) => {
     default:
       CardIcon = CardUnknownIcon
   }
-  return <CardIcon className={className} />
+  return <CardIcon {...iconProps} />
 }
 
 export default PlayingCard

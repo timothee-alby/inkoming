@@ -1,8 +1,8 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import IconButtonTernary from '~/components/elements/icon-button-ternary'
+import IconButtonPlayerAction from '~/components/elements/icon-button-player-action'
 
-import PanToolIcon from '@material-ui/icons/PanTool'
+import FoldIcon from '~/components/icons/fold-icon'
 import Filter1Icon from '@material-ui/icons/Filter1'
 import Filter2Icon from '@material-ui/icons/Filter2'
 import Filter3Icon from '@material-ui/icons/Filter3'
@@ -61,10 +61,10 @@ const PlayingBet = ({ turns }) => {
   }, [maxBet])
 
   return (
-    <IconButtonTernary aria-label={maxBet} disabled>
-      {folded && <PanToolIcon className={classes.actionIcon} />}
+    <IconButtonPlayerAction aria-label={maxBet} disabled>
+      {folded && <FoldIcon className={classes.actionIcon} />}
       {!folded && BetIcon && <BetIcon className={classes.actionIcon} />}
-    </IconButtonTernary>
+    </IconButtonPlayerAction>
   )
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction'
-import PanToolIcon from '@material-ui/icons/PanTool'
+import FoldIcon from '~/components/icons/fold-icon'
 import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
 
@@ -40,7 +40,7 @@ const RoomActionFold = props => {
     <SpeedDialAction
       {...speedDialActionProps}
       key="fold"
-      icon={<PanToolIcon />}
+      icon={<FoldIcon fontSize="large" />}
       tooltipTitle="Fold"
       onClick={handleClick}
       disabled={!playerIsNext}

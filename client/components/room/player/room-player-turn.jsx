@@ -8,15 +8,8 @@ import PlayingCard from '~/components/room/playing-card'
 import IconButtonCard from '~/components/elements/icon-button-card'
 
 const useStyles = makeStyles(theme => ({
-  button: {
-    padding: theme.spacing(1),
-    margin: theme.spacing(1)
-  },
-  buttonRevealed: {
-    backgroundColor: 'transparent!important' // FIXME
-  },
   playingCard: {
-    fontSize: 40
+    fontSize: theme.spacing(8)
   },
   turnStacked: {
     marginRight: theme.spacing(5) * -1
