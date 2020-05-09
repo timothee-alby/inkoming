@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose run --rm db psql postgres://master:changeme@db:5432/fleure_du_noir
+docker-compose run --rm db psql postgres://master:changeme@db:5432/inkoming

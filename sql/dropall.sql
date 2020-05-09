@@ -1,2 +1,2 @@
-DROP DATABASE IF EXISTS fleure_du_noir;
+DROP DATABASE IF EXISTS inkoming;
 DROP ROLE IF EXISTS web_anon;

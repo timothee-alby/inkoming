@@ -7,7 +7,7 @@ services:
       - "5432:5432"
     environment:
       PGRST_DB_URI:
-      POSTGRES_DB: fleure_du_noir
+      POSTGRES_DB: inkoming
       POSTGRES_USER: master
       POSTGRES_PASSWORD: changeme
     volumes:
@@ -19,7 +19,7 @@ services:
     ports:
       - "3030:3000"
     environment:
-      PGRST_DB_URI: "postgres://master:changeme@db:5432/fleure_du_noir"
+      PGRST_DB_URI: "postgres://master:changeme@db:5432/inkoming"
       PGRST_DB_SCHEMA: api
       PGRST_DB_ANON_ROLE: "web_anon"
       PGRST_JWT_SECRET: "that-is-no-so-secret-but-still-32+-characters-long"
@@ -29,7 +29,7 @@ services:
   ws:
     image: diogob/postgres-websockets
     environment:
-      PGWS_DB_URI:  "postgres://master:changeme@db:5432/fleure_du_noir"
+      PGWS_DB_URI:  "postgres://master:changeme@db:5432/inkoming"
       PGWS_JWT_SECRET: "that-is-no-so-secret-but-still-32+-characters-long"
     ports:
         - "3050:3000"
@@ -49,7 +49,7 @@ services:
     image: node:12
     working_dir: /home/node/app
     environment:
-      PGRST_DB_URI: "postgres://master:changeme@db:5432/fleure_du_noir"
+      PGRST_DB_URI: "postgres://master:changeme@db:5432/inkoming"
       PGRST_JWT_SECRET: "that-is-no-so-secret-but-still-32+-characters-long"
       PGRST_API_URL: http://server:3000
     volumes:
