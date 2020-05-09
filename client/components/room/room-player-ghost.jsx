@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
   content: {
     display: 'flex',
     justifyContent: 'center'
+  },
+  progress: {
+    marginTop: theme.spacing(0.5) * -1
   }
 }))
 
@@ -29,7 +32,7 @@ const RoomPlayerGhost = () => {
       <CardContent className={classes.content}>
         <RoomPlayerTurnGhost />
       </CardContent>
-      {<LinearProgress />}
+      {<LinearProgress className={classes.progress} />}
     </Card>
   )
 }

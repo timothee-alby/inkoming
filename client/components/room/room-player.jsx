@@ -12,13 +12,27 @@ import RoomPlayerTurns from '~/components/room/player/room-player-turns'
 import PlayingBet from '~/components/room/playing-bet'
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    margin: theme.spacing(4)
+  },
+  header: {
+    paddingBottom: theme.spacing(2)
+  },
   content: {
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingTop: theme.spacing(2),
+    '&:last-child': {
+      paddingBottom: theme.spacing(2)
+    }
   },
   action: {
     marginRight: 0,
-    marginTop: 0
+    marginTop: 0,
+    width: '40px'
+  },
+  progress: {
+    marginTop: theme.spacing(0.5) * -1
   }
 }))
 
@@ -47,12 +61,13 @@ const RoomPlayer = ({
   }, [player, roomState])
 
   return (
-    <Card>
+    <Card className={classes.root}>
       <CardHeader
         title={player.nickname}
         avatar={<RoomPlayerAvatar player={player} />}
         subheader={`${player.total_cards} cards`}
         action={<PlayingBet turns={playerTurns} />}
+        className={classes.header}
         classes={{ action: classes.action }}
       ></CardHeader>
       <CardContent className={classes.content}>
@@ -65,7 +80,9 @@ const RoomPlayer = ({
           setError={setError}
         />
       </CardContent>
-      {isNext && !roomState.outcome && <LinearProgress />}
+      {isNext && !roomState.outcome && (
+        <LinearProgress className={classes.progress} />
+      )}
     </Card>
   )
 }
