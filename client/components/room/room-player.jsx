@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import {
   Card,
   CardHeader,
@@ -6,6 +7,7 @@ import {
   LinearProgress
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import IdentityColours from '~/lib/identity-colours'
 import RoomPlayerAvatar from '~/components/room/player/room-player-avatar'
 import RoomPlayerTurnGhost from '~/components/room/player/room-player-turn-ghost'
 import RoomPlayerTurns from '~/components/room/player/room-player-turns'
@@ -49,8 +51,10 @@ const RoomPlayer = ({
   setError
 }) => {
   const classes = useStyles()
+  const identityColoursClasses = IdentityColours.useStyles()
   const [isNext, setIsNext] = React.useState(false)
   const [playerTurns, setPlayerTurns] = React.useState([])
+  const [colourClass, setColourClass] = React.useState()
 
   React.useEffect(() => {
     setIsNext(
@@ -65,18 +69,28 @@ const RoomPlayer = ({
     }
   }, [player, roomState])
 
+  React.useEffect(() => {
+    setColourClass(IdentityColours.getColourClass(player))
+  }, [player])
+
   return (
-    <Card className={classes.root}>
+    <Card raised={true} className={classes.root}>
       <CardHeader
         title={<RoomPlayerHeaderTitle player={player} />}
         avatar={<RoomPlayerAvatar player={player} />}
         subheader={<RoomPlayerHeaderSubheader player={player} />}
         action={<PlayingBet turns={playerTurns} />}
-        className={classes.header}
+        className={clsx(classes.header, identityColoursClasses[colourClass])}
         classes={{ action: classes.action, content: classes.headerContent }}
         disableTypography={true}
       ></CardHeader>
-      <CardContent className={classes.content}>
+      <CardContent
+        className={clsx(
+          classes.content,
+          identityColoursClasses[colourClass],
+          'identity-colour-light'
+        )}
+      >
         {!playerTurns.length && <RoomPlayerTurnGhost />}
         <RoomPlayerTurns
           roomState={roomState}
