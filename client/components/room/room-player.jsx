@@ -9,6 +9,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import RoomPlayerAvatar from '~/components/room/player/room-player-avatar'
 import RoomPlayerTurnGhost from '~/components/room/player/room-player-turn-ghost'
 import RoomPlayerTurns from '~/components/room/player/room-player-turns'
+import RoomPlayerHeaderTitle from '~/components/room/player/header/room-player-header-title'
+import RoomPlayerHeaderSubheader from '~/components/room/player/header/room-player-header-subheader'
 import PlayingBet from '~/components/room/playing-bet'
 
 const useStyles = makeStyles(theme => ({
@@ -17,6 +19,9 @@ const useStyles = makeStyles(theme => ({
   },
   header: {
     paddingBottom: theme.spacing(2)
+  },
+  headerContent: {
+    lineHeight: 0
   },
   content: {
     display: 'flex',
@@ -63,12 +68,13 @@ const RoomPlayer = ({
   return (
     <Card className={classes.root}>
       <CardHeader
-        title={player.nickname}
+        title={<RoomPlayerHeaderTitle player={player} />}
         avatar={<RoomPlayerAvatar player={player} />}
-        subheader={`${player.total_cards} cards`}
+        subheader={<RoomPlayerHeaderSubheader player={player} />}
         action={<PlayingBet turns={playerTurns} />}
         className={classes.header}
-        classes={{ action: classes.action }}
+        classes={{ action: classes.action, content: classes.headerContent }}
+        disableTypography={true}
       ></CardHeader>
       <CardContent className={classes.content}>
         {!playerTurns.length && <RoomPlayerTurnGhost />}
