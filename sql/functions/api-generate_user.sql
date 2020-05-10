@@ -1,10 +1,10 @@
 CREATE OR REPLACE FUNCTION api.generate_user()
 RETURNS table (jwt TEXT)
-LANGUAGE SQL AS
+LANGUAGE SQL SECURITY DEFINER AS
 $$
   SELECT
     public.sign(
-      ROW_TO_JSON(data), current_setting('app.jwt_secret')
+      ROW_TO_JSON(data), (SELECT value from secrets WHERE key = 'app.jwt_secret')
     ) AS jwt
   FROM (
     SELECT

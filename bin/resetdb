@@ -21,4 +21,7 @@ do
   done
 done
 
+echo "=> Adding Secret"
+docker-compose run --rm db psql postgres://master:changeme@db:5432/inkoming -c "INSERT INTO secrets VALUES('app.jwt_secret', 'that-is-no-so-secret-but-still-32+-characters-long');"
+
 echo "=> DONE ✅"

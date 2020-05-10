@@ -32,7 +32,7 @@ $$
 
       SELECT
         public.sign(
-          ROW_TO_JSON(jwt_data), current_setting('app.jwt_secret')
+          ROW_TO_JSON(jwt_data), (SELECT value from secrets WHERE key = 'app.jwt_secret')
         ) AS jwt
       FROM jwt_data;
   END
