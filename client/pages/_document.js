@@ -15,10 +15,8 @@ class MyDocument extends Document {
           <link rel="stylesheet" href="/styles/dist/nightsky.css" />
         </Head>
         <body className="stars">
-          <div className="twinkling">
-            <Main />
-            <NextScript />
-          </div>
+          <Main />
+          <NextScript />
         </body>
       </Html>
     )
