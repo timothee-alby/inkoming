@@ -43,6 +43,7 @@ const PlayingBet = ({ turns }) => {
     if (turns.find(turn => turn.fold)) {
       setFolded(true)
     } else {
+      setFolded(false)
       setMaxBet(
         Math.max.apply(
           Math,
