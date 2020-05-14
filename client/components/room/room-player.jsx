@@ -34,8 +34,6 @@ const useStyles = makeStyles(theme => ({
     }
   },
   action: {
-    marginRight: 0,
-    marginTop: 0,
     width: '40px'
   },
   progress: {

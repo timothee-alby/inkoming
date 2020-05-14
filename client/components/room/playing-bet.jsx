@@ -1,6 +1,5 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import IconButtonPlayerAction from '~/components/elements/icon-button-player-action'
 
 import FoldIcon from '~/components/icons/fold-icon'
 import Filter1Icon from '@material-ui/icons/Filter1'
@@ -30,9 +29,7 @@ const betIcons = {
 const useStyles = makeStyles(theme => ({
   actionIcon: {
     fontSize: 40,
-    padding: 0,
-    marginRight: theme.spacing(3) * -1,
-    marginTop: theme.spacing(3) * -1
+    padding: 0
   }
 }))
 
@@ -61,10 +58,10 @@ const PlayingBet = ({ turns }) => {
   }, [maxBet])
 
   return (
-    <IconButtonPlayerAction aria-label={maxBet} disabled>
+    <>
       {folded && <FoldIcon className={classes.actionIcon} />}
       {!folded && BetIcon && <BetIcon className={classes.actionIcon} />}
-    </IconButtonPlayerAction>
+    </>
   )
 }
 
