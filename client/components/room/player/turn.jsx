@@ -8,11 +8,14 @@ import PlayingCard from '~/components/room/playing-card'
 import IconButtonCard from '~/components/elements/icon-button-card'
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    textAlign: 'center'
+  },
   playingCard: {
     fontSize: theme.spacing(8)
   },
   turnStacked: {
-    marginRight: theme.spacing(5) * -1
+    marginBottom: theme.spacing(5) * -1
   }
 }))
 
@@ -62,7 +65,12 @@ const RoomPlayerTurn = ({
   }
 
   return (
-    <Box className={clsx({ [classes.turnStacked]: stacked && !turn.revealed })}>
+    <Box
+      className={clsx({
+        [classes.root]: true,
+        [classes.turnStacked]: stacked && !turn.revealed
+      })}
+    >
       <IconButtonCard
         aria-label={turn.colour || 'unknown'}
         disabled={!cardCanBeRevealed || challengerPlayer.id !== mePlayer.id}

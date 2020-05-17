@@ -10,7 +10,8 @@ import RoomPlayerHeaderAction from '~/components/room/player/header/action'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    paddingBottom: theme.spacing(2)
+    paddingBottom: theme.spacing(2),
+    justifyContent: 'space-between'
   },
   content: {
     lineHeight: 0

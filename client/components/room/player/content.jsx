@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
+    flexDirection: 'column',
     paddingTop: theme.spacing(2),
     '&:last-child': {
       paddingBottom: theme.spacing(2)
