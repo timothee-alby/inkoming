@@ -3,7 +3,7 @@ import { Box } from '@material-ui/core'
 import RoomPlayerTurn from '~/components/room/player/room-player-turn'
 
 const RoomPlayerTurns = ({
-  roomState,
+  outcome,
   mePlayer,
   turns,
   challengerPlayer,
@@ -33,7 +33,7 @@ const RoomPlayerTurns = ({
       {cardTurns.map((turn, idx) => (
         <Box key={turn.id}>
           <RoomPlayerTurn
-            roomState={roomState}
+            outcome={outcome}
             mePlayer={mePlayer}
             turn={turn}
             stacked={idx < unknownCardTurns.length - 1}

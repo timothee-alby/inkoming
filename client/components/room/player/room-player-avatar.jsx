@@ -3,18 +3,13 @@ import clsx from 'clsx'
 import { Avatar, Badge } from '@material-ui/core'
 import IdentityColours from '~/lib/identity-colours'
 
-const RoomPlayerAvatar = ({ player }) => {
+const RoomPlayerAvatar = ({ playerPoints, playerNickname, colourClass }) => {
   const identityColoursClasses = IdentityColours.useStyles()
-  const [colourClass, setColourClass] = React.useState()
-
-  React.useEffect(() => {
-    setColourClass(IdentityColours.getColourClass(player))
-  }, [player])
 
   return (
     <Badge
       color="primary"
-      badgeContent={player.points}
+      badgeContent={playerPoints}
       showZero={false}
       anchorOrigin={{
         vertical: 'top',
@@ -22,15 +17,15 @@ const RoomPlayerAvatar = ({ player }) => {
       }}
     >
       <Avatar
-        aria-label={player.nickname}
+        aria-label={playerNickname}
         variant="rounded"
         className={clsx(
           identityColoursClasses[colourClass],
           'identity-colour-reverse'
         )}
       >
-        {player.nickname[0].toUpperCase()}
-        {player.nickname[1].toLowerCase()}
+        {playerNickname[0].toUpperCase()}
+        {playerNickname[1].toLowerCase()}
       </Avatar>
     </Badge>
   )

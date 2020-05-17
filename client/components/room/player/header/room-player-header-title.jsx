@@ -11,12 +11,12 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const RommPlayerHeaderTitle = ({ player }) => {
+const RommPlayerHeaderTitle = ({ playerNickname }) => {
   const classes = useStyles()
 
   return (
     <Typography variant="subtitle2" className={classes.root}>
-      {player.nickname}
+      {playerNickname}
     </Typography>
   )
 }

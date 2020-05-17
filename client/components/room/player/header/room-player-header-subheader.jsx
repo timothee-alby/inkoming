@@ -12,21 +12,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const RommPlayerHeaderSubheader = ({ player }) => {
+const RoomPlayerHeaderSubheader = ({ playerTotalCards, playerCardedCards }) => {
   const classes = useStyles()
-  const [visibleCards, setVisibleCards] = React.useState([])
 
-  React.useEffect(() => {
-    if (!player) return
-
-    if (player.total_cards) {
-      return setVisibleCards(
-        Array(player.total_cards - player.carded_cards).fill('unknown')
-      )
-    }
-
-    setVisibleCards([])
-  }, [player])
+  const visibleCards = React.useMemo(() => {
+    if (!playerTotalCards) return []
+    return Array(playerTotalCards - playerCardedCards).fill('unknown')
+  }, [playerTotalCards, playerCardedCards])
 
   return (
     <>
@@ -44,4 +36,4 @@ const RommPlayerHeaderSubheader = ({ player }) => {
   )
 }
 
-export default RommPlayerHeaderSubheader
+export default RoomPlayerHeaderSubheader

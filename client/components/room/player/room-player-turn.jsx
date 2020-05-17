@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const RoomPlayerTurn = ({
-  roomState,
+  outcome,
   mePlayer,
   turn,
   stacked,
@@ -29,10 +29,8 @@ const RoomPlayerTurn = ({
   const [cardDisabled, setCardDisabled] = React.useState(true)
 
   React.useEffect(() => {
-    if (!roomState) return
-
     if (
-      roomState.outcome || // the round has ended
+      outcome || // the round has ended
       !challengerPlayer || // no challenger
       turn.revealed || // card already revealed
       stacked || // the card is stacked behind another
@@ -47,7 +45,7 @@ const RoomPlayerTurn = ({
     }
 
     setCardDisabled(false)
-  }, [roomState, challengerPlayer, turn, stacked, mePlayer])
+  }, [outcome, challengerPlayer, turn, stacked, mePlayer])
 
   const handleClick = async theTurn => {
     try {

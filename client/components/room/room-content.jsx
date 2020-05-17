@@ -11,7 +11,7 @@ const fetchData = async (
   room,
   playerId,
   setRoomState,
-  setPlayerTurns,
+  setMyTurns,
   setError
 ) => {
   try {
@@ -27,7 +27,7 @@ const fetchData = async (
       url: `${process.env.API_URL}/turns?player_id=eq.${playerId}`,
       jwt: userJwt
     })
-    setPlayerTurns(turns)
+    setMyTurns(turns)
   } catch (error) {
     setError(error)
   }
@@ -36,17 +36,12 @@ const fetchData = async (
 const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
   const { userJwt } = useAuth()
   const [playerJwt, setPlayerJwt] = React.useState()
-  const [playerId, setPlayerId] = React.useState()
   const [socketIsConnected, setSocketIsConnected] = React.useState()
-  const [playerTurns, setPlayerTurns] = React.useState([])
-  const [playerIsNext, setPlayerIsNext] = React.useState(false)
+  const [myTurns, setMyTurns] = React.useState([])
   const [notification, setNotification] = React.useState()
 
-  React.useEffect(() => {
-    if (!player) return
-
-    setPlayerId(player.id)
-  }, [player])
+  const playerId = player.id
+  const mePlayerIsNext = roomState && playerId === roomState.next_player_id
 
   React.useEffect(() => {
     if (!playerId) return
@@ -80,22 +75,16 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
     // we're up-to-date
     if (!socketIsConnected) return
 
-    fetchData(userJwt, room, playerId, setRoomState, setPlayerTurns, setError)
+    fetchData(userJwt, room, playerId, setRoomState, setMyTurns, setError)
   }, [
     socketIsConnected,
     userJwt,
     room,
     playerId,
     setRoomState,
-    setPlayerTurns,
+    setMyTurns,
     setError
   ])
-
-  React.useEffect(() => {
-    if (!roomState) return
-
-    setPlayerIsNext(playerId === roomState.next_player_id)
-  }, [roomState, playerId])
 
   console.log('roomState', roomState)
   return (
@@ -104,7 +93,7 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
         <RoomPlayersList
           roomState={roomState}
           mePlayer={player}
-          myTurns={playerTurns}
+          myTurns={myTurns}
           setError={setError}
         />
       )}
@@ -112,9 +101,9 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
         <RoomActions
           roomState={roomState}
           player={player}
-          playerTurns={playerTurns}
-          setPlayerTurns={setPlayerTurns}
-          playerIsNext={playerIsNext}
+          playerTurns={myTurns}
+          setPlayerTurns={setMyTurns}
+          playerIsNext={mePlayerIsNext}
           setError={setError}
         />
       )}

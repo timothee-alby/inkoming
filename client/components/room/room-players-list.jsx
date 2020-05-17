@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
-import RoomPlayer from '~/components/room/room-player'
+import RoomPlayerManager from '~/components/room/room-player-manager'
 import RoomPLayerGhost from '~/components/room/room-player-ghost'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -14,21 +14,13 @@ const useStyles = makeStyles(theme => ({
 
 const RoomPlayersList = ({ roomState, mePlayer, myTurns, setError }) => {
   const classes = useStyles()
-  const [players, setPlayers] = React.useState([])
-  const [challengerPlayer, setChallengerPlayer] = React.useState()
 
-  React.useEffect(() => {
-    if (!roomState) return
-
-    setPlayers(roomState.all_players || [])
+  const players = React.useMemo(() => {
+    return roomState.all_players || []
   }, [roomState])
 
-  React.useEffect(() => {
-    if (!roomState) return
-
-    setChallengerPlayer(
-      players.find(player => player.id === roomState.challenger_player_id)
-    )
+  const challengerPlayer = React.useMemo(() => {
+    return players.find(player => player.id === roomState.challenger_player_id)
   }, [roomState, players])
 
   if (players.length === 0) {
@@ -51,7 +43,7 @@ const RoomPlayersList = ({ roomState, mePlayer, myTurns, setError }) => {
     >
       {players.map(player => (
         <Box key={player.id}>
-          <RoomPlayer
+          <RoomPlayerManager
             player={player}
             roomState={roomState}
             mePlayer={mePlayer}
