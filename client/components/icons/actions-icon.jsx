@@ -26,7 +26,7 @@ const ActionsIcon = props => {
                 fill="rgb(147,149,152)"
               />
               <circle
-                vector-effect="non-scaling-stroke"
+                vectorEffect="non-scaling-stroke"
                 cx="255.01900000000006"
                 cy="117.10999999999999"
                 r="37.94099999999999"
@@ -41,7 +41,7 @@ const ActionsIcon = props => {
                 fill="rgb(241,242,242)"
               />
               <ellipse
-                vector-effect="non-scaling-stroke"
+                vectorEffect="non-scaling-stroke"
                 cx="255.01899999999995"
                 cy="118.136"
                 rx="33.30599999999997"
@@ -55,14 +55,14 @@ const ActionsIcon = props => {
                 />
               </g>
               <circle
-                vector-effect="non-scaling-stroke"
+                vectorEffect="non-scaling-stroke"
                 cx="237.232"
                 cy="108.958"
                 r="8.152999999999992"
                 fill="rgb(204,239,255)"
               />
               <circle
-                vector-effect="non-scaling-stroke"
+                vectorEffect="non-scaling-stroke"
                 cx="238.343"
                 cy="126.708"
                 r="4.169000000000011"
@@ -77,14 +77,14 @@ const ActionsIcon = props => {
                 fill="rgb(230,231,232)"
               />
               <circle
-                vector-effect="non-scaling-stroke"
+                vectorEffect="non-scaling-stroke"
                 cx="155.36799999999997"
                 cy="113.39900000000002"
                 r="13.102000000000004"
                 fill="rgb(230,231,232)"
               />
               <circle
-                vector-effect="non-scaling-stroke"
+                vectorEffect="non-scaling-stroke"
                 cx="168.47"
                 cy="117.53399999999999"
                 r="3.5900000000000034"
@@ -99,14 +99,14 @@ const ActionsIcon = props => {
                 fill="rgb(230,231,232)"
               />
               <circle
-                vector-effect="non-scaling-stroke"
+                vectorEffect="non-scaling-stroke"
                 cx="354.832"
                 cy="234.13999999999996"
                 r="13.103000000000009"
                 fill="rgb(230,231,232)"
               />
               <circle
-                vector-effect="non-scaling-stroke"
+                vectorEffect="non-scaling-stroke"
                 cx="341.77"
                 cy="230.381"
                 r="3.589999999999975"
