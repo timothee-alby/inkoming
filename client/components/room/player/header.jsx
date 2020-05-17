@@ -3,10 +3,10 @@ import clsx from 'clsx'
 import { CardHeader } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import IdentityColours from '~/lib/identity-colours'
-import RoomPlayerAvatar from '~/components/room/player/room-player-avatar'
-import RoomPlayerHeaderTitle from '~/components/room/player/header/room-player-header-title'
-import RoomPlayerHeaderSubheader from '~/components/room/player/header/room-player-header-subheader'
-import PlayingBet from '~/components/room/playing-bet'
+import RoomPlayerAvatar from '~/components/room/player/avatar'
+import RoomPlayerHeaderTitle from '~/components/room/player/header/title'
+import RoomPlayerHeaderSubheader from '~/components/room/player/header/subheader'
+import RoomPlayerHeaderAction from '~/components/room/player/header/action'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,7 +47,7 @@ const RoomPlayerHeader = ({
           playerCardedCards={playerCardedCards}
         />
       }
-      action={<PlayingBet turns={playerTurns} />}
+      action={<RoomPlayerHeaderAction turns={playerTurns} />}
       className={clsx(classes.root, identityColoursClasses[colourClass])}
       classes={{
         action: classes.action,

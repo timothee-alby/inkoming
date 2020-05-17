@@ -3,8 +3,8 @@ import clsx from 'clsx'
 import { CardContent } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import IdentityColours from '~/lib/identity-colours'
-import RoomPlayerTurnGhost from '~/components/room/player/room-player-turn-ghost'
-import RoomPlayerTurns from '~/components/room/player/room-player-turns'
+import RoomPlayerTurnGhost from '~/components/room/player/turn-ghost'
+import RoomPlayerTurns from '~/components/room/player/turns'
 
 const useStyles = makeStyles(theme => ({
   root: {

@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core'
 import Skeleton from '@material-ui/lab/Skeleton'
 import { makeStyles } from '@material-ui/core/styles'
-import RoomPlayerTurnGhost from '~/components/room/player/room-player-turn-ghost'
+import RoomPlayerTurnGhost from '~/components/room/player/turn-ghost'
 
 const useStyles = makeStyles(theme => ({
   content: {

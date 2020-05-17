@@ -1,6 +1,6 @@
 import React from 'react'
 import IdentityColours from '~/lib/identity-colours'
-import RoomPlayer from '~/components/room/room-player'
+import RoomPlayer from '~/components/room/player'
 
 const RoomPlayerManager = ({
   player,

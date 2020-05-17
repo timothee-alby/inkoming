@@ -2,9 +2,9 @@ import React from 'react'
 import milou from '~/lib/milou'
 import SocketHelper from '~/lib/socket-helper'
 import { useAuth } from '~/components/auth/auth-context'
-import RoomPlayersList from '~/components/room/room-players-list'
-import RoomActions from '~/components/room/room-actions'
-import RoomNotification from '~/components/room/room-notification'
+import RoomPlayersList from '~/components/room/players-list'
+import RoomActions from '~/components/room/actions'
+import RoomNotification from '~/components/room/notification'
 
 const fetchData = async (
   userJwt,

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from '@material-ui/core'
-import RoomPlayerTurn from '~/components/room/player/room-player-turn'
+import RoomPlayerTurn from '~/components/room/player/turn'
 
 const RoomPlayerTurns = ({
   outcome,

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
-import RoomPlayerManager from '~/components/room/room-player-manager'
-import RoomPLayerGhost from '~/components/room/room-player-ghost'
+import RoomPlayerManager from '~/components/room/player-manager'
+import RommPlayerGhost from '~/components/room/player-ghost'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -53,7 +53,7 @@ const RoomPlayersList = ({ roomState, mePlayer, myTurns, setError }) => {
           />
         </Box>
       ))}
-      {!roomState.all_turns && <RoomPLayerGhost />}
+      {!roomState.all_turns && <RommPlayerGhost />}
     </Box>
   )
 }

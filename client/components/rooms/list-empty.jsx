@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Typography } from '@material-ui/core'
-import RoomCreate from '~/components/rooms/room-create'
+import RoomCreate from '~/components/rooms/create'
 
 const RoomsList = () => {
   return (
