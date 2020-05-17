@@ -9,7 +9,8 @@ const useStyles = makeStyles(theme => ({
   root: {
     justifyContent: 'right',
     paddingTop: theme.spacing(0.5),
-    paddingBottom: theme.spacing(0.5)
+    paddingBottom: theme.spacing(0.5),
+    backgroundColor: theme.palette.common.white
   },
   toggleButton: {
     border: 'none',

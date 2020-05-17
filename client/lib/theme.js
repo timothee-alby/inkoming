@@ -22,7 +22,13 @@ const colours = {
   maximumBlueGreen: '#5ABCB9',
   powderBlue: '#ACE3E9',
 
-  darkSpace: '#273554'
+  darkSpace: '#273554',
+
+  // spaceship
+  spaceshipRed: '#FE4C25',
+  spaceshipRedShade: '#E5391C',
+  spaceshipBlue: '#A5EAFC',
+  spaceshipBlueShade: '#A5EAFC'
 }
 
 const theme = createMuiTheme({
@@ -52,6 +58,12 @@ const theme = createMuiTheme({
       red: 'darkred',
       black: 'black',
       unknown: colours.mauveTaupe
+    },
+    spaceship: {
+      red: colours.spaceshipRed,
+      redShade: colours.spaceshipRedShade,
+      blue: colours.spaceshipBlue,
+      blueShade: colours.spaceshipBlueShade
     }
   }
 })

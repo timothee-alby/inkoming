@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import { Card } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import RoomPlayerOutcome from '~/components/room/player/outcome'
@@ -12,6 +13,13 @@ const useStyles = makeStyles(theme => ({
   root: {
     position: 'relative',
     margin: theme.spacing(2)
+  },
+  onePoint: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    backgroundColor: theme.palette.spaceship.redShade
   }
 }))
 
@@ -31,7 +39,13 @@ const RoomPlayer = ({
   const [showMyCards, setShowMyCards] = React.useState(false)
 
   return (
-    <Card raised={true} className={classes.root}>
+    <Card
+      raised={true}
+      className={clsx({
+        [classes.root]: true,
+        [classes.onePoint]: player.points > 0
+      })}
+    >
       <RoomPlayerOutcome isChallenger={isChallenger} outcome={outcome} />
       <RoomPlayerAbove isChallenger={isChallenger} />
       <RoomPlayerHeader
