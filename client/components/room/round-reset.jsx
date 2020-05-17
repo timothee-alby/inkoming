@@ -6,7 +6,7 @@ import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
 
 const RoundReset = ({ buttonVariant, roomState, player, setError }) => {
-  const [isDialogOpen, setIsDialogOpen] = React.useState(true)
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false)
   const { userJwt } = useAuth()
 
   const resetRound = async () => {

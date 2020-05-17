@@ -1,0 +1,29 @@
+@keyframes meterorite-falling {
+  from {
+    top: -100%;
+    left: 100%;
+  }
+
+  to {
+    top: 100%;
+    left: -100%;
+  }
+}
+
+@keyframes alien-happy {
+  0% {
+    transform: scale(1) translateY(60px);
+  }
+  10% {
+    transform: scale(1.2, 0.6);
+  }
+  30% {
+    transform: scale(0.8, 1.1) translateY(-30px);
+  }
+  50% {
+    transform: scale(1) translateY(60px);
+  }
+  100% {
+    transform: translateY(60px);
+  }
+}

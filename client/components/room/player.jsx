@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import RoomPlayerOutcome from '~/components/room/player/outcome'
 import RoomPlayerAbove from '~/components/room/player/above'
 import RoomPlayerHeader from '~/components/room/player/header'
 import RoomPlayerContent from '~/components/room/player/content'
@@ -9,6 +10,7 @@ import RoomPlayerProgress from '~/components/room/player/progress'
 
 const useStyles = makeStyles(theme => ({
   root: {
+    position: 'relative',
     margin: theme.spacing(2)
   }
 }))
@@ -30,6 +32,7 @@ const RoomPlayer = ({
 
   return (
     <Card raised={true} className={classes.root}>
+      <RoomPlayerOutcome isChallenger={isChallenger} outcome={outcome} />
       <RoomPlayerAbove isChallenger={isChallenger} />
       <RoomPlayerHeader
         playerNickname={player.nickname}
