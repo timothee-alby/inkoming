@@ -4,8 +4,12 @@ import {
   Card,
   CardHeader,
   CardContent,
+  CardActions,
   LinearProgress
 } from '@material-ui/core'
+import ToggleButton from '@material-ui/lab/ToggleButton'
+import VisibilityIcon from '@material-ui/icons/Visibility'
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import { makeStyles } from '@material-ui/core/styles'
 import IdentityColours from '~/lib/identity-colours'
 import RoomPlayerAvatar from '~/components/room/player/room-player-avatar'
@@ -33,8 +37,24 @@ const useStyles = makeStyles(theme => ({
       paddingBottom: theme.spacing(2)
     }
   },
-  action: {
+  headerAction: {
     width: '40px'
+  },
+  actions: {
+    justifyContent: 'right',
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(0.5)
+  },
+  actionsToggleButton: {
+    border: 'none',
+    margin: 0,
+    padding: 0,
+    height: theme.spacing(3),
+    color: theme.palette.secondary.main,
+    '&.Mui-selected': {
+      color: theme.palette.secondary.dark,
+      backgroundColor: 'transparent'
+    }
   },
   progress: {
     marginTop: theme.spacing(0.5) * -1
@@ -45,6 +65,7 @@ const RoomPlayer = ({
   player,
   roomState,
   mePlayer,
+  myTurns,
   challengerPlayer,
   setError
 }) => {
@@ -53,6 +74,7 @@ const RoomPlayer = ({
   const [isNext, setIsNext] = React.useState(false)
   const [playerTurns, setPlayerTurns] = React.useState([])
   const [colourClass, setColourClass] = React.useState()
+  const [showMyCards, setShowMyCards] = React.useState(false)
 
   React.useEffect(() => {
     setIsNext(
@@ -79,7 +101,10 @@ const RoomPlayer = ({
         subheader={<RoomPlayerHeaderSubheader player={player} />}
         action={<PlayingBet turns={playerTurns} />}
         className={clsx(classes.header, identityColoursClasses[colourClass])}
-        classes={{ action: classes.action, content: classes.headerContent }}
+        classes={{
+          action: classes.headerAction,
+          content: classes.headerContent
+        }}
         disableTypography={true}
       ></CardHeader>
       <CardContent
@@ -93,11 +118,24 @@ const RoomPlayer = ({
         <RoomPlayerTurns
           roomState={roomState}
           mePlayer={mePlayer}
-          turns={playerTurns}
+          turns={showMyCards ? myTurns : playerTurns}
           challengerPlayer={challengerPlayer}
           setError={setError}
         />
       </CardContent>
+      {mePlayer.id === player.id && (
+        <CardActions className={classes.actions}>
+          <ToggleButton
+            className={classes.actionsToggleButton}
+            value="showMyCards"
+            selected={showMyCards}
+            size="small"
+            onChange={() => setShowMyCards(!showMyCards)}
+          >
+            {showMyCards ? <VisibilityIcon /> : <VisibilityOffIcon />}
+          </ToggleButton>
+        </CardActions>
+      )}
       {isNext && !roomState.outcome && (
         <LinearProgress className={classes.progress} />
       )}

@@ -104,6 +104,7 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
         <RoomPlayersList
           roomState={roomState}
           mePlayer={player}
+          myTurns={playerTurns}
           setError={setError}
         />
       )}
