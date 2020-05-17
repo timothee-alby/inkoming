@@ -14,7 +14,10 @@ const CustomIconButton = withStyles(theme => ({
     '&$disabled': {
       marginTop: theme.spacing(1),
       padding: theme.spacing(0.5),
-      backgroundColor: theme.palette.common.white
+      backgroundColor: theme.palette.common.white,
+      '&.can-be-revealed': {
+        backgroundColor: theme.palette.secondary.dark
+      }
     }
   },
   disabled: {}

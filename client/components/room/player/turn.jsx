@@ -26,26 +26,24 @@ const RoomPlayerTurn = ({
 }) => {
   const classes = useStyles()
   const { userJwt } = useAuth()
-  const [cardDisabled, setCardDisabled] = React.useState(true)
 
-  React.useEffect(() => {
+  const cardCanBeRevealed = React.useMemo(() => {
     if (
       outcome || // the round has ended
       !challengerPlayer || // no challenger
       turn.revealed || // card already revealed
-      stacked || // the card is stacked behind another
-      challengerPlayer.id !== mePlayer.id // only the challenger can reveal cards
+      stacked // the card is stacked behind another
     ) {
-      return setCardDisabled(true)
+      return false
     }
 
     if (challengerPlayer.revealed_cards < challengerPlayer.carded_cards) {
       // challenger must reveal their own cards first
-      return setCardDisabled(challengerPlayer.id !== turn.player_id)
+      return challengerPlayer.id === turn.player_id
     }
 
-    setCardDisabled(false)
-  }, [outcome, challengerPlayer, turn, stacked, mePlayer])
+    return true
+  }, [outcome, challengerPlayer, turn, stacked])
 
   const handleClick = async theTurn => {
     try {
@@ -67,12 +65,9 @@ const RoomPlayerTurn = ({
     <Box className={clsx({ [classes.turnStacked]: stacked && !turn.revealed })}>
       <IconButtonCard
         aria-label={turn.colour || 'unknown'}
-        disabled={cardDisabled}
-        className={clsx({
-          [classes.button]: true,
-          [classes.buttonRevealed]: turn.revealed
-        })}
+        disabled={!cardCanBeRevealed || challengerPlayer.id !== mePlayer.id}
         onClick={() => handleClick(turn)}
+        className={clsx({ 'can-be-revealed': cardCanBeRevealed })}
       >
         <PlayingCard colour={turn.card} className={classes.playingCard} />
       </IconButtonCard>
