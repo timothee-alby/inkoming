@@ -246,7 +246,7 @@ describe('Room State', async function() {
       user1 = users[0]
     })
 
-    it('next player is null', async function() {
+    it('is correct', async function() {
       const { response, json } = await fetch.get(
         `/rooms?id=eq.${roomId}&select=*,room_states(*)`,
         user1
@@ -258,6 +258,10 @@ describe('Room State', async function() {
       expect(roomState.next_player_id).to.equal(
         null,
         'unexpected roomState.max_bet'
+      )
+      expect(roomState.game_winner_player_id).to.equal(
+        null,
+        'unexpected roomState.game_winner_player_id'
       )
     })
   })

@@ -21,7 +21,7 @@ enriched_room_states_1 AS (
     last_standing_player_ids,
     last_standing_player_id,
     CASE
-    WHEN total_players_with_cards = 1 THEN
+    WHEN total_players > 1 AND total_players_with_cards = 1 THEN
       standing_player_ids[1]
     WHEN ARRAY_LENGTH(game_winner_by_points_player_ids, 1) = 1 THEN
       game_winner_by_points_player_ids[1]
