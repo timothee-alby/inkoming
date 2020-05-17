@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {
+    height: '20px',
     width: theme.spacing(10),
     textOverflow: 'ellipsis',
     overflow: 'hidden',

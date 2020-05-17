@@ -5,7 +5,8 @@ import PlayingCard from '~/components/room/playing-card'
 
 const useStyles = makeStyles(theme => ({
   playingCard: {
-    color: theme.palette.card.unknown
+    height: '20px',
+    width: '20px'
   },
   playingCardStacked: {
     marginRight: theme.spacing(1) * -1
