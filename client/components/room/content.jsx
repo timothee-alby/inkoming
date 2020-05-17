@@ -89,7 +89,7 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
   console.log('roomState', roomState)
   return (
     <>
-      {roomState && (
+      {roomState && !roomState.game_winner_player_id && (
         <RoomPlayersList
           roomState={roomState}
           mePlayer={player}
@@ -97,7 +97,7 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
           setError={setError}
         />
       )}
-      {roomState && (
+      {roomState && !roomState.game_winner_player_id && (
         <RoomActions
           roomState={roomState}
           player={player}

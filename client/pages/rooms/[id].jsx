@@ -12,6 +12,7 @@ import RequestError from '~/components/request-error'
 import RoomJoinDialog from '~/components/room/join-dialog'
 import RoomContent from '~/components/room/content'
 import RoundReset from '~/components/room/round-reset'
+import RoomReset from '~/components/room/room-reset'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -85,6 +86,15 @@ const Room = () => {
             buttonVariant="outlined"
             roomState={roomState}
             player={player}
+            setError={setError}
+          />
+        )}
+        {roomState && roomState.game_winner_player_id && (
+          <RoomReset
+            buttonVariant="outlined"
+            gameWinnerPlayerId={roomState.game_winner_player_id}
+            allPlayers={roomState.all_players}
+            mePlayer={player}
             setError={setError}
           />
         )}
