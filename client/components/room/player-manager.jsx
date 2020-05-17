@@ -16,9 +16,8 @@ const RoomPlayerManager = ({
     return allTurns.filter(turn => turn.player_id === player.id)
   }, [player, allTurns])
 
-  const isNext =
-    player.id === roomState.next_player_id ||
-    player.id === roomState.challenger_player_id
+  const isNext = player.id === roomState.next_player_id
+  const isChallenger = player.id === roomState.challenger_player_id
 
   const colourClass = React.useMemo(() => {
     return IdentityColours.getColourClass(player)
@@ -33,6 +32,7 @@ const RoomPlayerManager = ({
       challengerPlayer={challengerPlayer}
       colourClass={colourClass}
       isNext={isNext}
+      isChallenger={isChallenger}
       playerTurns={playerTurns}
       setError={setError}
     />

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import RoomPlayerAbove from '~/components/room/player/above'
 import RoomPlayerHeader from '~/components/room/player/header'
 import RoomPlayerContent from '~/components/room/player/content'
 import RoomPlayerFooter from '~/components/room/player/footer'
@@ -20,6 +21,7 @@ const RoomPlayer = ({
   challengerPlayer,
   colourClass,
   isNext,
+  isChallenger,
   playerTurns,
   setError
 }) => {
@@ -28,6 +30,7 @@ const RoomPlayer = ({
 
   return (
     <Card raised={true} className={classes.root}>
+      <RoomPlayerAbove isChallenger={isChallenger} />
       <RoomPlayerHeader
         playerNickname={player.nickname}
         playerPoints={player.points}
@@ -52,7 +55,11 @@ const RoomPlayer = ({
         showMyCards={showMyCards}
         setShowMyCards={setShowMyCards}
       />
-      <RoomPlayerProgress outcome={outcome} isNext={isNext} />
+      <RoomPlayerProgress
+        outcome={outcome}
+        isNext={isNext}
+        isChallenger={isChallenger}
+      />
     </Card>
   )
 }

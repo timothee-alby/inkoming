@@ -8,10 +8,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const RoomPlayer = ({ isNext, outcome }) => {
+const RoomPlayer = ({ isNext, isChallenger, outcome }) => {
   const classes = useStyles()
 
-  if (outcome || !isNext) return null
+  if (outcome) return null
+  if (!isNext && !isChallenger) return null
 
   return <LinearProgress className={classes.root} />
 }
