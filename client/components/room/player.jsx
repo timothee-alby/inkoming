@@ -51,8 +51,8 @@ const RoomPlayer = ({
       <RoomPlayerHeader
         playerNickname={player.nickname}
         playerPoints={player.points}
-        playerTotalCards={player.totalCards}
-        playerCardedCards={player.cardedCards}
+        playerTotalCards={player.total_cards}
+        playerCardedCards={player.carded_cards}
         colourClass={colourClass}
         playerTurns={playerTurns}
       />
