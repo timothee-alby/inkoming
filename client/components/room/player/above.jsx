@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const RoomPlayerHeader = ({ isChallenger }) => {
+const RoomPlayerAbove = ({ isChallenger }) => {
   const classes = useStyles()
 
   if (!isChallenger) return null
@@ -33,4 +33,4 @@ const RoomPlayerHeader = ({ isChallenger }) => {
   )
 }
 
-export default RoomPlayerHeader
+export default RoomPlayerAbove
