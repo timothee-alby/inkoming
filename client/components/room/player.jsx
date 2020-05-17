@@ -69,6 +69,7 @@ const RoomPlayer = ({
       <RoomPlayerFooter
         playerId={player.id}
         mePlayerId={mePlayer.id}
+        hasTurns={myTurns.length > 0}
         showMyCards={showMyCards}
         setShowMyCards={setShowMyCards}
       />

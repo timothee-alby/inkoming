@@ -28,11 +28,13 @@ const useStyles = makeStyles(theme => ({
 const RoomPlayerFooter = ({
   playerId,
   mePlayerId,
+  hasTurns,
   showMyCards,
   setShowMyCards
 }) => {
   const classes = useStyles()
   if (mePlayerId !== playerId) return null
+  if (!hasTurns) return null
 
   return (
     <CardActions className={classes.root}>
