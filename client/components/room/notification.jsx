@@ -1,17 +1,21 @@
 import React from 'react'
 import { Snackbar, IconButton, Slide } from '@material-ui/core/'
 import CloseIcon from '@material-ui/icons/Close'
+import { useTranslation } from 'react-i18next'
 
-const SnackbarAction = ({ handleClose }) => (
-  <IconButton
-    size="small"
-    aria-label="close"
-    color="inherit"
-    onClick={handleClose}
-  >
-    <CloseIcon fontSize="small" />
-  </IconButton>
-)
+const SnackbarAction = ({ handleClose }) => {
+  const { t } = useTranslation()
+  return (
+    <IconButton
+      size="small"
+      aria-label={t('close')}
+      color="inherit"
+      onClick={handleClose}
+    >
+      <CloseIcon fontSize="small" />
+    </IconButton>
+  )
+}
 
 const RoomNotification = ({ notification }) => {
   const [open, setOpen] = React.useState(true)

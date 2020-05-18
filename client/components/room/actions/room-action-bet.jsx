@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import BetActionIcon from '~/components/icons/bet-action-icon'
 import CloseIcon from '@material-ui/icons/Close'
 import RoomActionChooseBet from '~/components/room/actions/room-action-choose-bet'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
   tooltip: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const RoomActionBet = props => {
+  const { t } = useTranslation()
   const {
     roomState,
     player,
@@ -60,7 +62,7 @@ const RoomActionBet = props => {
             setError={setError}
           />
         ) : (
-          'Bet...'
+          t('play bet')
         )
       }
       tooltipOpen={choosingBet}

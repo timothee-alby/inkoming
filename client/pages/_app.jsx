@@ -5,6 +5,7 @@ import AuthProvider from '~/components/auth/auth-context'
 import ProtectectPage from '~/components/auth/protected-page'
 import WelcomeDialog from '~/components/auth/welcome-dialog'
 import theme from '~/lib/theme'
+import '~/lib/i18n'
 
 const AppWrapper = ({ Component, pageProps }) => {
   return (

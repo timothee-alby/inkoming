@@ -9,8 +9,10 @@ import {
   Button,
   LinearProgress
 } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 
 const RoomCreateDialog = ({ createRoom, isDialogOpen, setIsDialogOpen }) => {
+  const { t } = useTranslation()
   const [tempName, setTempName] = React.useState('')
   const [inflight, setInflight] = React.useState(false)
 
@@ -35,16 +37,14 @@ const RoomCreateDialog = ({ createRoom, isDialogOpen, setIsDialogOpen }) => {
     >
       {inflight && <LinearProgress />}
       <form onSubmit={handleSubmit}>
-        <DialogTitle id="form-dialog-title">New Room</DialogTitle>
+        <DialogTitle id="form-dialog-title">{t('new room')}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Let&apos;s create a new room. It just needs a name.
-          </DialogContentText>
+          <DialogContentText>{t('create a new room')}</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Room name"
+            label={t('room name')}
             type="text"
             fullWidth
             variant="outlined"
@@ -55,7 +55,7 @@ const RoomCreateDialog = ({ createRoom, isDialogOpen, setIsDialogOpen }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary" disabled={inflight}>
-            Cancel
+            {t('action.cancel')}
           </Button>
           <Button
             color="primary"
@@ -63,7 +63,7 @@ const RoomCreateDialog = ({ createRoom, isDialogOpen, setIsDialogOpen }) => {
             variant="contained"
             disabled={inflight}
           >
-            Set room name
+            {t('set room name')}
           </Button>
         </DialogActions>
       </form>

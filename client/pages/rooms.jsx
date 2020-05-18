@@ -9,6 +9,7 @@ import RoomCreate from '~/components/rooms/create'
 import RequestError from '~/components/request-error'
 import ContentLoading from '~/components/layout/content-loading'
 import { makeStyles } from '@material-ui/core/styles'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Rooms = () => {
+  const { t } = useTranslation()
   const classes = useStyles()
   const { userJwt } = useAuth()
   const [rooms, setRooms] = React.useState(null)
@@ -37,7 +39,7 @@ const Rooms = () => {
 
   return (
     <>
-      <Header title="Rooms">
+      <Header title={t('rooms')}>
         <RoomCreate buttonVariant="outlined" />
       </Header>
       <Content className={classes.content}>

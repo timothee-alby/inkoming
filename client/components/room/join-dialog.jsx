@@ -11,8 +11,10 @@ import { useRouter } from 'next/router'
 import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
 import RequestError from '~/components/request-error'
+import { useTranslation } from 'react-i18next'
 
 const RoomJoinDialog = ({ roomId, setHasJoined }) => {
+  const { t } = useTranslation()
   const [inflight, setInflight] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { userJwt, userId, userName } = useAuth()
@@ -51,13 +53,11 @@ const RoomJoinDialog = ({ roomId, setHasJoined }) => {
     <Dialog open aria-labelledby="form-dialog-title">
       {inflight && <LinearProgress />}
       <DialogContent>
-        <DialogContentText>
-          You are not a player in this room yet. Fancy joinning&#63;
-        </DialogContentText>
+        <DialogContentText>{t('not a player yet')}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleBail} disabled={inflight}>
-          Nah
+          {t('action.no')}
         </Button>
         <Button
           color="primary"
@@ -66,7 +66,7 @@ const RoomJoinDialog = ({ roomId, setHasJoined }) => {
           disabled={inflight}
           onClick={handleJoin}
         >
-          Let&apos;s go!
+          {t('action.go')}
         </Button>
       </DialogActions>
     </Dialog>

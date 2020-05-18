@@ -1,0 +1,39 @@
+{
+  "action": {
+    "cancel": "cancel",
+    "back": "back",
+    "no": "nah",
+    "go": "Let's go!",
+    "close": "close"
+  },
+
+  "welcome": "welcome",
+  "welcome message":"It looks like you are new here, Please enter a nickname to proceed.",
+  "nickname": "nickname",
+  "set nickname": "set my nickname",
+
+  "rooms": "rooms",
+  "new room": "new room",
+  "room name": "room name",
+  "set room name": "set room name",
+
+  "no rooms yet": "No rooms yet. Create one maybe?",
+  "create a new room": "Let's create a new room. It just needs a name.",
+
+  "not a player yet": "You are not a player in this room yet. Fancy joinning?",
+  "player won round": "{{nickname}} won the round!",
+  "player lost round": "{{nickname}} lost the round!",
+  "player won game": "{{nickname}} won the game!",
+  "reset round": "reset round",
+  "start new round" : "Let's start a new round?",
+  "reset room": "reset room",
+  "start new game" : "Let's start a new game?",
+  "play red": "play happy alien",
+  "play black": "play meteorite fall",
+  "play bet": "bet…",
+  "play fold": "fold",
+  "challenger": "challenger",
+  "card red": "happy alien",
+  "card black": "meteorite fall",
+  "card unknown": "unknown"
+}

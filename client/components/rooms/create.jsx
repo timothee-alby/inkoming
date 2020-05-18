@@ -6,8 +6,10 @@ import RoomCreateDialog from '~/components/rooms/create-dialog'
 import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
 import RequestError from '~/components/request-error'
+import { useTranslation } from 'react-i18next'
 
 const RoomCreate = ({ buttonVariant }) => {
+  const { t } = useTranslation()
   const [isDialogOpen, setIsDialogOpen] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { userId, userJwt, userName } = useAuth()
@@ -61,7 +63,7 @@ const RoomCreate = ({ buttonVariant }) => {
         startIcon={<AddBoxIcon />}
         onClick={() => setIsDialogOpen(true)}
       >
-        New Room
+        {t('new room')}
       </Button>
       {dialog}
     </>

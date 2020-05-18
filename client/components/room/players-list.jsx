@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Typography } from '@material-ui/core'
+import { Box } from '@material-ui/core'
 import RoomPlayerManager from '~/components/room/player-manager'
 import RommPlayerGhost from '~/components/room/player-ghost'
 import { makeStyles } from '@material-ui/core/styles'
@@ -22,16 +22,6 @@ const RoomPlayersList = ({ roomState, mePlayer, myTurns, setError }) => {
   const challengerPlayer = React.useMemo(() => {
     return players.find(player => player.id === roomState.challenger_player_id)
   }, [roomState, players])
-
-  if (players.length === 0) {
-    return (
-      <Box display="flex" justifyContent="center" paddingTop={4}>
-        <Typography variant="h5" component="h2">
-          No players.
-        </Typography>
-      </Box>
-    )
-  }
 
   return (
     <Box

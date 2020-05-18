@@ -3,8 +3,10 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction'
 import FoldIcon from '~/components/icons/fold-icon'
 import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
+import { useTranslation } from 'react-i18next'
 
 const RoomActionFold = props => {
+  const { t } = useTranslation()
   const {
     roomState,
     player,
@@ -41,7 +43,7 @@ const RoomActionFold = props => {
       {...speedDialActionProps}
       key="fold"
       icon={<FoldIcon fontSize="large" />}
-      tooltipTitle="Fold"
+      tooltipTitle={t('play fold')}
       onClick={handleClick}
       disabled={!playerIsNext}
     />

@@ -4,8 +4,10 @@ import CachedIcon from '@material-ui/icons/Cached'
 import RoundResetDialog from '~/components/room/round-reset-dialog'
 import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
+import { useTranslation } from 'react-i18next'
 
 const RoundReset = ({ buttonVariant, roomState, player, setError }) => {
+  const { t } = useTranslation()
   const [isDialogOpen, setIsDialogOpen] = React.useState(false)
   const { userJwt } = useAuth()
 
@@ -33,7 +35,7 @@ const RoundReset = ({ buttonVariant, roomState, player, setError }) => {
         startIcon={<CachedIcon />}
         onClick={() => setIsDialogOpen(true)}
       >
-        Reset Round&hellip;
+        {t('reset round')}&hellip;
       </Button>
       <RoundResetDialog
         resetRound={resetRound}

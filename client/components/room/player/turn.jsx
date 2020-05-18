@@ -6,6 +6,7 @@ import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
 import PlayingCard from '~/components/room/playing-card'
 import IconButtonCard from '~/components/elements/icon-button-card'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,6 +28,7 @@ const RoomPlayerTurn = ({
   challengerPlayer,
   setError
 }) => {
+  const { t } = useTranslation()
   const classes = useStyles()
   const { userJwt } = useAuth()
 
@@ -72,7 +74,7 @@ const RoomPlayerTurn = ({
       })}
     >
       <IconButtonCard
-        aria-label={turn.colour || 'unknown'}
+        aria-label={t(`card ${turn.card || 'unknown'}`)}
         disabled={!cardCanBeRevealed || challengerPlayer.id !== mePlayer.id}
         onClick={() => handleClick(turn)}
         className={clsx({ 'can-be-revealed': cardCanBeRevealed })}

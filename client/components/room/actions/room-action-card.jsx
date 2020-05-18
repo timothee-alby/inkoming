@@ -4,8 +4,10 @@ import { Badge } from '@material-ui/core'
 import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
 import PlayingCard from '~/components/room/playing-card'
+import { useTranslation } from 'react-i18next'
 
 const RoomActionCard = props => {
+  const { t } = useTranslation()
   const {
     roomState,
     player,
@@ -65,7 +67,7 @@ const RoomActionCard = props => {
         key={colour}
         icon={<PlayingCard colour={colour} fontSize="large" />}
         disabled={!canClick}
-        tooltipTitle={`Play ${colour}`}
+        tooltipTitle={t(`play ${colour}`)}
         onClick={handleClick}
       />
     </Badge>

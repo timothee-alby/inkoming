@@ -8,8 +8,10 @@ import {
   Button,
   LinearProgress
 } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 
 const RoomResetDialog = ({ resetRoom, gameWinnerPlayerId, allPlayers }) => {
+  const { t } = useTranslation()
   const [
     gameWinnerPlayerNickname,
     setGameWinnerPlayerNickname
@@ -31,10 +33,10 @@ const RoomResetDialog = ({ resetRoom, gameWinnerPlayerId, allPlayers }) => {
     <Dialog open={true} aria-labelledby="form-dialog-title">
       {inflight && <LinearProgress />}
       <DialogTitle id="form-dialog-title">
-        {gameWinnerPlayerNickname} won the game!
+        {t('player won game', { nickname: gameWinnerPlayerNickname })}
       </DialogTitle>
       <DialogContent>
-        <DialogContentText>Let&apos;s start a new game?</DialogContentText>
+        <DialogContentText>{t('start new game')}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button
@@ -44,7 +46,7 @@ const RoomResetDialog = ({ resetRoom, gameWinnerPlayerId, allPlayers }) => {
           disabled={inflight}
           onClick={handleReset}
         >
-          Reset Game
+          {t('reset room')}
         </Button>
       </DialogActions>
     </Dialog>

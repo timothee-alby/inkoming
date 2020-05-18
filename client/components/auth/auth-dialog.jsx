@@ -10,8 +10,10 @@ import {
   LinearProgress
 } from '@material-ui/core'
 import { useAuth } from '~/components/auth/auth-context'
+import { useTranslation } from 'react-i18next'
 
 const AuthDialog = () => {
+  const { t } = useTranslation()
   const { userJwt, userName, setUserName } = useAuth()
   const [tempName, setTempName] = React.useState('')
   const [inflight, setInflight] = React.useState(false)
@@ -40,15 +42,13 @@ const AuthDialog = () => {
     <Dialog open aria-labelledby="form-dialog-title">
       {inflight && <LinearProgress />}
       <form onSubmit={handleSubmit}>
-        <DialogTitle id="form-dialog-title">Welcome</DialogTitle>
+        <DialogTitle id="form-dialog-title">{t('welcome')}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            It looks like you are new here, Please enter a nickname to proceed.
-          </DialogContentText>
+          <DialogContentText>{t('welcome message')}</DialogContentText>
           <TextField
             margin="dense"
             id="name"
-            label="Nickname"
+            label={t('nickname')}
             type="text"
             fullWidth
             variant="outlined"
@@ -65,7 +65,7 @@ const AuthDialog = () => {
             variant="contained"
             disabled={inflight}
           >
-            Set my nickname
+            {t('set nickname')}
           </Button>
         </DialogActions>
       </form>

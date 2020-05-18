@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.common.white
   },
   title: {
-    marginRight: theme.spacing(3)
+    marginRight: theme.spacing(3),
+    textTransform: 'capitalize'
   },
   userName: {
     marginLeft: 'auto'

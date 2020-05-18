@@ -8,6 +8,7 @@ import {
   Button,
   LinearProgress
 } from '@material-ui/core'
+import { useTranslation } from 'react-i18next'
 
 const RoundResetDialog = ({
   resetRound,
@@ -15,6 +16,7 @@ const RoundResetDialog = ({
   setIsDialogOpen,
   roomState
 }) => {
+  const { t } = useTranslation()
   const [
     challengerPlayerNickname,
     setChallengerPlayerNickname
@@ -48,16 +50,16 @@ const RoundResetDialog = ({
     >
       {inflight && <LinearProgress />}
       <DialogTitle id="form-dialog-title">
-        {challengerPlayerNickname}
-        &nbsp;
-        {roomState.outcome}
+        {t(`player ${roomState.outcome} round`, {
+          nickname: challengerPlayerNickname
+        })}
       </DialogTitle>
       <DialogContent>
-        <DialogContentText>Let&apos;s start a new round?</DialogContentText>
+        <DialogContentText>{t('start new round')}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary" disabled={inflight}>
-          Close
+          {t('action.close')}
         </Button>
         <Button
           color="primary"
@@ -66,7 +68,7 @@ const RoundResetDialog = ({
           disabled={inflight}
           onClick={handleReset}
         >
-          Reset Round
+          {t('reset round')}
         </Button>
       </DialogActions>
     </Dialog>

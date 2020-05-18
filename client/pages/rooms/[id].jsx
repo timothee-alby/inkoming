@@ -14,6 +14,7 @@ import RoomContent from '~/components/room/content'
 import RoundReset from '~/components/room/round-reset'
 import RoomReset from '~/components/room/room-reset'
 import { makeStyles } from '@material-ui/core/styles'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -21,15 +22,16 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const NavigateBackLogo = () => (
+const NavigateBackLogo = ({ t }) => (
   <Link href={'/rooms'}>
-    <IconButton aria-label="delete">
+    <IconButton aria-label={t('action.back')}>
       <NavigateBeforeIcon fontSize="large" />
     </IconButton>
   </Link>
 )
 
 const Room = () => {
+  const { t } = useTranslation()
   const classes = useStyles()
   const { id: roomId } = useRouter().query
   const { userJwt } = useAuth()
@@ -80,7 +82,7 @@ const Room = () => {
 
   return (
     <>
-      <Header logo={<NavigateBackLogo />} title={room && room.name}>
+      <Header logo={<NavigateBackLogo t={t} />} title={room && room.name}>
         {roomState && roomState.outcome && (
           <RoundReset
             buttonVariant="outlined"

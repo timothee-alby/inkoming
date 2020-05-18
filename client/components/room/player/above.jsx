@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Typography } from '@material-ui/core'
 import ChallengerIcon from '~/components/icons/challenger-icon'
 import { makeStyles } from '@material-ui/core/styles'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,15 +20,16 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const RoomPlayerAbove = ({ isChallenger }) => {
+  const { t } = useTranslation()
   const classes = useStyles()
 
   if (!isChallenger) return null
 
   return (
-    <Box title="Challenger" className={classes.root}>
+    <Box className={classes.root}>
       <ChallengerIcon className={classes.icon} />
       <Typography variant="h6" className={classes.title}>
-        Challenger
+        {t('challenger')}
       </Typography>
     </Box>
   )
