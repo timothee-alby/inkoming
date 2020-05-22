@@ -27,7 +27,7 @@ $$
           player.id AS player_id,
           player.room_id AS room_id,
           'room_' || player.room_id AS channel,
-          'rw' AS mode
+          'r' AS mode
       )
 
       SELECT
