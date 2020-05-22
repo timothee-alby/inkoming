@@ -12,6 +12,11 @@
   "nickname": "nickname",
   "set nickname": "set my nickname",
 
+  "card": {
+    "red": "happy alien",
+    "black": "bad meteorite fall"
+  },
+
   "rooms": "rooms",
   "new room": "new room",
   "room name": "room name",
@@ -35,5 +40,29 @@
   "challenger": "challenger",
   "card red": "happy alien",
   "card black": "meteorite fall",
-  "card unknown": "unknown"
+  "card unknown": "unknown",
+
+  "notification": {
+    "network": {
+      "connecting": "Connecting…",
+      "connected": "Connected"
+    },
+    "turn": {
+      "created": {
+        "fold": "{{nickname}} gave up for this turn",
+        "bet": "{{nickname}} bet {{bet}}",
+        "card": "{{nickname}} played"
+      },
+      "revealed": {
+        "red": "{{source_nickname}} revealed {{target_nickname}}'s card. It's a $t(card.red)",
+        "black": "{{source_nickname}} revealed {{target_nickname}}'s card. It's a $t(card.black)"
+      }
+    },
+    "round": {
+      "reset": "{{nickname}} reset the round. Let's continue!"
+    },
+    "room": {
+      "reset": "{{nickname}} reset the room. Let's start again!"
+    }
+  }
 }

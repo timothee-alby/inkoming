@@ -7,6 +7,7 @@ $$
     jwt_user_id UUID;
     room_state RECORD;
     player RECORD;
+    notification_payload RECORD;
   BEGIN
     SELECT INTO jwt_user_id current_setting('request.jwt.claim.user_id', true)::UUID;
 
@@ -35,6 +36,14 @@ $$
       cards = DEFAULT,
       points = 0
     WHERE players.room_id = room_state.room_id;
+
+    SELECT
+      player.id AS source_player_id,
+      'notification.room.reset' AS key,
+      player.nickname AS nickname
+    INTO notification_payload;
+
+    PERFORM notify_room(player.room_id, notification_payload);
 
     -- all good; respond with 200
   END

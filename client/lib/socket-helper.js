@@ -1,23 +1,15 @@
 class SocketHelper {
-  constructor(playerJwt, setSocketIsConnected, setNotification, setRoomState) {
+  constructor(playerJwt, setSocketIsConnected, setNotifications, setRoomState) {
     this.socket = null
     this.playerJwt = playerJwt
     this.setSocketIsConnected = setSocketIsConnected
-    this.setNotification = setNotification
+    this.setNotifications = setNotifications
     this.setRoomState = setRoomState
   }
 
   onOpen(e) {
-    this.socket.send(
-      JSON.stringify({
-        type: 'NOTIFICATION',
-        data: { text: 'A player joined', timestamp: Date.now() }
-      })
-    )
     this.setSocketIsConnected(true)
-    this.setNotification({
-      text: 'Connected'
-    })
+    this.pushNotification({ key: 'notification.network.connected' })
   }
 
   onMessage(e) {
@@ -25,22 +17,18 @@ class SocketHelper {
     const payload = data.payload
     if (!payload) return
 
-    switch (payload.type) {
-      case 'NOTIFICATION':
-        this.setNotification(payload.data)
-        break
-      case 'STATE':
-        this.setRoomState(payload.data)
-        break
+    if (payload.room_state) {
+      this.setRoomState(payload.room_state)
+      return
     }
+
+    this.pushNotification(payload)
   }
 
   createSocket() {
     if (this.socket) return this.socket
 
-    this.setNotification({
-      text: 'Connecting...'
-    })
+    this.pushNotification({ key: 'notification.network.connecting' })
 
     this.socket = new WebSocket(
       `${process.env.WEBSOCKET_URL}/${this.playerJwt}`
@@ -49,6 +37,12 @@ class SocketHelper {
     this.socket.onopen = e => this.onOpen(e)
 
     this.socket.onmessage = e => this.onMessage(e)
+  }
+
+  pushNotification(payload) {
+    this.setNotifications(prev => {
+      return [...prev, { payload, timestamp: new Date().getTime() }]
+    })
   }
 }
 

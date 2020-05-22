@@ -7,8 +7,10 @@ $$
     jwt_user_id UUID;
     room_state RECORD;
     player RECORD;
+    target_player RECORD;
     target_turn RECORD;
     room_state_player RECORD;
+    notification_payload RECORD;
   BEGIN
     SELECT INTO jwt_user_id current_setting('request.jwt.claim.user_id', true)::UUID;
 
@@ -66,6 +68,20 @@ $$
     UPDATE api.turns
     SET revealed = true
     WHERE turns.id = target_turn.id;
+
+    SELECT INTO target_player *
+    FROM api.players
+    WHERE players.id = target_turn.player_id;
+
+    SELECT
+      player.id AS source_player_id,
+      'notification.turn.revealed.' || target_turn.card AS key,
+      target_player.id AS target_player_id,
+      player.nickname AS source_nickname,
+      target_player.nickname AS target_nickname
+    INTO notification_payload;
+
+    PERFORM notify_room(player.room_id, notification_payload);
 
     -- all good; respond with 200
   END

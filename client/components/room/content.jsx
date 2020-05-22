@@ -4,7 +4,7 @@ import SocketHelper from '~/lib/socket-helper'
 import { useAuth } from '~/components/auth/auth-context'
 import RoomPlayersList from '~/components/room/players-list'
 import RoomActions from '~/components/room/actions'
-import RoomNotification from '~/components/room/notification'
+import RoomNotificationsManager from '~/components/room/notifications-manager'
 
 const fetchData = async (
   userJwt,
@@ -38,7 +38,7 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
   const [playerJwt, setPlayerJwt] = React.useState()
   const [socketIsConnected, setSocketIsConnected] = React.useState()
   const [myTurns, setMyTurns] = React.useState([])
-  const [notification, setNotification] = React.useState()
+  const [notifications, setNotifications] = React.useState([])
 
   const playerId = player.id
   const mePlayerIsNext = roomState && playerId === roomState.next_player_id
@@ -64,11 +64,11 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
     const socketHelper = new SocketHelper(
       playerJwt,
       setSocketIsConnected,
-      setNotification,
+      setNotifications,
       setRoomState
     )
     socketHelper.createSocket()
-  }, [playerJwt, setSocketIsConnected, setNotification, setRoomState])
+  }, [playerJwt, setSocketIsConnected, setNotifications, setRoomState])
 
   React.useEffect(() => {
     // don't fetch the room state until the socket is connected to make sure
@@ -107,7 +107,10 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
           setError={setError}
         />
       )}
-      <RoomNotification notification={notification} />
+      <RoomNotificationsManager
+        notifications={notifications}
+        setNotifications={setNotifications}
+      />
     </>
   )
 }
