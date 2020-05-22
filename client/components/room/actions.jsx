@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     right: theme.spacing(2)
   },
   fab: {
-    borderRadius: '4px',
+    borderRadius: theme.spacing(0.5),
     backgroundColor: theme.palette.secondary.main,
     '&:hover': {
       backgroundColor: theme.palette.secondary.dark
