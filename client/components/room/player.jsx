@@ -11,8 +11,7 @@ import RoomPlayerProgress from '~/components/room/player/progress'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    position: 'relative',
-    margin: theme.spacing(2)
+    margin: theme.spacing(1)
   },
   onePoint: {
     marginLeft: theme.spacing(1),
