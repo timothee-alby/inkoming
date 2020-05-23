@@ -74,7 +74,7 @@ const RoomPlayerTurn = ({
       })}
     >
       <IconButtonCard
-        aria-label={t(`card ${turn.card || 'unknown'}`)}
+        aria-label={t(`card.${turn.card || 'unknown'}`)}
         disabled={!cardCanBeRevealed || challengerPlayer.id !== mePlayer.id}
         onClick={() => handleClick(turn)}
         className={clsx({ 'can-be-revealed': cardCanBeRevealed })}

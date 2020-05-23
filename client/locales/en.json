@@ -13,8 +13,9 @@
   "set nickname": "set my nickname",
 
   "card": {
-    "red": "happy alien",
-    "black": "bad meteorite fall"
+    "red": "friendly alien",
+    "black": "dangerous meteorite",
+    "unknown": "unknown"
   },
 
   "rooms": "rooms",
@@ -29,18 +30,15 @@
   "player won round": "{{nickname}} won the round!",
   "player lost round": "{{nickname}} lost the round!",
   "player won game": "{{nickname}} won the game!",
-  "reset round": "reset round",
+  "reset round": "continue",
   "start new round" : "Let's start a new round?",
-  "reset room": "reset room",
+  "reset room": "new game",
   "start new game" : "Let's start a new game?",
-  "play red": "play happy alien",
-  "play black": "play meteorite fall",
+  "play red": "play $t(card.red)",
+  "play black": "play $t(card.black)",
   "play bet": "bet…",
   "play fold": "fold",
   "challenger": "challenger",
-  "card red": "happy alien",
-  "card black": "meteorite fall",
-  "card unknown": "unknown",
 
   "notification": {
     "network": {
