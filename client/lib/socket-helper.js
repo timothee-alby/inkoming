@@ -1,7 +1,14 @@
 class SocketHelper {
-  constructor(playerJwt, setSocketIsConnected, setNotifications, setRoomState) {
+  constructor(
+    playerJwt,
+    playerId,
+    setSocketIsConnected,
+    setNotifications,
+    setRoomState
+  ) {
     this.socket = null
     this.playerJwt = playerJwt
+    this.playerId = playerId
     this.setSocketIsConnected = setSocketIsConnected
     this.setNotifications = setNotifications
     this.setRoomState = setRoomState
@@ -40,6 +47,9 @@ class SocketHelper {
   }
 
   pushNotification(payload) {
+    if (payload.source_player_id === this.playerId) {
+      return
+    }
     this.setNotifications(prev => {
       return [...prev, { payload, timestamp: new Date().getTime() }]
     })
