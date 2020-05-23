@@ -10,6 +10,7 @@ import RoomPlayerHeaderAction from '~/components/room/player/header/action'
 
 const useStyles = makeStyles(theme => ({
   root: {
+    position: 'relative', // needed to keep absolute-aligned elements in place
     padding: theme.spacing(1)
   },
   content: {

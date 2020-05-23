@@ -1,13 +1,21 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
-import CachedIcon from '@material-ui/icons/Cached'
+import { makeStyles } from '@material-ui/core/styles'
 import RoundResetDialog from '~/components/room/round-reset-dialog'
 import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
 import { useTranslation } from 'react-i18next'
 
-const RoundReset = ({ buttonVariant, roomState, player, setError }) => {
+const useStyles = makeStyles(theme => ({
+  headerButton: {
+    minWidth: 'auto',
+    marginRight: theme.spacing(1)
+  }
+}))
+
+const RoundReset = ({ buttonVariant, size, roomState, player, setError }) => {
   const { t } = useTranslation()
+  const classes = useStyles()
   const [isDialogOpen, setIsDialogOpen] = React.useState(false)
   const { userJwt } = useAuth()
 
@@ -30,9 +38,10 @@ const RoundReset = ({ buttonVariant, roomState, player, setError }) => {
     <>
       <Button
         variant={buttonVariant}
+        size={size}
+        className={classes.headerButton}
         type="submit"
         color="secondary"
-        startIcon={<CachedIcon />}
         onClick={() => setIsDialogOpen(true)}
       >
         {t('reset round')}&hellip;

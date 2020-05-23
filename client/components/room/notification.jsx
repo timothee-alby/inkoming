@@ -1,5 +1,4 @@
 import React from 'react'
-import clsx from 'clsx'
 import { Snackbar, IconButton } from '@material-ui/core/'
 import { makeStyles } from '@material-ui/core/styles'
 import CloseIcon from '@material-ui/icons/Close'
@@ -7,13 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
   contentRoot: {
-    backgroundColor: theme.palette.background.header.main,
-    color: theme.palette.background.header.gradient
-  },
-  message: {
-    color: theme.palette.common.white
-  },
-  action: {
+    backgroundColor: theme.palette.background.action.main,
     color: theme.palette.common.white
   }
 }))
@@ -54,11 +47,10 @@ const RoomNotification = ({
     <Snackbar
       ContentProps={{
         classes: {
-          root: clsx([[classes.contentRoot], 'pattern-cross-dots-sm']),
-          message: classes.message,
-          action: classes.action
+          root: classes.contentRoot
         }
       }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       key={key}
       open={open}
       autoHideDuration={6000}

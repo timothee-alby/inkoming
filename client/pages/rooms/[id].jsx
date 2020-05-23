@@ -2,7 +2,6 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { IconButton } from '@material-ui/core'
-import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import milou from '~/lib/milou'
 import Content from '~/components/layout/content'
 import Header from '~/components/layout/header'
@@ -13,26 +12,19 @@ import RoomJoinDialog from '~/components/room/join-dialog'
 import RoomContent from '~/components/room/content'
 import RoundReset from '~/components/room/round-reset'
 import RoomReset from '~/components/room/room-reset'
-import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
-
-const useStyles = makeStyles(theme => ({
-  content: {
-    padding: theme.spacing(0)
-  }
-}))
+import BaseIcon from '~/components/icons/base-icon'
 
 const NavigateBackLogo = ({ t }) => (
   <Link href={'/rooms'}>
-    <IconButton aria-label={t('action.back')}>
-      <NavigateBeforeIcon fontSize="large" />
+    <IconButton aria-label={t('action.back')} size="small">
+      <BaseIcon fontSize="large" />
     </IconButton>
   </Link>
 )
 
 const Room = () => {
   const { t } = useTranslation()
-  const classes = useStyles()
   const { id: roomId } = useRouter().query
   const { userJwt } = useAuth()
   const [inFlight, setInFlight] = React.useState(true)
@@ -86,6 +78,7 @@ const Room = () => {
         {roomState && roomState.outcome && (
           <RoundReset
             buttonVariant="outlined"
+            size="small"
             roomState={roomState}
             player={player}
             setError={setError}
@@ -94,6 +87,7 @@ const Room = () => {
         {roomState && roomState.game_winner_player_id && (
           <RoomReset
             buttonVariant="outlined"
+            size="small"
             gameWinnerPlayerId={roomState.game_winner_player_id}
             allPlayers={roomState.all_players}
             mePlayer={player}
@@ -101,7 +95,7 @@ const Room = () => {
           />
         )}
       </Header>
-      <Content className={classes.content}>
+      <Content>
         {inFlight && <ContentLoading />}
         {error && <RequestError setError={setError} />}
         {!room && !inFlight && !error && (

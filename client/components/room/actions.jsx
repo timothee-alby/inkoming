@@ -8,16 +8,22 @@ import ActionsIcon from '~/components/icons/actions-icon'
 
 const useStyles = makeStyles(theme => ({
   speedDial: {
-    position: 'absolute',
-    top: theme.spacing(10),
-    right: theme.spacing(2)
+    position: 'fixed',
+    top: theme.spacing(8),
+    right: theme.spacing(1)
   },
   fab: {
     borderRadius: theme.spacing(0.5),
     backgroundColor: theme.palette.secondary.main,
     '&:hover': {
       backgroundColor: theme.palette.secondary.dark
+    },
+    '&.Mui-disabled': {
+      backgroundColor: theme.palette.grey[400]
     }
+  },
+  labelDisabled: {
+    opacity: 0.2
   },
   speedDialIconRoot: {
     height: theme.spacing(8)
@@ -75,6 +81,7 @@ const RoomActions = props => {
           {...props}
           setOpen={setOpen}
           className={classes.fab}
+          labelDisabledClass={classes.labelDisabled}
           FabProps={{ size: 'medium' }}
           colour="red"
         />
@@ -84,6 +91,7 @@ const RoomActions = props => {
           {...props}
           setOpen={setOpen}
           className={classes.fab}
+          labelDisabledClass={classes.labelDisabled}
           FabProps={{ size: 'medium' }}
           colour="black"
         />
@@ -93,6 +101,7 @@ const RoomActions = props => {
           {...props}
           setOpen={setOpen}
           className={classes.fab}
+          labelDisabledClass={classes.labelDisabled}
           FabProps={{ size: 'medium' }}
         />
       )}
@@ -101,6 +110,7 @@ const RoomActions = props => {
           {...props}
           setOpen={setOpen}
           className={classes.fab}
+          labelDisabledClass={classes.labelDisabled}
           FabProps={{ size: 'medium' }}
         />
       )}

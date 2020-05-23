@@ -6,9 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: `calc(100vh - ${theme.spacing(8)}px)`,
-    overflow: 'scroll',
-    paddingTop: theme.spacing(10)
+    minHeight: '100%'
   }
 }))
 

@@ -30,6 +30,7 @@ const RoomActionBet = props => {
     playerIsNext,
     setError,
     setOpen,
+    labelDisabledClass,
     ...speedDialActionProps
   } = props
   const classes = useStyles()
@@ -39,6 +40,10 @@ const RoomActionBet = props => {
 
   const handleClick = async () => {
     setChoosingBet(!choosingBet)
+  }
+
+  if (!playerIsNext) {
+    speedDialActionProps.FabProps.classes = { label: labelDisabledClass }
   }
 
   return (

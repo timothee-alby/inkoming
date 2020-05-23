@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import { AppBar, Toolbar, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useAuth } from '~/components/auth/auth-context'
@@ -12,11 +13,18 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.common.white
   },
   title: {
-    marginRight: theme.spacing(3),
-    textTransform: 'capitalize'
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+    textTransform: 'capitalize',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   userName: {
-    marginLeft: 'auto'
+    marginLeft: 'auto',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   }
 }))
 
@@ -26,10 +34,10 @@ const Header = props => {
 
   return (
     <AppBar
-      position="static"
-      className={classes.root + ' pattern-cross-dots-sm'}
+      position="fixed"
+      className={clsx([[classes.root], 'pattern-cross-dots-sm'])}
     >
-      <Toolbar className={classes.toolbar}>
+      <Toolbar className={classes.toolbar} variant="dense">
         {props.logo ? props.logo : null}
         <Typography variant="h6" className={classes.title}>
           {props.title}

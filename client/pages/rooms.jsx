@@ -1,4 +1,5 @@
 import React from 'react'
+import { Container } from '@material-ui/core'
 import milou from '~/lib/milou'
 import { useAuth } from '~/components/auth/auth-context'
 import Header from '~/components/layout/header'
@@ -10,10 +11,19 @@ import RequestError from '~/components/request-error'
 import ContentLoading from '~/components/layout/content-loading'
 import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
+import BaseIcon from '~/components/icons/base-icon'
 
 const useStyles = makeStyles(theme => ({
-  content: {
-    padding: theme.spacing(2)
+  container: {
+    paddingTop: theme.spacing(2)
+  },
+  baseIcon: {
+    position: 'absolute',
+    bottom: 0,
+    right: theme.spacing(2),
+    width: '90%',
+    maxWidth: theme.spacing(30),
+    height: 'auto'
   }
 }))
 
@@ -40,14 +50,17 @@ const Rooms = () => {
   return (
     <>
       <Header title={t('rooms')}>
-        <RoomCreate buttonVariant="outlined" />
+        <RoomCreate buttonVariant="outlined" size="small" />
       </Header>
-      <Content className={classes.content}>
-        {inFlight && <ContentLoading />}
-        {error && <RequestError />}
-        {rooms && rooms.length === 0 && <RoomsListEmpty />}
-        {rooms && rooms.length > 0 && <RoomsList rooms={rooms} />}
+      <Content>
+        <Container className={classes.container}>
+          {inFlight && <ContentLoading />}
+          {error && <RequestError />}
+          {rooms && rooms.length === 0 && <RoomsListEmpty />}
+          {rooms && rooms.length > 0 && <RoomsList rooms={rooms} />}
+        </Container>
       </Content>
+      <BaseIcon className={classes.baseIcon} />
     </>
   )
 }

@@ -17,6 +17,7 @@ const RoomActionCard = props => {
     setError,
     setOpen,
     colour,
+    labelDisabledClass,
     ...speedDialActionProps
   } = props
   const { userJwt } = useAuth()
@@ -49,6 +50,10 @@ const RoomActionCard = props => {
     } catch (error) {
       setError(error)
     }
+  }
+
+  if (!canClick) {
+    speedDialActionProps.FabProps.classes = { label: labelDisabledClass }
   }
 
   return (

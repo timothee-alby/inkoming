@@ -14,6 +14,7 @@ class MyDocument extends Document {
           <link rel="stylesheet" href="/styles/dist/pattern.min.css" />
           <link rel="stylesheet" href="/styles/dist/nightsky.css" />
           <link rel="stylesheet" href="/styles/dist/keyframes.css" />
+          <link rel="stylesheet" href="/styles/dist/base.css" />
         </Head>
         <body className="stars">
           <Main />

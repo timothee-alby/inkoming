@@ -15,6 +15,7 @@ const RoomActionFold = props => {
     playerIsNext,
     setError,
     setOpen,
+    labelDisabledClass,
     ...speedDialActionProps
   } = props
   const { userJwt } = useAuth()
@@ -36,6 +37,10 @@ const RoomActionFold = props => {
     } catch (error) {
       setError(error)
     }
+  }
+
+  if (!playerIsNext) {
+    speedDialActionProps.FabProps.classes = { label: labelDisabledClass }
   }
 
   return (

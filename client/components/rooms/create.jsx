@@ -8,7 +8,7 @@ import milou from '~/lib/milou'
 import RequestError from '~/components/request-error'
 import { useTranslation } from 'react-i18next'
 
-const RoomCreate = ({ buttonVariant }) => {
+const RoomCreate = ({ buttonVariant, size }) => {
   const { t } = useTranslation()
   const [isDialogOpen, setIsDialogOpen] = React.useState(false)
   const [error, setError] = React.useState(null)
@@ -58,6 +58,7 @@ const RoomCreate = ({ buttonVariant }) => {
     <>
       <Button
         variant={buttonVariant}
+        size={size}
         type="submit"
         color="secondary"
         startIcon={<AddBoxIcon />}
