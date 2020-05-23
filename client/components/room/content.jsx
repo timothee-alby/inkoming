@@ -66,10 +66,18 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
       playerId,
       setSocketIsConnected,
       setNotifications,
-      setRoomState
+      setRoomState,
+      setError
     )
     socketHelper.createSocket()
-  }, [playerJwt, playerId, setSocketIsConnected, setNotifications, setRoomState])
+  }, [
+    playerJwt,
+    playerId,
+    setSocketIsConnected,
+    setNotifications,
+    setRoomState,
+    setError
+  ])
 
   React.useEffect(() => {
     // don't fetch the room state until the socket is connected to make sure

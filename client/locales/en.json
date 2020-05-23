@@ -43,7 +43,10 @@
   "notification": {
     "network": {
       "connecting": "Connecting…",
-      "connected": "Connected"
+      "connected": "Connected",
+      "disconnected": "Disconnected. Will try again….",
+      "unreachable": "Cannot connect. Will try again…",
+      "abandon": "Impossible to establish a connection to the server."
     },
     "turn": {
       "created": {

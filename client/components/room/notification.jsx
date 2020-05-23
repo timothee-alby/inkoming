@@ -33,13 +33,14 @@ const RoomNotification = ({
 }) => {
   const { t } = useTranslation()
   const classes = useStyles()
-  let key, message
+  let key, message, autoHideDuration
   if (notification) {
     const { timestamp, payload } = notification
 
-    const { key: translationKey, ...translationAttributes } = payload
+    const { key: translationKey, noHide, ...translationAttributes } = payload
     message = t(translationKey, translationAttributes)
     key = timestamp
+    autoHideDuration = noHide ? null : 6000
   }
   console.log('notification', message, notification)
 
@@ -53,7 +54,7 @@ const RoomNotification = ({
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       key={key}
       open={open}
-      autoHideDuration={6000}
+      autoHideDuration={autoHideDuration}
       onClose={handleClose}
       message={message}
       action={<SnackbarAction handleClose={handleClose} />}
