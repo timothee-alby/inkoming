@@ -10,6 +10,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import RoomPlayerTurnGhost from '~/components/room/player/turn-ghost'
 
 const useStyles = makeStyles(theme => ({
+  header: {
+    padding: theme.spacing(1)
+  },
   content: {
     display: 'flex',
     justifyContent: 'center'
@@ -25,6 +28,7 @@ const RoomPlayerGhost = () => {
   return (
     <Card>
       <CardHeader
+        className={classes.header}
         title={<Skeleton variant="text" width={80} />}
         avatar={<Skeleton variant="rect" width={40} height={40} />}
         subheader={<Skeleton variant="text" width={50} />}
