@@ -2,6 +2,7 @@ import React from 'react'
 import milou from '~/lib/milou'
 import SocketHelper from '~/lib/socket-helper'
 import { useAuth } from '~/components/auth/auth-context'
+import RoomTutorialManager from '~/components/room/tutorial-manager'
 import RoomPlayersList from '~/components/room/players-list'
 import RoomActions from '~/components/room/actions'
 import RoomNotificationsManager from '~/components/room/notifications-manager'
@@ -99,22 +100,23 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
   return (
     <>
       {roomState && !roomState.game_winner_player_id && (
-        <RoomPlayersList
-          roomState={roomState}
-          mePlayer={player}
-          myTurns={myTurns}
-          setError={setError}
-        />
-      )}
-      {roomState && !roomState.game_winner_player_id && (
-        <RoomActions
-          roomState={roomState}
-          player={player}
-          playerTurns={myTurns}
-          setPlayerTurns={setMyTurns}
-          playerIsNext={mePlayerIsNext}
-          setError={setError}
-        />
+        <>
+          <RoomTutorialManager roomState={roomState} />
+          <RoomPlayersList
+            roomState={roomState}
+            mePlayer={player}
+            myTurns={myTurns}
+            setError={setError}
+          />
+          <RoomActions
+            roomState={roomState}
+            player={player}
+            playerTurns={myTurns}
+            setPlayerTurns={setMyTurns}
+            playerIsNext={mePlayerIsNext}
+            setError={setError}
+          />
+        </>
       )}
       <RoomNotificationsManager
         notifications={notifications}

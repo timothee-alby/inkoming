@@ -9,7 +9,7 @@ import ActionsIcon from '~/components/icons/actions-icon'
 const useStyles = makeStyles(theme => ({
   speedDial: {
     position: 'fixed',
-    top: theme.spacing(8),
+    top: theme.spacing(12),
     right: theme.spacing(1)
   },
   fab: {

@@ -43,6 +43,37 @@
   "play fold": "fold",
   "challenger": "challenger",
 
+  "tutorial": {
+    "intro": {
+      "title": "Intro",
+      "description": "Welcome to Inkoming!"
+    },
+    "invite": {
+      "title": "Invite",
+      "description": "Invite players to start."
+    },
+    "ready": {
+      "title": "Ready",
+      "description": "Choose a card when it's your turn. You can choose between a $t(card.red) and a $t(card.black).\n\nChoose wisely! If you become the challenger you need $t(card.red) cards only to win. However if another player is the challenger you want them to find a $t(card.black)."
+    },
+    "turns": {
+      "title": "Playing",
+      "description": "Keep playing cards, or place a bet.\n\nYou can bet on the number of $t(card.red) cards you will be able to find amongst all cards played."
+    },
+    "bets": {
+      "title": "Bets",
+      "description": "The current bet is {{last_bet}}. Will you dare to bet higher?\n\nIf not, you can give up for this round."
+    },
+    "challenge": {
+      "title": "Challenge",
+      "description": "The challenger will now reveal {{last_bet}} cards one by one, starting by their own. The cards at the top of the stack must be revealed first."
+    },
+    "outcome": {
+      "title": "Outcome",
+      "description": "The round is over."
+    }
+  },
+
   "notification": {
     "network": {
       "connecting": "Connecting…",
