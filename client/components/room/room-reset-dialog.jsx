@@ -1,27 +1,71 @@
 import React from 'react'
+import clsx from 'clsx'
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
-  Button,
-  LinearProgress
+  Button
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
+import EarthIcon from '~/components/icons/earth-icon'
+import RoomPlayerAvatar from '~/components/room/player/avatar'
+import IdentityColours from '~/lib/identity-colours'
+
+const useStyles = makeStyles(theme => ({
+  paper: {
+    overflowY: 'unset',
+    background: 'none',
+    boxShadow: 'none',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  section: {
+    zIndex: 15,
+    textAlign: 'center',
+    justifyContent: 'center'
+  },
+  pole: {
+    width: '75%'
+  },
+  north: {
+    marginTop: theme.spacing(3),
+    maxWidth: theme.spacing(30),
+    overflow: 'hidden'
+  },
+  south: {
+    marginBottom: theme.spacing(3)
+  },
+  background: {
+    position: 'absolute',
+    height: 'auto',
+    width: 'auto',
+    zIndex: 10
+  },
+  backgroundIconOuter: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translateY(-200px)',
+    animation:
+      'spaceship-in 0.8s linear 1, spaceship-orbit 4s linear infinite 3s',
+    zIndex: 15
+  },
+  backgroundIconInner: {
+    marginLeft: '-50%',
+    animation: 'spaceship-vibrate 0.3s linear infinite both'
+  }
+}))
 
 const RoomResetDialog = ({ resetRoom, gameWinnerPlayerId, allPlayers }) => {
+  const classes = useStyles()
   const { t } = useTranslation()
-  const [
-    gameWinnerPlayerNickname,
-    setGameWinnerPlayerNickname
-  ] = React.useState('')
   const [inflight, setInflight] = React.useState(false)
 
-  React.useMemo(() => {
-    setGameWinnerPlayerNickname(
-      allPlayers.find(player => player.id === gameWinnerPlayerId).nickname
-    )
+  const gameWinnerPlayer = React.useMemo(() => {
+    return allPlayers.find(player => player.id === gameWinnerPlayerId)
   }, [allPlayers, gameWinnerPlayerId])
 
   const handleReset = e => {
@@ -30,17 +74,32 @@ const RoomResetDialog = ({ resetRoom, gameWinnerPlayerId, allPlayers }) => {
   }
 
   return (
-    <Dialog open={true} aria-labelledby="form-dialog-title">
-      {inflight && <LinearProgress />}
-      <DialogTitle id="form-dialog-title">
-        {t('player won game', { nickname: gameWinnerPlayerNickname })}
+    <Dialog
+      classes={{ paper: classes.paper }}
+      open={true}
+      aria-labelledby="form-dialog-title"
+    >
+      <DialogTitle
+        classes={{
+          root: clsx([classes.section, classes.pole, classes.north])
+        }}
+        id="form-dialog-title"
+      >
+        {t('player won game', { nickname: gameWinnerPlayer.nickname })}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent classes={{ root: clsx([classes.section]) }}>
+        <DialogContentText>
+          {t('player won game description', {
+            nickname: gameWinnerPlayer.nickname
+          })}
+        </DialogContentText>
         <DialogContentText>{t('start new game')}</DialogContentText>
       </DialogContent>
-      <DialogActions>
+      <DialogActions
+        classes={{ root: clsx([classes.section, classes.pole, classes.south]) }}
+      >
         <Button
-          color="primary"
+          color="secondary"
           type="submit"
           variant="contained"
           disabled={inflight}
@@ -49,6 +108,16 @@ const RoomResetDialog = ({ resetRoom, gameWinnerPlayerId, allPlayers }) => {
           {t('reset room')}
         </Button>
       </DialogActions>
+      <EarthIcon className={classes.background} />
+      <div className={classes.backgroundIconOuter}>
+        <div className={classes.backgroundIconInner}>
+          <RoomPlayerAvatar
+            playerNickname={gameWinnerPlayer.nickname}
+            playerPoints={2}
+            colourClass={IdentityColours.getColourClass(gameWinnerPlayer)}
+          />
+        </div>
+      </div>
     </Dialog>
   )
 }

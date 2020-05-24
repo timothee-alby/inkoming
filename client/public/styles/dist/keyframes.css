@@ -27,3 +27,48 @@
     transform: translateY(60px);
   }
 }
+
+@keyframes spaceship-in{
+  0% {
+    transform: translate(-300px,-200px) skewX(-30deg);
+  }
+  60% {
+    transform: translate(40px,-200px) skewX(30deg);
+  }
+  80% {
+    transform: translate(0px,-200px) skewX(-15deg);
+  }
+  100% {
+    transform: translate(0px,-200px) skewX(0deg);
+  }
+}
+
+@keyframes spaceship-vibrate {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes spaceship-orbit {
+  from {
+    transform: rotate(0deg) translateY(-200px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateY(-200px) rotate(-360deg);
+  }
+}

@@ -32,6 +32,7 @@
   "player lost round": "{{nickname}} lost the round",
   "player lost round description": "{{nickname}} discovered a $t(card.black)",
   "player won game": "{{nickname}} won the game!",
+  "player won game description": "{{nickname}} found load of $t(card.red), enough to get two points.",
   "reset round": "continue",
   "start new round" : "Let's start a new round?",
   "reset room": "new game",
