@@ -27,8 +27,10 @@
   "create a new room": "Let's create a new room. It just needs a name.",
 
   "not a player yet": "You are not a player in this room yet. Fancy joinning?",
-  "player won round": "{{nickname}} won the round!",
-  "player lost round": "{{nickname}} lost the round!",
+  "player won round": "{{nickname}} won the round",
+  "player won round description": "{{nickname}} discovered plenty of $t(card.red)",
+  "player lost round": "{{nickname}} lost the round",
+  "player lost round description": "{{nickname}} discovered a $t(card.black)",
   "player won game": "{{nickname}} won the game!",
   "reset round": "continue",
   "start new round" : "Let's start a new round?",

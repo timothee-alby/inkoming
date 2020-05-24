@@ -42,7 +42,6 @@ const RoomNotification = ({
     key = timestamp
     autoHideDuration = noHide ? null : 6000
   }
-  console.log('notification', message, notification)
 
   return (
     <Snackbar
