@@ -16,14 +16,17 @@ const useStyles = makeStyles(theme => ({
 const RoundReset = ({ buttonVariant, size, roomState, player, setError }) => {
   const { t } = useTranslation()
   const classes = useStyles()
-  const [isDialogOpen, setIsDialogOpen] = React.useState(true)
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false)
+  const [showTimeout, setShowTimeout] = React.useState(null)
   const { userJwt } = useAuth()
-  let showTimeout = null
+
   if (!showTimeout) {
-    showTimeout = window.setTimeout(() => {
-      if (isDialogOpen) return
-      setIsDialogOpen(true)
-    }, 3000)
+    setShowTimeout(
+      window.setTimeout(() => {
+        setIsDialogOpen(true)
+        setShowTimeout(null)
+      }, 3000)
+    )
   }
 
   const resetRound = async () => {
