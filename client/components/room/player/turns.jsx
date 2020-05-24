@@ -10,7 +10,7 @@ const RoomPlayerTurns = ({
   setError
 }) => {
   const [cardTurns, setCardTurns] = React.useState([])
-  const [unknownCardTurns, setUnknownCardTurns] = React.useState([])
+  const [hiddenCardTurns, setHiddenCardTurns] = React.useState(0)
 
   React.useEffect(() => {
     if (turns && turns.length) {
@@ -22,9 +22,9 @@ const RoomPlayerTurns = ({
 
   React.useEffect(() => {
     if (cardTurns && cardTurns.length) {
-      setUnknownCardTurns(cardTurns.filter(turn => !turn.card))
+      setHiddenCardTurns(cardTurns.filter(turn => !turn.revealed).length)
     } else {
-      setUnknownCardTurns([])
+      setHiddenCardTurns(0)
     }
   }, [cardTurns])
 
@@ -36,7 +36,7 @@ const RoomPlayerTurns = ({
             outcome={outcome}
             mePlayer={mePlayer}
             turn={turn}
-            stacked={idx < unknownCardTurns.length - 1}
+            stacked={idx < hiddenCardTurns - 1}
             challengerPlayer={challengerPlayer}
             setError={setError}
           />
