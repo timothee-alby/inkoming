@@ -6,7 +6,8 @@ const useStyles = makeStyles(theme => ({
   root: {
     position: 'absolute',
     width: '100%',
-    height: '100%',
+    height: 'auto',
+    bottom: '60px',
     zIndex: 10,
     animation: 'alien-happy 1s linear infinite'
   }
