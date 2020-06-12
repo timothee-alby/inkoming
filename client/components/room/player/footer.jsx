@@ -1,20 +1,15 @@
 import React from 'react'
-import { CardActions } from '@material-ui/core'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    justifyContent: 'right',
-    paddingTop: theme.spacing(0.5),
-    paddingBottom: theme.spacing(0.5),
-    backgroundColor: theme.palette.common.white
-  },
   toggleButton: {
+    position: 'absolute',
+    bottom: theme.spacing(0.5),
+    left: theme.spacing(1),
     border: 'none',
-    margin: 0,
     padding: 0,
     height: theme.spacing(3),
     color: theme.palette.secondary.main,
@@ -37,17 +32,15 @@ const RoomPlayerFooter = ({
   if (!hasTurns) return null
 
   return (
-    <CardActions className={classes.root}>
-      <ToggleButton
-        className={classes.toggleButton}
-        value="showMyCards"
-        selected={showMyCards}
-        size="small"
-        onChange={() => setShowMyCards(!showMyCards)}
-      >
-        {showMyCards ? <VisibilityIcon /> : <VisibilityOffIcon />}
-      </ToggleButton>
-    </CardActions>
+    <ToggleButton
+      className={classes.toggleButton}
+      value="showMyCards"
+      selected={showMyCards}
+      size="small"
+      onChange={() => setShowMyCards(!showMyCards)}
+    >
+      {showMyCards ? <VisibilityIcon /> : <VisibilityOffIcon />}
+    </ToggleButton>
   )
 }
 
