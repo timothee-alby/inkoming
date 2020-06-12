@@ -1,3 +1,5 @@
+import OError from '@overleaf/o-error'
+
 class SocketHelper {
   constructor(
     playerJwt,
@@ -60,7 +62,12 @@ class SocketHelper {
         noHide: true
       })
 
-      this.setError(new Error('socket_down'))
+      this.setError(
+        new OError('socket down', {
+          clientKey: 'socket_down',
+          retryable: true
+        })
+      )
       return
     }
     this.retryCount++

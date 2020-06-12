@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import Router from 'next/router'
 import { Button } from '@material-ui/core'
@@ -37,13 +38,18 @@ const RoomCreate = ({ buttonVariant, size }) => {
       })
       Router.push(`/rooms/${room.id}`)
     } catch (error) {
-      setError(error)
+      setError(
+        OError.tag(error, 'cannot create room', {
+          clientContextKey: 'create_room',
+          retryable: true
+        })
+      )
     }
   }
 
   let dialog
   if (error) {
-    dialog = <RequestError setError={setError} />
+    dialog = <RequestError error={error} setError={setError} />
   } else {
     dialog = (
       <RoomCreateDialog

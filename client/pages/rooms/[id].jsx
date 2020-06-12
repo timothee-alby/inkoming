@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -45,7 +46,13 @@ const Room = () => {
       jwt: userJwt
     })
       .then(rooms => setRoom(rooms[0]))
-      .catch(setError)
+      .catch(error => {
+        setError(
+          OError.tag(error, 'cannot get room', {
+            retryable: true
+          })
+        )
+      })
       .finally(() => setInFlight(false))
   }, [userJwt, roomId, hasJoined, lastChallengerAt])
 
@@ -97,7 +104,7 @@ const Room = () => {
       </Header>
       <Content>
         {inFlight && <ContentLoading />}
-        {error && <RequestError setError={setError} />}
+        {error && <RequestError error={error} setError={setError} />}
         {!room && !inFlight && !error && (
           <RoomJoinDialog roomId={roomId} setHasJoined={setHasJoined} />
         )}

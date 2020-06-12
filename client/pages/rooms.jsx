@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import { Container } from '@material-ui/core'
 import milou from '~/lib/milou'
@@ -43,7 +44,13 @@ const Rooms = () => {
       jwt: userJwt
     })
       .then(setRooms)
-      .catch(setError)
+      .catch(error => {
+        setError(
+          OError.tag(error, 'cannot get rooms', {
+            retryable: true
+          })
+        )
+      })
       .finally(() => setInFlight(false))
   }, [userJwt])
 
@@ -55,7 +62,7 @@ const Rooms = () => {
       <Content>
         <Container className={classes.container}>
           {inFlight && <ContentLoading />}
-          {error && <RequestError />}
+          {error && <RequestError error={error} />}
           {rooms && rooms.length === 0 && <RoomsListEmpty />}
           {rooms && rooms.length > 0 && <RoomsList rooms={rooms} />}
         </Container>

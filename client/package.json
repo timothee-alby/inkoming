@@ -11,6 +11,7 @@
     "@material-ui/core": "^4.9.11",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.51",
+    "@overleaf/o-error": "https://github.com/overleaf/o-error",
     "clsx": "^1.1.0",
     "i18next": "^19.4.4",
     "jsonwebtoken": "^8.5.1",

@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import milou from '~/lib/milou'
 import JwtHelper from '~/lib/jwt-helper'
@@ -16,7 +17,11 @@ const createServerUser = async (setUserJwt, setError) => {
     })
     setUserJwt(jwt)
   } catch (error) {
-    setError(error)
+    setError(
+      OError.tag(error, 'cannot generate user', {
+        retryable: true
+      })
+    )
   }
 }
 
@@ -62,7 +67,7 @@ const AuthProvider = ({ children }) => {
   }, [])
 
   if (error) {
-    return <RequestError />
+    return <RequestError error={error} />
   }
 
   return (

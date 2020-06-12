@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
@@ -62,7 +63,12 @@ const RoomPlayerTurn = ({
         }
       })
     } catch (error) {
-      setError(error)
+      setError(
+        OError.tag(error, 'cannot reveal card', {
+          clientContextKey: 'reveal_card',
+          retryable: true
+        })
+      )
     }
   }
 

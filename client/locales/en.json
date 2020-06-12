@@ -4,7 +4,9 @@
     "back": "back",
     "no": "nah",
     "go": "Let's go!",
-    "close": "close"
+    "close": "close",
+    "refresh": "refresh page",
+    "home": "take me home"
   },
 
   "welcome": "welcome",
@@ -74,6 +76,52 @@
     "outcome": {
       "title": "Outcome",
       "description": "The round is over."
+    }
+  },
+
+  "error": {
+    "oops": {
+      "title": "Oops, Something went wrong",
+      "description": "That's all I know.",
+      "server_description": "Server code: {{serverKey}}"
+    },
+    "no_room": {
+      "title": "Room doesn't exist",
+      "description": "Please check your invite link."
+    },
+    "join_room": {
+      "title": "Couldn't join room"
+    },
+    "socket_down": {
+      "title": "Connection error",
+      "description": "Could not connect to the socket server."
+    },
+    "round_reset": {
+      "title": "Couldn't reset round"
+    },
+    "bet": {
+      "title": "Couldn't place bet"
+    },
+    "fold": {
+      "title": "Couldn't fold"
+    },
+    "card": {
+      "title": "Couldn't play card"
+    },
+    "reveal_card": {
+      "title": "Couldn't reveal card"
+    },
+    "connect": {
+      "title": "Couldn't connect"
+    },
+    "create_room": {
+      "title": "Couldn't create room"
+    },
+    "api_players_validate_join":{
+      "round_has_started": {
+        "title": "$t(error.join_room.title)",
+        "description": "This room has an ongoing game. Please wait for the game to finish and try joining again."
+      }
     }
   },
 

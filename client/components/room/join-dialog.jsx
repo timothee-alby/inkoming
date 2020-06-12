@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import {
   Dialog,
@@ -35,7 +36,25 @@ const RoomJoinDialog = ({ roomId, setHasJoined }) => {
         }
       })
     } catch (error) {
-      setError(error)
+      const errorInfo = OError.getFullInfo(error)
+      if (errorInfo.status === 409 && errorInfo.code === '23503') {
+        // it's hard to tell if the room exists because a non-player cannot list
+        // it so it will always be 404 before joining. If joining the rooms
+        // results in a foreign key validation error we assume the room doesn't
+        // exist
+        setError(
+          OError.tag(error, 'no room', {
+            clientKey: 'no_room'
+          })
+        )
+      } else {
+        setError(
+          OError.tag(error, 'cannot join room', {
+            clientContextKey: 'join_room',
+            retryable: true
+          })
+        )
+      }
     }
     setHasJoined(true)
   }
@@ -46,7 +65,7 @@ const RoomJoinDialog = ({ roomId, setHasJoined }) => {
   }
 
   if (error) {
-    return <RequestError />
+    return <RequestError error={error} />
   }
 
   return (

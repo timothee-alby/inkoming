@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
@@ -40,7 +41,12 @@ const RoundReset = ({ buttonVariant, size, roomState, player, setError }) => {
         }
       })
     } catch (error) {
-      setError(error)
+      setError(
+        OError.tag(error, 'cannot reset round', {
+          clientContextKey: 'round_reset',
+          retryable: true
+        })
+      )
     }
   }
 

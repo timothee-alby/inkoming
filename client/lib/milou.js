@@ -1,3 +1,22 @@
+import OError from '@overleaf/o-error'
+
+class RequestError extends OError {
+  constructor(response, body) {
+    const info = {
+      status: response.status,
+      url: response.url,
+      details: body.details,
+      message: body.message,
+      code: body.code,
+      hint: body.hint
+    }
+    if (!body.message.match(/ /) && !body.details.match(/ /)) {
+      info.serverKey = `${body.message}.${body.details}`
+    }
+    super(response.statusText, info)
+  }
+}
+
 const makeFetchHeaders = ({ method, jwt, singleObject, preferReturn }) => {
   const headers = {
     'Content-Type': 'application/json'
@@ -26,7 +45,7 @@ const makeFetchFunction = options => {
   return async url => {
     const response = await fetch(url, fetchOptions)
     if (!response.ok) {
-      throw Error(response.statusText)
+      throw new RequestError(response, await response.json())
     }
     return response.json()
   }

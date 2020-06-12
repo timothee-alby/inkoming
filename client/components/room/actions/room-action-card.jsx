@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction'
 import { Badge } from '@material-ui/core'
@@ -48,7 +49,12 @@ const RoomActionCard = props => {
       setPlayerTurns([...playerTurns, turn])
       setOpen(false)
     } catch (error) {
-      setError(error)
+      setError(
+        OError.tag(error, 'cannot card', {
+          clientContextKey: 'card',
+          retryable: true
+        })
+      )
     }
   }
 

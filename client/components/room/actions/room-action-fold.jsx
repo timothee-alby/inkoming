@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction'
 import FoldIcon from '~/components/icons/fold-icon'
@@ -35,7 +36,12 @@ const RoomActionFold = props => {
       })
       setOpen(false)
     } catch (error) {
-      setError(error)
+      setError(
+        OError.tag(error, 'cannot fold', {
+          clientContextKey: 'fold',
+          retryable: true
+        })
+      )
     }
   }
 

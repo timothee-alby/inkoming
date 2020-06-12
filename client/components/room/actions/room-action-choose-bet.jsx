@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import { ButtonGroup, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
@@ -27,7 +28,12 @@ const RoomActionChooseBet = ({ roomState, player, setOpen, setError }) => {
       })
       setOpen(false)
     } catch (error) {
-      setError(error)
+      setError(
+        OError.tag(error, 'cannot bet', {
+          clientContextKey: 'bet',
+          retryable: true
+        })
+      )
     }
   }
 

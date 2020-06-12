@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import milou from '~/lib/milou'
 import SocketHelper from '~/lib/socket-helper'
@@ -30,7 +31,11 @@ const fetchData = async (
     })
     setMyTurns(turns)
   } catch (error) {
-    setError(error)
+    setError(
+      OError.tag(error, 'cannot fetch room', {
+        retryable: true
+      })
+    )
   }
 }
 
@@ -56,7 +61,14 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
       }
     })
       .then(json => setPlayerJwt(json.jwt))
-      .catch(setError)
+      .catch(error => {
+        setError(
+          OError.tag(error, 'cannot connect', {
+            clientContextKey: 'connect',
+            retryable: true
+          })
+        )
+      })
   }, [userJwt, playerId, setError])
 
   React.useEffect(() => {

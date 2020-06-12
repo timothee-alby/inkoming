@@ -1,3 +1,4 @@
+import OError from '@overleaf/o-error'
 import React from 'react'
 import RoomResetDialog from '~/components/room/room-reset-dialog'
 import { useAuth } from '~/components/auth/auth-context'
@@ -23,7 +24,11 @@ const RoomReset = ({
         }
       })
     } catch (error) {
-      setError(error)
+      setError(
+        OError.tag(error, 'cannot reset room', {
+          retryable: true
+        })
+      )
     }
   }
 
