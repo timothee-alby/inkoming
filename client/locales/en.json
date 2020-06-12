@@ -31,7 +31,7 @@
   "with N players": "With {{count}} other player",
   "with N players_plural": "With {{count}} other players",
 
-  "not a player yet": "You are not a player in this room yet. Fancy joinning?",
+  "not a player yet": "You are not a player in this room yet. Fancy joining?",
   "player won round": "{{nickname}} won the round",
   "player won round description": "{{nickname}} discovered plenty of $t(card.red)",
   "player lost round": "{{nickname}} lost the round",
