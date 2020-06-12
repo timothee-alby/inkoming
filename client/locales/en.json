@@ -25,6 +25,9 @@
 
   "no rooms yet": "No rooms yet. Create one maybe?",
   "create a new room": "Let's create a new room. It just needs a name.",
+  "with 0 players": "No other players",
+  "with N players": "With {{count}} other player",
+  "with N players_plural": "With {{count}} other players",
 
   "not a player yet": "You are not a player in this room yet. Fancy joinning?",
   "player won round": "{{nickname}} won the round",

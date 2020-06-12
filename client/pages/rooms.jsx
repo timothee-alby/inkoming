@@ -39,7 +39,7 @@ const Rooms = () => {
     if (!userJwt) return
 
     milou({
-      url: `${process.env.API_URL}/rooms`,
+      url: `${process.env.API_URL}/rooms?select=*,room_states(all_players)`,
       jwt: userJwt
     })
       .then(setRooms)
