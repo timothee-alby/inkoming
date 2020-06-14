@@ -48,6 +48,7 @@
   "play fold": "fold",
   "challenger": "challenger",
 
+  "tutorial label": "tutorial",
   "tutorial": {
     "intro": {
       "title": "Intro",

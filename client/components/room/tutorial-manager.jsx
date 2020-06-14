@@ -12,7 +12,7 @@ const steps = [
 ]
 
 const RoomTutorialManager = ({ roomState }) => {
-  const currentStepId = React.useMemo(() => {
+  const gameCurrentStepId = React.useMemo(() => {
     if (roomState.outcome) {
       return 6 // outcome
     }
@@ -37,7 +37,7 @@ const RoomTutorialManager = ({ roomState }) => {
     <RoomTutorial
       roomState={roomState}
       steps={steps}
-      currentStepId={currentStepId}
+      gameCurrentStepId={gameCurrentStepId}
     />
   )
 }
