@@ -15,9 +15,9 @@ const useStyles = makeStyles(theme => ({
   },
   tabPanelContent: {
     color: theme.palette.common.white,
-    padding: theme.spacing(1),
-    paddingRight: theme.spacing(9),
-    paddingBottom: theme.spacing(2),
+    padding: theme.spacing(2),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
     whiteSpace: 'pre-line'
   }
 }))

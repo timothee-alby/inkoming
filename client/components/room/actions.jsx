@@ -5,12 +5,14 @@ import RoomActionCard from '~/components/room/actions/room-action-card'
 import RoomActionFold from '~/components/room/actions/room-action-fold'
 import RoomActionBet from '~/components/room/actions/room-action-bet'
 import ActionsIcon from '~/components/icons/actions-icon'
+import CloseIcon from '@material-ui/icons/Close'
 
 const useStyles = makeStyles(theme => ({
   speedDial: {
     position: 'fixed',
     top: theme.spacing(7),
-    right: theme.spacing(1)
+    right: theme.spacing(1),
+    whiteSpace: 'nowrap' // for tooltips
   },
   fab: {
     borderRadius: theme.spacing(0.5),
@@ -26,10 +28,15 @@ const useStyles = makeStyles(theme => ({
     opacity: 0.2
   },
   speedDialIconRoot: {
-    height: theme.spacing(8)
+    height: theme.spacing(8),
+    color: theme.palette.action.active
   },
   speedDialIconIcon: {
     fontSize: theme.spacing(8)
+  },
+  speedDialIconOpenIcon: {
+    fontSize: theme.spacing(6),
+    margin: theme.spacing(1)
   }
 }))
 
@@ -65,9 +72,11 @@ const RoomActions = props => {
       icon={
         <SpeedDialIcon
           icon={<ActionsIcon />}
+          openIcon={<CloseIcon />}
           classes={{
             root: classes.speedDialIconRoot,
-            icon: classes.speedDialIconIcon
+            icon: classes.speedDialIconIcon,
+            openIcon: classes.speedDialIconOpenIcon
           }}
         />
       }

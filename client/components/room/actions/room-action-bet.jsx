@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import { SpeedDialAction, SpeedDialIcon } from '@material-ui/lab/'
 import { makeStyles } from '@material-ui/core/styles'
 import BetActionIcon from '~/components/icons/bet-action-icon'
@@ -7,7 +8,7 @@ import RoomActionChooseBet from '~/components/room/actions/room-action-choose-be
 import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles(theme => ({
-  tooltip: {
+  choosingBetTooltip: {
     background: 'none',
     boxShadow: 'none',
     padding: 0
@@ -31,6 +32,7 @@ const RoomActionBet = props => {
     setError,
     setOpen,
     labelDisabledClass,
+    showTutorialDescription,
     ...speedDialActionProps
   } = props
   const classes = useStyles()
@@ -70,8 +72,10 @@ const RoomActionBet = props => {
           t('play bet')
         )
       }
-      tooltipOpen={choosingBet}
-      classes={{ staticTooltipLabel: classes.tooltip }}
+      tooltipOpen={choosingBet || showTutorialDescription}
+      classes={{
+        staticTooltipLabel: clsx({ [classes.choosingBetTooltip]: choosingBet })
+      }}
       onClick={handleClick}
       disabled={!playerIsNext}
     />

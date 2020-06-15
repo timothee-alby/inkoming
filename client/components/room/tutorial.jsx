@@ -14,12 +14,17 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Tutorial = ({ roomState, steps, gameCurrentStepId }) => {
+const Tutorial = ({
+  roomState,
+  steps,
+  gameCurrentStepId,
+  showDescription,
+  setShowDescription
+}) => {
   const classes = useStyles()
   const [highlightedStep, setHighlightedStep] = React.useState(
     steps[gameCurrentStepId]
   )
-  const [showDescription, setShowDescription] = React.useState(false)
 
   React.useEffect(() => {
     setHighlightedStep(steps[gameCurrentStepId])

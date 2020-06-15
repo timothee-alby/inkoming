@@ -17,6 +17,7 @@ const RoomActionFold = props => {
     setError,
     setOpen,
     labelDisabledClass,
+    showTutorialDescription,
     ...speedDialActionProps
   } = props
   const { userJwt } = useAuth()
@@ -55,6 +56,7 @@ const RoomActionFold = props => {
       key="fold"
       icon={<FoldIcon fontSize="large" />}
       tooltipTitle={t('play fold')}
+      tooltipOpen={showTutorialDescription}
       onClick={handleClick}
       disabled={!playerIsNext}
     />

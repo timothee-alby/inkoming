@@ -11,10 +11,8 @@ const useStyles = makeStyles(theme => ({
     '& .MuiTabs-scroller': {
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(10)
-    }
-  },
-  rightPad: {
-    minWidth: theme.spacing(10)
+    },
+    paddingRight: theme.spacing(10)
   }
 }))
 
@@ -52,7 +50,6 @@ const TutorialTabs = ({
           setShowDescription={setShowDescription}
         />
       ))}
-      <div className={classes.rightPad} />
     </Tabs>
   )
 }
