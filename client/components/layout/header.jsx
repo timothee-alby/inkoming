@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { AppBar, Toolbar, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useAuth } from '~/components/auth/auth-context'
+import LogoIcon from '~/components/icons/logo-icon'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -11,6 +12,9 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: {
     color: theme.palette.common.white
+  },
+  logoIcon: {
+    width: '5.15em'
   },
   title: {
     marginRight: theme.spacing(1),
@@ -38,7 +42,7 @@ const Header = props => {
       className={clsx([[classes.root], 'pattern-cross-dots-sm'])}
     >
       <Toolbar className={classes.toolbar} variant="dense">
-        {props.logo ? props.logo : null}
+        {props.logo ? props.logo : <LogoIcon className={classes.logoIcon} />}
         <Typography variant="h6" className={classes.title}>
           {props.title}
         </Typography>

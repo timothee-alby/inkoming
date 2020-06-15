@@ -42,6 +42,7 @@ const theme = createMuiTheme({
       dark: 'rgb(81, 47, 52)',
       light: 'rgb(143, 105, 111)'
     },
+    darkSpace: { main: colours.darkSpace },
     background: {
       default: colours.darkSpace,
       header: { main: colours.cBlue, gradient: colours.tealBlue },

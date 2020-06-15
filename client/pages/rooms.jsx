@@ -56,7 +56,7 @@ const Rooms = () => {
 
   return (
     <>
-      <Header title={t('rooms')}>
+      <Header>
         <RoomCreate buttonVariant="outlined" size="small" />
       </Header>
       <Content>
