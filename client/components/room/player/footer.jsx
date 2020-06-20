@@ -1,8 +1,9 @@
+import clsx from 'clsx'
 import React from 'react'
-import ToggleButton from '@material-ui/lab/ToggleButton'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import { makeStyles } from '@material-ui/core/styles'
+import { Box } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   toggleButton: {
@@ -13,10 +14,13 @@ const useStyles = makeStyles(theme => ({
     padding: 0,
     height: theme.spacing(3),
     color: theme.palette.secondary.main,
-    '&.Mui-selected': {
-      color: theme.palette.secondary.dark,
-      backgroundColor: 'transparent'
-    }
+    cursor: 'pointer'
+  },
+  toggleButtonSelected: {
+    color: theme.palette.secondary.dark
+  },
+  hidden: {
+    display: 'none'
   }
 }))
 
@@ -34,15 +38,17 @@ const RoomPlayerFooter = ({
   if (!canShowMyCards) return null
 
   return (
-    <ToggleButton
-      className={classes.toggleButton}
-      value="showMyCards"
-      selected={showMyCards}
-      size="small"
-      onChange={() => setShowMyCards(!showMyCards)}
+    <Box
+      className={clsx({
+        [classes.toggleButton]: true,
+        [classes.toggleButtonSelected]: showMyCards
+      })}
+      onTouchStart={() => setShowMyCards(true)}
+      onTouchEnd={() => setShowMyCards(false)}
     >
-      {showMyCards ? <VisibilityIcon /> : <VisibilityOffIcon />}
-    </ToggleButton>
+      <VisibilityIcon className={clsx({ [classes.hidden]: !showMyCards })} />
+      <VisibilityOffIcon className={clsx({ [classes.hidden]: showMyCards })} />
+    </Box>
   )
 }
 
