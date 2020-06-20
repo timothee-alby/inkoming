@@ -14,12 +14,12 @@ import RoomContent from '~/components/room/content'
 import RoundReset from '~/components/room/round-reset'
 import RoomReset from '~/components/room/room-reset'
 import { useTranslation } from 'react-i18next'
-import BaseIcon from '~/components/icons/base-icon'
+import LogoSquareIcon from '~/components/icons/logo-square-icon'
 
 const NavigateBackLogo = ({ t }) => (
   <Link href={'/rooms'}>
     <IconButton aria-label={t('action.back')} size="small">
-      <BaseIcon fontSize="large" />
+      <LogoSquareIcon fontSize="large" />
     </IconButton>
   </Link>
 )
