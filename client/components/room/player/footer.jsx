@@ -25,11 +25,13 @@ const RoomPlayerFooter = ({
   mePlayerId,
   hasTurns,
   showMyCards,
-  setShowMyCards
+  setShowMyCards,
+  canShowMyCards
 }) => {
   const classes = useStyles()
   if (mePlayerId !== playerId) return null
   if (!hasTurns) return null
+  if (!canShowMyCards) return null
 
   return (
     <ToggleButton

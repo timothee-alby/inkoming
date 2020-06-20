@@ -33,10 +33,12 @@ const RoomPlayer = ({
   isNext,
   isChallenger,
   playerTurns,
+  showMyCards,
+  setShowMyCards,
+  canShowMyCards,
   setError
 }) => {
   const classes = useStyles()
-  const [showMyCards, setShowMyCards] = React.useState(false)
 
   return (
     <Card
@@ -72,6 +74,7 @@ const RoomPlayer = ({
         hasTurns={myTurns.length > 0}
         showMyCards={showMyCards}
         setShowMyCards={setShowMyCards}
+        canShowMyCards={canShowMyCards}
       />
       <RoomPlayerProgress
         outcome={outcome}
