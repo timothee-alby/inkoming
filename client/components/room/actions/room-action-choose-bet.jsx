@@ -6,14 +6,23 @@ import { useAuth } from '~/components/auth/auth-context'
 import milou from '~/lib/milou'
 
 const useStyles = makeStyles(theme => ({
-  root: {}
+  group: {
+    '&:not(:first-child)': {
+      borderLeftStyle: 'solid',
+      borderLeftWidth: '1px',
+      borderLeftColor: theme.palette.primary.dark
+    }
+  },
+  button: {
+    '&.Mui-disabled': {
+      backgroundColor: theme.palette.primary.dark
+    }
+  }
 }))
 
 const RoomActionChooseBet = ({ roomState, player, setOpen, setError }) => {
   const classes = useStyles()
   const { userJwt } = useAuth()
-
-  React.useEffect(() => {}, [])
 
   const handleClick = async bet => {
     try {
@@ -37,22 +46,36 @@ const RoomActionChooseBet = ({ roomState, player, setOpen, setError }) => {
     }
   }
 
+  const numBets = roomState.max_bet - roomState.min_bet + 1
+  const groupSize = Math.min(numBets, 5)
+  const startBet = Math.max(roomState.min_bet - (numBets % groupSize), 1)
+
   return (
-    <ButtonGroup
-      className={classes.root}
-      color="primary"
-      aria-label="vertical contained primary button group"
-      variant="contained"
-    >
-      {[...Array(roomState.max_bet - roomState.min_bet + 1)].map((_, idx) => (
-        <Button
-          key={roomState.min_bet + idx}
-          onClick={() => handleClick(roomState.min_bet + idx)}
+    <>
+      {[...Array(Math.ceil(numBets / groupSize))].map((_, groupId) => (
+        <ButtonGroup
+          key={groupId}
+          className={classes.group}
+          color="primary"
+          orientation="vertical"
+          variant="contained"
         >
-          {roomState.min_bet + idx}
-        </Button>
+          {[...Array(groupSize)].map((_, idx) => {
+            const bet = startBet + groupId * groupSize + idx
+            return (
+              <Button
+                key={idx}
+                className={classes.button}
+                disabled={bet < roomState.min_bet || bet > roomState.max_bet}
+                onClick={() => handleClick(bet)}
+              >
+                {bet}
+              </Button>
+            )
+          })}
+        </ButtonGroup>
       ))}
-    </ButtonGroup>
+    </>
   )
 }
 
