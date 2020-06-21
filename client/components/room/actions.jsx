@@ -37,12 +37,16 @@ const useStyles = makeStyles(theme => ({
   speedDialIconOpenIcon: {
     fontSize: theme.spacing(6),
     margin: theme.spacing(1)
+  },
+  tooltipPopperHide: {
+    display: 'none'
   }
 }))
 
 const RoomActions = props => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
+  const [choosingBet, setChoosingBet] = React.useState(false)
   const { roomState, player } = props
 
   React.useEffect(() => {
@@ -89,8 +93,10 @@ const RoomActions = props => {
         <RoomActionCard
           {...props}
           setOpen={setOpen}
+          choosingBet={choosingBet}
           className={classes.fab}
           labelDisabledClass={classes.labelDisabled}
+          TooltipClasses={{ popper: classes.tooltipPopperHide }}
           FabProps={{ size: 'medium' }}
           colour="red"
         />
@@ -99,8 +105,10 @@ const RoomActions = props => {
         <RoomActionCard
           {...props}
           setOpen={setOpen}
+          choosingBet={choosingBet}
           className={classes.fab}
           labelDisabledClass={classes.labelDisabled}
+          TooltipClasses={{ popper: classes.tooltipPopperHide }}
           FabProps={{ size: 'medium' }}
           colour="black"
         />
@@ -109,8 +117,11 @@ const RoomActions = props => {
         <RoomActionBet
           {...props}
           setOpen={setOpen}
+          choosingBet={choosingBet}
+          setChoosingBet={setChoosingBet}
           className={classes.fab}
           labelDisabledClass={classes.labelDisabled}
+          TooltipClasses={{ popper: classes.tooltipPopperHide }}
           FabProps={{ size: 'medium' }}
         />
       )}
@@ -118,8 +129,10 @@ const RoomActions = props => {
         <RoomActionFold
           {...props}
           setOpen={setOpen}
+          choosingBet={choosingBet}
           className={classes.fab}
           labelDisabledClass={classes.labelDisabled}
+          TooltipClasses={{ popper: classes.tooltipPopperHide }}
           FabProps={{ size: 'medium' }}
         />
       )}

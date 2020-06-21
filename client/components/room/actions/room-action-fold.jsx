@@ -16,6 +16,7 @@ const RoomActionFold = props => {
     playerIsNext,
     setError,
     setOpen,
+    choosingBet,
     labelDisabledClass,
     ...speedDialActionProps
   } = props
@@ -55,7 +56,7 @@ const RoomActionFold = props => {
       key="fold"
       icon={<FoldIcon fontSize="large" />}
       tooltipTitle={t('play fold')}
-      tooltipOpen={isBeginner}
+      tooltipOpen={isBeginner && !choosingBet}
       onClick={handleClick}
       disabled={!playerIsNext}
     />

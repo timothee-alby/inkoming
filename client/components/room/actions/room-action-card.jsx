@@ -17,6 +17,7 @@ const RoomActionCard = props => {
     playerIsNext,
     setError,
     setOpen,
+    choosingBet,
     colour,
     labelDisabledClass,
     ...speedDialActionProps
@@ -80,7 +81,7 @@ const RoomActionCard = props => {
         disabled={!canClick}
         tooltipTitle={t(`play ${colour}`)}
         onClick={handleClick}
-        tooltipOpen={isBeginner}
+        tooltipOpen={isBeginner && !choosingBet}
       />
     </Badge>
   )

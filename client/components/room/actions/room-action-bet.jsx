@@ -32,12 +32,13 @@ const RoomActionBet = props => {
     playerIsNext,
     setError,
     setOpen,
+    choosingBet,
+    setChoosingBet,
     labelDisabledClass,
     ...speedDialActionProps
   } = props
   const { isBeginner } = useAuth()
   const classes = useStyles()
-  const [choosingBet, setChoosingBet] = React.useState()
 
   React.useEffect(() => {}, [])
 
