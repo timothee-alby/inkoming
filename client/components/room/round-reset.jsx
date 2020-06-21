@@ -18,16 +18,13 @@ const RoundReset = ({ buttonVariant, size, roomState, player, setError }) => {
   const { t } = useTranslation()
   const classes = useStyles()
   const [isDialogOpen, setIsDialogOpen] = React.useState(false)
-  const [showTimeout, setShowTimeout] = React.useState(null)
+  const showTimeout = React.useRef()
   const { userJwt } = useAuth()
 
-  if (!showTimeout) {
-    setShowTimeout(
-      window.setTimeout(() => {
-        setIsDialogOpen(true)
-        setShowTimeout(null)
-      }, 3000)
-    )
+  if (!showTimeout.current) {
+    showTimeout.current = window.setTimeout(() => {
+      setIsDialogOpen(true)
+    }, 3000)
   }
 
   const resetRound = async () => {
