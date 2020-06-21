@@ -30,18 +30,23 @@ const AuthProvider = ({ children }) => {
   const [userName, setUserName] = React.useState()
   const [userJwt, setUserJwt] = React.useState()
   const [userId, setUserId] = React.useState()
+  const [isBeginner, setIsBeginner] = React.useState()
+  const [tutorialCloseCount, setTutorialCloseCount] = React.useState(0)
 
-  // store userId and userJwt in local storage
+  // store values in local storage
   React.useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem(USER_CACHE_KEY)) || {}
     const newUser = {}
     if (userJwt) newUser.jwt = userJwt
     if (userName) newUser.name = userName
+    if (isBeginner === true || isBeginner === false)
+      newUser.isBeginner = isBeginner
+    if (tutorialCloseCount) newUser.tutorialCloseCount = tutorialCloseCount
 
     const newStoredUser = Object.assign(storedUser, newUser)
 
     localStorage.setItem(USER_CACHE_KEY, JSON.stringify(newStoredUser))
-  }, [userJwt, userName])
+  }, [userJwt, userName, isBeginner, tutorialCloseCount])
 
   // extract userId from userJwt
   React.useEffect(() => {
@@ -50,13 +55,25 @@ const AuthProvider = ({ children }) => {
     setUserId(userId)
   }, [userJwt])
 
-  // get userName and userJwt from local storage
+  // get stored values from local storage
   React.useEffect(() => {
-    const { jwt: storedUserJwt, name: storedUserName } =
-      JSON.parse(localStorage.getItem(USER_CACHE_KEY)) || {}
+    const {
+      jwt: storedUserJwt,
+      name: storedUserName,
+      isBeginner: storedIsBeginner,
+      tutorialCloseCount: storedTutorialCloseCount
+    } = JSON.parse(localStorage.getItem(USER_CACHE_KEY)) || {}
 
     if (storedUserName) {
       setUserName(storedUserName)
+    }
+
+    if (storedIsBeginner) {
+      setIsBeginner(storedIsBeginner)
+    }
+
+    if (storedTutorialCloseCount) {
+      setTutorialCloseCount(storedTutorialCloseCount)
     }
 
     if (storedUserJwt) {
@@ -71,7 +88,18 @@ const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ userJwt, userId, userName, setUserName }}>
+    <AuthContext.Provider
+      value={{
+        userJwt,
+        userId,
+        userName,
+        setUserName,
+        isBeginner,
+        setIsBeginner,
+        tutorialCloseCount,
+        setTutorialCloseCount
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

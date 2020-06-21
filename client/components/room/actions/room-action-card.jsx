@@ -19,10 +19,9 @@ const RoomActionCard = props => {
     setOpen,
     colour,
     labelDisabledClass,
-    showTutorialDescription,
     ...speedDialActionProps
   } = props
-  const { userJwt } = useAuth()
+  const { userJwt, isBeginner } = useAuth()
   const [remainingCount, setRemainingCount] = React.useState()
   const [canClick, setCanClick] = React.useState()
 
@@ -81,7 +80,7 @@ const RoomActionCard = props => {
         disabled={!canClick}
         tooltipTitle={t(`play ${colour}`)}
         onClick={handleClick}
-        tooltipOpen={showTutorialDescription}
+        tooltipOpen={isBeginner}
       />
     </Badge>
   )

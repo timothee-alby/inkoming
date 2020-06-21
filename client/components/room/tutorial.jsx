@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { AppBar, Backdrop } from '@material-ui/core/'
 import { makeStyles } from '@material-ui/core/styles'
+import { useAuth } from '~/components/auth/auth-context'
 import TutorialTabs from '~/components/room/tutorial/tabs'
 import TutorialContent from '~/components/room/tutorial/content'
 
@@ -17,13 +18,8 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Tutorial = ({
-  roomState,
-  steps,
-  gameCurrentStepId,
-  showDescription,
-  setShowDescription
-}) => {
+const Tutorial = ({ roomState, steps, gameCurrentStepId }) => {
+  const { isBeginner } = useAuth()
   const classes = useStyles()
   const [highlightedStep, setHighlightedStep] = React.useState(
     steps[gameCurrentStepId]
@@ -35,7 +31,7 @@ const Tutorial = ({
 
   return (
     <>
-      <Backdrop className={classes.backdrop} open={showDescription} />
+      <Backdrop className={classes.backdrop} open={isBeginner} />
       <AppBar
         position="fixed"
         className={clsx([[classes.appBar], 'pattern-cross-dots-sm'])}
@@ -44,14 +40,10 @@ const Tutorial = ({
           steps={steps}
           highlightedStep={highlightedStep}
           gameCurrentStepId={gameCurrentStepId}
-          showDescription={showDescription}
-          setShowDescription={setShowDescription}
           setHighlightedStep={setHighlightedStep}
         />
         <TutorialContent
           highlightedStep={highlightedStep}
-          showDescription={showDescription}
-          setShowDescription={setShowDescription}
           roomState={roomState}
         />
       </AppBar>

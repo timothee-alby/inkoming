@@ -1,6 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import { IconButton } from '@material-ui/core/'
+import { useAuth } from '~/components/auth/auth-context'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +17,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const TutorialContentClose = ({ showDescription, setShowDescription }) => {
+const TutorialContentClose = () => {
+  const {
+    isBeginner,
+    setIsBeginner,
+    tutorialCloseCount,
+    setTutorialCloseCount
+  } = useAuth()
   const { t } = useTranslation()
   const classes = useStyles()
 
@@ -24,9 +31,12 @@ const TutorialContentClose = ({ showDescription, setShowDescription }) => {
     <IconButton
       className={clsx({
         [classes.root]: true,
-        [classes.hidden]: !showDescription
+        [classes.hidden]: !isBeginner
       })}
-      onClick={() => setShowDescription(false)}
+      onClick={() => {
+        setIsBeginner(false)
+        setTutorialCloseCount(tutorialCloseCount + 1)
+      }}
       aria-label={t('action.close')}
     >
       <CancelIcon fontSize="large" />

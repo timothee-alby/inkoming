@@ -45,9 +45,6 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
   const [socketIsConnected, setSocketIsConnected] = React.useState()
   const [myTurns, setMyTurns] = React.useState([])
   const [notifications, setNotifications] = React.useState([])
-  const [showTutorialDescription, setShowTutorialDescription] = React.useState(
-    false
-  )
 
   const playerId = player.id
   const mePlayerIsNext = roomState && playerId === roomState.next_player_id
@@ -116,11 +113,7 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
     <>
       {roomState && !roomState.game_winner_player_id && (
         <>
-          <RoomTutorialManager
-            roomState={roomState}
-            showTutorialDescription={showTutorialDescription}
-            setShowTutorialDescription={setShowTutorialDescription}
-          />
+          <RoomTutorialManager roomState={roomState} />
           <RoomPlayersList
             roomState={roomState}
             mePlayer={player}
@@ -133,7 +126,6 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
             playerTurns={myTurns}
             setPlayerTurns={setMyTurns}
             playerIsNext={mePlayerIsNext}
-            showTutorialDescription={showTutorialDescription}
             setError={setError}
           />
         </>

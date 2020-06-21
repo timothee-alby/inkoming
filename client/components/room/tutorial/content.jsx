@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { Box, Collapse, Typography } from '@material-ui/core/'
 import { makeStyles } from '@material-ui/core/styles'
+import { useAuth } from '~/components/auth/auth-context'
 import { useTranslation } from 'react-i18next'
 import TutorialContentClose from '~/components/room/tutorial/content-close'
 
@@ -22,20 +23,16 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const TutorialContent = ({
-  highlightedStep,
-  showDescription,
-  setShowDescription,
-  roomState
-}) => {
+const TutorialContent = ({ highlightedStep, roomState }) => {
+  const { isBeginner } = useAuth()
   const { t } = useTranslation()
   const classes = useStyles()
 
   return (
-    <Collapse in={showDescription} className={classes.collapse}>
+    <Collapse in={isBeginner} className={classes.collapse}>
       <Box
         role="tabpanel"
-        aria-hidden={!showDescription}
+        aria-hidden={!isBeginner}
         aria-labelledby={`scrollable-auto-tab-${highlightedStep}`}
         className={clsx([[classes.tabPanel], 'pattern-cross-dots-sm'])}
       >
@@ -44,10 +41,7 @@ const TutorialContent = ({
             {t(`tutorial.${highlightedStep}.description`, roomState)}
           </Typography>
         </Box>
-        <TutorialContentClose
-          showDescription={showDescription}
-          setShowDescription={setShowDescription}
-        />
+        <TutorialContentClose />
       </Box>
     </Collapse>
   )

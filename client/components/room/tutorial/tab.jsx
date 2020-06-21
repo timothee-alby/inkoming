@@ -1,5 +1,6 @@
 import React from 'react'
 import { Tab } from '@material-ui/core/'
+import { useAuth } from '~/components/auth/auth-context'
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow'
 import HelpIcon from '@material-ui/icons/HelpOutline'
 import { makeStyles } from '@material-ui/core/styles'
@@ -31,19 +32,27 @@ const TutorialTab = ({
   disabled,
   isFirst,
   highlightedStep,
-  setHighlightedStep,
-  showDescription,
-  setShowDescription
+  setHighlightedStep
 }) => {
+  const {
+    isBeginner,
+    setIsBeginner,
+    tutorialCloseCount,
+    setTutorialCloseCount
+  } = useAuth()
   const { t } = useTranslation()
   const classes = useStyles()
 
   const handleClick = (event, step) => {
     if (step === highlightedStep) {
-      return setShowDescription(!showDescription)
+      if (isBeginner) {
+        setTutorialCloseCount(tutorialCloseCount + 1)
+      }
+      setIsBeginner(!isBeginner)
+      return
     }
     setHighlightedStep(step)
-    setShowDescription(true)
+    setIsBeginner(true)
   }
 
   return (

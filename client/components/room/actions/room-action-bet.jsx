@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { SpeedDialAction, SpeedDialIcon } from '@material-ui/lab/'
 import { makeStyles } from '@material-ui/core/styles'
+import { useAuth } from '~/components/auth/auth-context'
 import BetActionIcon from '~/components/icons/bet-action-icon'
 import CloseIcon from '@material-ui/icons/Close'
 import RoomActionChooseBet from '~/components/room/actions/room-action-choose-bet'
@@ -32,9 +33,9 @@ const RoomActionBet = props => {
     setError,
     setOpen,
     labelDisabledClass,
-    showTutorialDescription,
     ...speedDialActionProps
   } = props
+  const { isBeginner } = useAuth()
   const classes = useStyles()
   const [choosingBet, setChoosingBet] = React.useState()
 
@@ -72,7 +73,7 @@ const RoomActionBet = props => {
           t('play bet')
         )
       }
-      tooltipOpen={choosingBet || showTutorialDescription}
+      tooltipOpen={choosingBet || isBeginner}
       classes={{
         staticTooltipLabel: clsx({ [classes.choosingBetTooltip]: choosingBet })
       }}

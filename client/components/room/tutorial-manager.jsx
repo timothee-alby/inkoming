@@ -1,4 +1,5 @@
 import React from 'react'
+import { useAuth } from '~/components/auth/auth-context'
 import RoomTutorial from '~/components/room/tutorial'
 
 const steps = [
@@ -11,11 +12,8 @@ const steps = [
   'outcome'
 ]
 
-const RoomTutorialManager = ({
-  roomState,
-  showTutorialDescription,
-  setShowTutorialDescription
-}) => {
+const RoomTutorialManager = ({ roomState }) => {
+  const { isBeginner, setIsBeginner, tutorialCloseCount } = useAuth()
   const gameCurrentStepId = React.useMemo(() => {
     if (roomState.outcome) {
       return 6 // outcome
@@ -37,13 +35,17 @@ const RoomTutorialManager = ({
     }
   }, [roomState])
 
+  React.useEffect(() => {
+    if (!isBeginner && tutorialCloseCount < 20) {
+      setIsBeginner(true)
+    }
+  }, [gameCurrentStepId]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <RoomTutorial
       roomState={roomState}
       steps={steps}
       gameCurrentStepId={gameCurrentStepId}
-      showDescription={showTutorialDescription}
-      setShowDescription={setShowTutorialDescription}
     />
   )
 }

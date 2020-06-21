@@ -20,8 +20,6 @@ const TutorialTabs = ({
   steps,
   highlightedStep,
   gameCurrentStepId,
-  showDescription,
-  setShowDescription,
   setHighlightedStep
 }) => {
   const { t } = useTranslation()
@@ -46,8 +44,6 @@ const TutorialTabs = ({
           isFirst={stepId === 0}
           highlightedStep={highlightedStep}
           setHighlightedStep={setHighlightedStep}
-          showDescription={showDescription}
-          setShowDescription={setShowDescription}
         />
       ))}
     </Tabs>
