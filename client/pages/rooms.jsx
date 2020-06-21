@@ -24,7 +24,8 @@ const useStyles = makeStyles(theme => ({
     right: theme.spacing(2),
     width: '90%',
     maxWidth: theme.spacing(30),
-    height: 'auto'
+    height: 'auto',
+    zIndex: -1
   }
 }))
 
