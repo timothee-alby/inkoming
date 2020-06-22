@@ -72,3 +72,15 @@
     transform: rotate(360deg) translateY(-200px) rotate(-360deg);
   }
 }
+
+@keyframes slide-bck-center {
+  0% {
+    transform: scale(2);
+  }
+  50% {
+    transform: scale(4);
+  }
+  100% {
+    transform: scale(2);
+  }
+}
