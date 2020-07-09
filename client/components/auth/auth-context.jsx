@@ -30,7 +30,7 @@ const AuthProvider = ({ children }) => {
   const [userName, setUserName] = React.useState()
   const [userJwt, setUserJwt] = React.useState()
   const [userId, setUserId] = React.useState()
-  const [isBeginner, setIsBeginner] = React.useState()
+  const [isBeginner, setIsBeginner] = React.useState(false)
   const [tutorialCloseCount, setTutorialCloseCount] = React.useState(0)
 
   // store values in local storage
