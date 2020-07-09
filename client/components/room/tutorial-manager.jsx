@@ -36,7 +36,7 @@ const RoomTutorialManager = ({ roomState }) => {
   }, [roomState])
 
   React.useEffect(() => {
-    if (!isBeginner && tutorialCloseCount < 20) {
+    if (!isBeginner && tutorialCloseCount <= steps.length) {
       setIsBeginner(true)
     }
   }, [gameCurrentStepId]) // eslint-disable-line react-hooks/exhaustive-deps
