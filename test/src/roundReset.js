@@ -38,21 +38,6 @@ const setPendingState = async function() {
 }
 
 describe('Round Reset', async function() {
-  describe('On Pending', async function() {
-    beforeEach(async function() {
-      await setPendingState()
-    })
-
-    it('cannot reset', async function() {
-      const { response, json } = await fetch.post('/rpc/reset_round', user2, {
-        player_id: player2Id
-      })
-      expect(response.status).to.equal(403)
-      expect(json.message).to.equal('insufficient_privilege')
-      expect(json.details).to.equal('round_has_no_outcome')
-    })
-  })
-
   describe('On Won', async function() {
     beforeEach(async function() {
       await setPendingState()

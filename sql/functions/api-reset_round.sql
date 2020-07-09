@@ -26,8 +26,7 @@ $$
     WHERE room_states.room_id = player.room_id;
 
     IF room_state.outcome IS NULL THEN
-      RAISE insufficient_privilege
-        USING DETAIL = 'round_has_no_outcome';
+      RETURN; -- accept as a noop
     END IF;
 
     -- delete all turns first

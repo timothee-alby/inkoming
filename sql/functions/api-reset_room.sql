@@ -26,8 +26,7 @@ $$
     WHERE room_states.room_id = player.room_id;
 
     IF room_state.game_winner_player_id IS NULL THEN
-      RAISE insufficient_privilege
-        USING DETAIL = 'room_has_not_ended';
+      RETURN; -- accept as a noop
     END IF;
 
     -- THEN update the players. This will trigger notify_room()
