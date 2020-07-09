@@ -14,6 +14,7 @@ const fetchData = async (
   playerId,
   setRoomState,
   setMyTurns,
+  setIsDirty,
   setError
 ) => {
   try {
@@ -30,6 +31,7 @@ const fetchData = async (
       jwt: userJwt
     })
     setMyTurns(turns)
+    setIsDirty(false)
   } catch (error) {
     setError(
       OError.tag(error, 'cannot fetch room', {
@@ -45,6 +47,7 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
   const [socketIsConnected, setSocketIsConnected] = React.useState()
   const [myTurns, setMyTurns] = React.useState([])
   const [notifications, setNotifications] = React.useState([])
+  const [isDirty, setIsDirty] = React.useState(true)
 
   const playerId = player.id
   const mePlayerIsNext = roomState && playerId === roomState.next_player_id
@@ -80,6 +83,7 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
       setSocketIsConnected,
       setNotifications,
       setRoomState,
+      setIsDirty,
       setError
     )
     socketHelper.createSocket()
@@ -89,6 +93,7 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
     setSocketIsConnected,
     setNotifications,
     setRoomState,
+    setIsDirty,
     setError
   ])
 
@@ -97,14 +102,26 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
     // we're up-to-date
     if (!socketIsConnected) return
 
-    fetchData(userJwt, room, playerId, setRoomState, setMyTurns, setError)
+    if (!isDirty) return
+
+    fetchData(
+      userJwt,
+      room,
+      playerId,
+      setRoomState,
+      setMyTurns,
+      setIsDirty,
+      setError
+    )
   }, [
     socketIsConnected,
     userJwt,
     room,
     playerId,
+    isDirty,
     setRoomState,
     setMyTurns,
+    setIsDirty,
     setError
   ])
 

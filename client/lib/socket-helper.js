@@ -7,6 +7,7 @@ class SocketHelper {
     setSocketIsConnected,
     setNotifications,
     setRoomState,
+    setIsDirty,
     setError
   ) {
     this.socket = null
@@ -15,6 +16,7 @@ class SocketHelper {
     this.setSocketIsConnected = setSocketIsConnected
     this.setNotifications = setNotifications
     this.setRoomState = setRoomState
+    this.setIsDirty = setIsDirty
     this.setError = setError
     this.isConnected = false
     this.retryCount = 0
@@ -34,6 +36,11 @@ class SocketHelper {
 
     if (payload.room_state) {
       this.setRoomState(payload.room_state)
+      return
+    }
+
+    if (payload.room_state_changed) {
+      this.setIsDirty(true)
       return
     }
 
