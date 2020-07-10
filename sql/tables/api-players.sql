@@ -19,4 +19,4 @@ ALTER TABLE ONLY api.players
 
 ALTER TABLE api.players ENABLE ROW LEVEL SECURITY;
 
-GRANT SELECT,INSERT ON TABLE api.players TO web_anon;
+GRANT SELECT,INSERT,DELETE ON TABLE api.players TO web_anon;

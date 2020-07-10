@@ -7,7 +7,8 @@
     "close": "close",
     "refresh": "refresh page",
     "home": "take me home",
-    "ok": "ok"
+    "ok": "ok",
+    "leave": "leave"
   },
 
   "welcome": "welcome",
@@ -48,7 +49,8 @@
   "play bet": "bet…",
   "play fold": "fold",
   "challenger": "challenger",
-
+  "leave room": "Leave room",
+  "leave room description": "Are you sure you want to leave the room? All your progress in the game will be lost.",
   "you are next": "It's your turn to play!",
 
   "tutorial label": "tutorial",
@@ -120,6 +122,9 @@
     },
     "create_room": {
       "title": "Couldn't create room"
+    },
+    "leave_room": {
+      "title": "Couldn't leave room"
     },
     "api_players_validate_join":{
       "round_has_started": {

@@ -18,6 +18,9 @@ async function request(method, path, headers, user, body) {
     body
   })
 
+  if (response.status === 204) {
+    return { response }
+  }
   return { response, json: response.json ? await response.json() : null }
 }
 
@@ -38,7 +41,12 @@ async function post(path, user, json) {
   )
 }
 
+async function del(path, user) {
+  return request('DELETE', path, {}, user)
+}
+
 module.exports = {
   get,
-  post
+  post,
+  del
 }

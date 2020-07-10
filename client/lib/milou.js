@@ -47,7 +47,7 @@ const makeFetchFunction = options => {
     if (!response.ok) {
       throw new RequestError(response, await response.json())
     }
-    return response.json()
+    return response.status === 204 ? true : response.json()
   }
 }
 

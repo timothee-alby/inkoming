@@ -7,6 +7,7 @@ import RoomTutorialManager from '~/components/room/tutorial-manager'
 import RoomPlayersList from '~/components/room/players-list'
 import RoomActionsManager from '~/components/room/actions-manager'
 import RoomNotificationsManager from '~/components/room/notifications-manager'
+import RoomLeave from '~/components/room/leave'
 
 const fetchData = async (
   userJwt,
@@ -42,7 +43,7 @@ const fetchData = async (
 }
 
 const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
-  const { userJwt } = useAuth()
+  const { userJwt, userId } = useAuth()
   const [playerJwt, setPlayerJwt] = React.useState()
   const [socketIsConnected, setSocketIsConnected] = React.useState()
   const [myTurns, setMyTurns] = React.useState([])
@@ -145,6 +146,9 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
             mePlayerIsNext={mePlayerIsNext}
             setError={setError}
           />
+          {room.user_id !== userId && roomState.total_turns === 0 ? (
+            <RoomLeave playerId={playerId} setError={setError} />
+          ) : null}
         </>
       )}
       <RoomNotificationsManager

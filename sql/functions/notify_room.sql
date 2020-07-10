@@ -3,7 +3,7 @@ RETURNS void
 LANGUAGE plpgsql AS
 $$
   BEGIN
-    IF LENGTH(payload::TEXT) > 7500 THEN
+    IF payload IS NULL OR LENGTH(payload::TEXT) > 7500 THEN
       -- PG_NOTIFY has a maximum payload size of 8,000 bytes, which can be
       -- reached when the room_state is getting big. As a workaround send
       -- a simple change notification to the client.
