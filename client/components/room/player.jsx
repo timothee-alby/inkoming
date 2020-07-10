@@ -14,6 +14,9 @@ const useStyles = makeStyles(theme => ({
     position: 'relative', // needed to keep absolute-aligned elements in place
     margin: theme.spacing(1)
   },
+  heartbeat: {
+    animation: 'heartbeat 1.5s ease-in-out infinite both'
+  },
   onePoint: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
@@ -45,7 +48,8 @@ const RoomPlayer = ({
       raised={true}
       className={clsx({
         [classes.root]: true,
-        [classes.onePoint]: player.points > 0
+        [classes.onePoint]: player.points > 0,
+        [classes.heartbeat]: isNext && !isChallenger && !outcome
       })}
     >
       <RoomPlayerOutcome isChallenger={isChallenger} outcome={outcome} />

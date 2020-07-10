@@ -84,3 +84,27 @@
     transform: scale(2);
   }
 }
+
+@keyframes heartbeat {
+  from {
+    transform: scale(1);
+    transform-origin: center center;
+    animation-timing-function: ease-out;
+  }
+  10% {
+    transform: scale(1.09);
+    animation-timing-function: ease-in;
+  }
+  17% {
+    transform: scale(1.02);
+    animation-timing-function: ease-out;
+  }
+  33% {
+    transform: scale(1.13);
+    animation-timing-function: ease-in;
+  }
+  45% {
+    transform: scale(1);
+    animation-timing-function: ease-out;
+  }
+}

@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.common.white
   },
   icon: {
-    fontSize: theme.spacing(8)
+    fontSize: theme.spacing(8),
+    animation: 'heartbeat 1.5s ease-in-out infinite both'
   }
 }))
 
