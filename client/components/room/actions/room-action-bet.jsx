@@ -40,8 +40,6 @@ const RoomActionBet = props => {
   const { isBeginner } = useAuth()
   const classes = useStyles()
 
-  React.useEffect(() => {}, [])
-
   const handleClick = async () => {
     setChoosingBet(!choosingBet)
   }
