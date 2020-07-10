@@ -45,15 +45,8 @@ const useStyles = makeStyles(theme => ({
 
 const RoomActions = props => {
   const classes = useStyles()
-  const [open, setOpen] = React.useState(false)
   const [choosingBet, setChoosingBet] = React.useState(false)
-  const { roomState, player } = props
-
-  React.useEffect(() => {
-    if (roomState.next_player_id === player.id) {
-      setOpen(true)
-    }
-  }, [roomState, player])
+  const { roomState, open, setOpen } = props
 
   const handleOpen = (e, reason) => {
     if (reason === 'mouseEnter') return
@@ -63,10 +56,6 @@ const RoomActions = props => {
   const handleClose = (e, reason) => {
     if (reason === 'mouseLeave') return
     setOpen(false)
-  }
-
-  if (!roomState.can_card && !roomState.can_bet) {
-    return null
   }
 
   return (

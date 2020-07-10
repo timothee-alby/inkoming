@@ -6,7 +6,8 @@
     "go": "Let's go!",
     "close": "close",
     "refresh": "refresh page",
-    "home": "take me home"
+    "home": "take me home",
+    "ok": "ok"
   },
 
   "welcome": "welcome",
@@ -47,6 +48,8 @@
   "play bet": "bet…",
   "play fold": "fold",
   "challenger": "challenger",
+
+  "you are next": "It's your turn to play!",
 
   "tutorial label": "tutorial",
   "tutorial": {

@@ -5,7 +5,7 @@ import SocketHelper from '~/lib/socket-helper'
 import { useAuth } from '~/components/auth/auth-context'
 import RoomTutorialManager from '~/components/room/tutorial-manager'
 import RoomPlayersList from '~/components/room/players-list'
-import RoomActions from '~/components/room/actions'
+import RoomActionsManager from '~/components/room/actions-manager'
 import RoomNotificationsManager from '~/components/room/notifications-manager'
 
 const fetchData = async (
@@ -137,12 +137,12 @@ const RoomContent = ({ room, player, roomState, setRoomState, setError }) => {
             myTurns={myTurns}
             setError={setError}
           />
-          <RoomActions
+          <RoomActionsManager
             roomState={roomState}
             player={player}
-            playerTurns={myTurns}
-            setPlayerTurns={setMyTurns}
-            playerIsNext={mePlayerIsNext}
+            myTurns={myTurns}
+            setMyTurns={setMyTurns}
+            mePlayerIsNext={mePlayerIsNext}
             setError={setError}
           />
         </>
