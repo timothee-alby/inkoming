@@ -15,7 +15,7 @@
     "clsx": "^1.1.0",
     "i18next": "^19.4.4",
     "jsonwebtoken": "^8.5.1",
-    "next": "9.3.5",
+    "next": "11.1.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-i18next": "^11.4.0"
